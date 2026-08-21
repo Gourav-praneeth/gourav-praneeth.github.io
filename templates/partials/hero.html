@@ -1,0 +1,84 @@
+{# ---- HERO: "Player 1 Select" character sheet ---- #}
+{# Style maps for the class tags (keeps the loop below readable). #}
+{% set tag_styles = {
+  'gold':   'bg-gold/15 text-gold ring-gold/40',
+  'bronze': 'bg-bronze/15 text-bronze ring-bronze/40',
+  'muted':  'bg-felt text-parchment/70 ring-parchment/15'
+} %}
+
+<section id="hero" class="py-12 md:py-20">
+  <p class="mb-4 text-center font-title text-sm uppercase tracking-[0.4em] text-gold/80">
+    ✦ Player 1 · Select Your Hero ✦
+  </p>
+
+  <div class="reveal mx-auto max-w-4xl overflow-hidden rounded-2xl gilded bg-felt shadow-card">
+    <div class="grid gap-0 md:grid-cols-[280px_1fr]">
+
+      <!-- Avatar panel -->
+      <div class="relative flex flex-col items-center justify-center gap-4 border-b border-gold/20 bg-gradient-to-b from-slate to-table p-8 md:border-b-0 md:border-r">
+        <div class="hero-portrait h-40 w-40">
+          <img src="{{ url_for('static', filename=profile.avatar) }}"
+               alt="{{ profile.name }}"
+               class="h-full w-full rounded-full object-cover" />
+        </div>
+
+        <!-- Level indicator -->
+        <div class="flex items-center gap-2 rounded-full border border-gold/40 bg-table/80 px-4 py-1.5">
+          <i data-lucide="star" class="h-4 w-4 text-gold"></i>
+          <span class="text-sm font-bold tracking-wide text-gold">LEVEL {{ profile.level }}</span>
+        </div>
+
+        <!-- XP / HP mini bars -->
+        <div class="w-full space-y-2 text-[11px] font-semibold">
+          <div>
+            <div class="mb-1 flex justify-between text-parchment/70">
+              <span>{{ profile.xp.label }}</span><span>{{ profile.xp.current }} / {{ profile.xp.max }}</span>
+            </div>
+            <div class="h-2 rounded-full bg-table"><div class="h-full rounded-full bg-gold" style="width:{{ profile.xp.percent }}%"></div></div>
+          </div>
+          <div>
+            <div class="mb-1 flex justify-between text-parchment/70">
+              <span>{{ profile.hp.label }}</span><span>{{ profile.hp.note }}</span>
+            </div>
+            <div class="h-2 rounded-full bg-table"><div class="h-full rounded-full bg-ember" style="width:{{ profile.hp.percent }}%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Character details -->
+      <div class="p-8">
+        <h1 class="font-title text-4xl font-black leading-tight text-parchment md:text-5xl">{{ profile.name }}</h1>
+
+        <!-- Class / title tags -->
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          {% for c in profile.classes %}
+          <span class="rounded-md px-3 py-1 text-sm font-bold ring-1 {{ tag_styles[c.style] }}">{{ c.label }}</span>
+          {% endfor %}
+        </div>
+
+        <!-- Bio / backstory -->
+        <p class="mt-5 text-parchment/75">{{ profile.bio }}</p>
+
+        <!-- Quick facts -->
+        <div class="mt-6 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
+          {% for f in profile.facts %}
+          <div class="rounded-lg border border-gold/15 bg-table/60 p-3">
+            <div class="text-parchment/50">{{ f.label }}</div>
+            <div class="font-semibold text-parchment">{{ f.value }}</div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- CTAs -->
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#gallery" class="inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-3 font-bold text-table shadow-glow transition hover:brightness-110">
+            <i data-lucide="swords" class="h-4 w-4"></i> View the Card Hand
+          </a>
+          <a href="#contact" class="inline-flex items-center gap-2 rounded-lg border border-gold/40 px-5 py-3 font-bold text-gold transition hover:bg-gold/10">
+            <i data-lucide="mail" class="h-4 w-4"></i> Start a Quest
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

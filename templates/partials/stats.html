@@ -1,0 +1,56 @@
+{# ---- ABILITY SCORES: tabbed skill tree + combat-stat badges ---- #}
+{% set stat_colors = {
+  'ember':  'border-ember/30 bg-ember/15 text-ember',
+  'gold':   'border-gold/30 bg-gold/15 text-gold',
+  'bronze': 'border-bronze/30 bg-bronze/15 text-bronze'
+} %}
+
+<section id="stats" class="py-12 md:py-16">
+  <div class="reveal mb-8 text-center">
+    <h2 class="font-title text-3xl font-bold text-gold md:text-4xl">Ability Scores</h2>
+    <p class="mt-2 text-parchment/60">Allocated skill points across the tech skill tree.</p>
+  </div>
+
+  <!-- Tab buttons (one per category) -->
+  <div class="reveal mb-8 flex flex-wrap justify-center gap-2" id="statTabs">
+    {% for cat in abilities.categories %}
+    <button data-tab="{{ cat.id }}"
+            class="stat-tab rounded-lg border border-gold/30 px-4 py-2 text-sm font-bold
+                   {% if loop.first %}bg-gold text-table{% else %}bg-felt text-parchment/80 hover:text-gold{% endif %}">
+      {{ cat.label }}
+    </button>
+    {% endfor %}
+  </div>
+
+  <!-- Tab panels -->
+  {% for cat in abilities.categories %}
+  <div data-panel="{{ cat.id }}" class="stat-panel grid gap-5 sm:grid-cols-2 {% if not loop.first %}hidden{% endif %}">
+    {% for skill in cat.skills %}
+    <div class="reveal rounded-xl border border-gold/15 bg-felt p-5 lift">
+      <div class="mb-2 flex items-center justify-between">
+        <span class="font-semibold text-parchment">{{ skill.name }}</span>
+        <span class="font-bold text-gold">Lv {{ skill.level }}</span>
+      </div>
+      <div class="h-3 rounded-full bg-table">
+        <div class="stat-fill h-full rounded-full bg-gradient-to-r from-bronze to-gold" data-val="{{ skill.value }}" style="width:0"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <!-- Combat-stat badges (ATK / DEF / SPD) -->
+  <div class="reveal mt-10 grid gap-4 sm:grid-cols-3">
+    {% for stat in combat_stats %}
+    <div class="flex items-center gap-4 rounded-xl border bg-felt p-5 lift {{ stat_colors[stat.color].split(' ')[0] }}">
+      <span class="grid h-12 w-12 place-items-center rounded-lg {{ stat_colors[stat.color].split(' ')[1] }} {{ stat_colors[stat.color].split(' ')[2] }}">
+        <i data-lucide="{{ stat.icon }}" class="h-6 w-6"></i>
+      </span>
+      <div>
+        <div class="text-xs uppercase tracking-widest text-parchment/50">{{ stat.label }}</div>
+        <div class="font-title text-2xl font-bold text-parchment">{{ stat.value }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

@@ -1,0 +1,63 @@
+# ======================================================================
+#  Auto-build & deploy the portfolio to GitHub Pages on every push.
+#
+#  How it works:
+#    1. GitHub checks out your code.
+#    2. Installs Python + the packages in requirements.txt.
+#    3. Runs `python freeze.py` to generate the static site into docs/.
+#    4. Uploads docs/ and publishes it to GitHub Pages.
+#
+#  ONE-TIME SETUP: in your repo, go to
+#    Settings → Pages → Build and deployment → Source → "GitHub Actions"
+# ======================================================================
+name: Deploy portfolio to GitHub Pages
+
+on:
+  push:
+    branches: [main]      # deploy whenever you push to main
+  workflow_dispatch: {}   # ...or trigger it manually from the Actions tab
+
+# Permissions the deploy needs
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; don't cancel an in-progress run
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build static site
+        run: python freeze.py
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,127 @@
+{# ====================================================================== #}
+{#  base.html — the page skeleton shared by every page.                    #}
+{#  Holds the <head>, the header/navigation, and the footer.               #}
+{#  Individual pages fill in the {% block content %} area.                 #}
+{# ====================================================================== #}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}" />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons (CDN) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Fonts: Cinzel = board-game "title piece", Inter = clean body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind theme config: change the palette here to re-skin the whole site -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            title: ['Cinzel', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            table: '#0f1117',       // deep tabletop backdrop
+            slate: '#171a23',       // slate board surface
+            felt: '#1e222e',        // raised panel
+            parchment: '#e7dcc3',   // card / parchment surface
+            'parchment-dk': '#d8c9a6',
+            ink: '#2a2418',         // dark text on parchment
+            gold: '#d4af37',        // primary accent
+            bronze: '#a9743c',      // secondary accent
+            ember: '#c85a3b',       // warm "attack" red
+          },
+          boxShadow: {
+            card: '0 10px 30px -12px rgba(0,0,0,0.7)',
+            glow: '0 0 0 1px rgba(212,175,55,0.5), 0 12px 40px -10px rgba(212,175,55,0.35)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Our own custom styles (textures, flip cards, animations) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
+</head>
+
+<body class="font-body text-parchment antialiased">
+
+  {# --------------------------- HEADER --------------------------- #}
+  <header class="sticky top-0 z-50 border-b border-gold/20 bg-table/85 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+
+      <!-- Logo / title piece -->
+      <a href="#hero" class="group flex items-center gap-3">
+        <span class="grid h-11 w-11 place-items-center rounded-lg gilded bg-felt text-gold">
+          <i data-lucide="dices" class="h-6 w-6"></i>
+        </span>
+        <span class="leading-tight">
+          <span class="block font-title text-lg font-bold tracking-wide text-gold">{{ site.brand }}</span>
+          <span class="block text-[11px] uppercase tracking-[0.25em] text-parchment/60">{{ site.tagline }}</span>
+        </span>
+      </a>
+
+      <!-- Desktop nav: action tokens -->
+      <nav class="hidden items-center gap-1 md:flex">
+        <a href="#stats"   class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Player Stats ]</a>
+        <a href="#gallery" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Card Gallery ]</a>
+        <a href="#quests"  class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Quest Log ]</a>
+        <a href="#achievements" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Achievements ]</a>
+        <a href="#hobbies" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Downtime ]</a>
+        <a href="#contact" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Contact ]</a>
+      </nav>
+
+      <!-- Mobile menu button -->
+      <button id="menuBtn" class="grid h-10 w-10 place-items-center rounded-md border border-gold/30 text-gold md:hidden" aria-label="Open menu">
+        <i data-lucide="menu" class="h-5 w-5"></i>
+      </button>
+    </div>
+
+    <!-- Mobile nav drawer -->
+    <div id="mobileNav" class="hidden border-t border-gold/15 bg-slate md:hidden">
+      <nav class="mx-auto flex max-w-6xl flex-col px-4 py-2">
+        <a href="#stats"   class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Player Stats</a>
+        <a href="#gallery" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Card Gallery</a>
+        <a href="#quests"  class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Quest Log</a>
+        <a href="#achievements" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Achievements</a>
+        <a href="#hobbies" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Downtime</a>
+        <a href="#contact" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  {# --------------------------- PAGE CONTENT --------------------------- #}
+  <main class="mx-auto max-w-6xl px-4">
+    {% block content %}{% endblock %}
+  </main>
+
+  {# --------------------------- FOOTER --------------------------- #}
+  <footer class="border-t border-gold/20 bg-slate/70">
+    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
+      <p class="text-sm text-parchment/50">© <span id="year"></span> {{ profile.name }} · Built with dice &amp; determination.</p>
+      <div class="flex items-center gap-3">
+        {% for s in socials %}
+        <a href="{{ s.url }}" aria-label="{{ s.label }}"
+           class="grid h-11 w-11 place-items-center rounded-lg border border-gold/25 bg-felt text-parchment/80 transition hover:-translate-y-1 hover:border-gold hover:text-gold">
+          <i data-lucide="{{ s.icon }}" class="h-5 w-5"></i>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </footer>
+
+  <!-- Our JavaScript (tabs, flips, filters, animations) -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

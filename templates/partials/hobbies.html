@@ -1,0 +1,21 @@
+{# ---- DOWNTIME: hobbies & interests ---- #}
+<section id="hobbies" class="py-12 md:py-16">
+  <div class="reveal mb-8 text-center">
+    <h2 class="font-title text-3xl font-bold text-gold md:text-4xl">Downtime</h2>
+    <p class="mt-2 text-parchment/60">Side quests the hero takes on between campaigns.</p>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    {% for h in hobbies %}
+    <div class="reveal flex flex-col items-center gap-3 rounded-2xl border border-gold/15 bg-felt p-6 text-center lift">
+      <span class="grid h-16 w-16 place-items-center rounded-full bg-table text-gold ring-1 ring-gold/30">
+        <i data-lucide="{{ h.icon }}" class="h-8 w-8"></i>
+      </span>
+      <div>
+        <div class="font-title text-lg font-bold text-parchment">{{ h.label }}</div>
+        <div class="mt-0.5 text-xs text-parchment/50">{{ h.note }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

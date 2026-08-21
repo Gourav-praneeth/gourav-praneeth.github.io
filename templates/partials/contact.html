@@ -1,0 +1,38 @@
+{# ---- CONTACT: "Victory Conditions" form ---- #}
+{# If a Formspree endpoint is set in data.py, the form posts to it for real.   #}
+{# Otherwise the JS shows a friendly demo message so nothing looks broken.     #}
+<section id="contact" class="py-12 md:py-16">
+  <div class="reveal mx-auto max-w-2xl overflow-hidden rounded-2xl gilded bg-felt shadow-card">
+    <div class="border-b border-gold/20 bg-slate px-6 py-5 text-center">
+      <h2 class="font-title text-2xl font-bold text-gold md:text-3xl">Victory Conditions</h2>
+      <p class="mt-1 text-sm text-parchment/60">Make your move — send a message to begin the campaign.</p>
+    </div>
+
+    <form id="contactForm"
+          class="space-y-5 p-6"
+          {% if site.formspree_endpoint %}action="{{ site.formspree_endpoint }}" method="POST"{% endif %}>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="block">
+          <span class="mb-1.5 block text-sm font-semibold text-parchment/80">Player Name</span>
+          <input required type="text" name="name" placeholder="Enter your name"
+                 class="w-full rounded-lg border border-gold/25 bg-table px-4 py-3 text-parchment placeholder-parchment/30 outline-none focus:border-gold focus:ring-2 focus:ring-gold/30" />
+        </label>
+        <label class="block">
+          <span class="mb-1.5 block text-sm font-semibold text-parchment/80">Raven Address (Email)</span>
+          <input required type="email" name="email" placeholder="you@realm.com"
+                 class="w-full rounded-lg border border-gold/25 bg-table px-4 py-3 text-parchment placeholder-parchment/30 outline-none focus:border-gold focus:ring-2 focus:ring-gold/30" />
+        </label>
+      </div>
+      <label class="block">
+        <span class="mb-1.5 block text-sm font-semibold text-parchment/80">Your Message / Quest Proposal</span>
+        <textarea required name="message" rows="4" placeholder="Describe your quest…"
+                  class="w-full rounded-lg border border-gold/25 bg-table px-4 py-3 text-parchment placeholder-parchment/30 outline-none focus:border-gold focus:ring-2 focus:ring-gold/30"></textarea>
+      </label>
+      <button type="submit"
+              class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gold px-5 py-3 font-bold text-table shadow-glow transition hover:brightness-110">
+        <i data-lucide="send" class="h-4 w-4"></i> End Turn · Send Message
+      </button>
+      <p id="formMsg" class="hidden text-center text-sm font-semibold text-gold"></p>
+    </form>
+  </div>
+</section>

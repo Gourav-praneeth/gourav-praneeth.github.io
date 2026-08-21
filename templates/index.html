@@ -1,0 +1,16 @@
+{# ====================================================================== #}
+{#  index.html — the single page. It just stacks the section partials.     #}
+{#  Each section lives in its own file under templates/partials/ so they    #}
+{#  stay small and easy to find.                                           #}
+{# ====================================================================== #}
+{% extends "base.html" %}
+
+{% block content %}
+  {% include "partials/hero.html" %}
+  {% include "partials/stats.html" %}
+  {% include "partials/gallery.html" %}
+  {% include "partials/quests.html" %}
+  {% include "partials/certificates.html" %}
+  {% include "partials/hobbies.html" %}
+  {% include "partials/contact.html" %}
+{% endblock %}

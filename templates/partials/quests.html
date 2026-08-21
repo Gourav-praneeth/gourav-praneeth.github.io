@@ -1,0 +1,53 @@
+{# ---- QUEST LOG: career / education timeline (alternates sides on desktop) ---- #}
+{% set marker_tones = {
+  'gold':   'gilded bg-gold text-table',
+  'bronze': 'gilded bg-bronze text-table',
+  'muted':  'gilded bg-felt text-gold ring-1 ring-gold/50'
+} %}
+{% set badge_tones = {
+  'gold':   'bg-gold/15 text-gold',
+  'bronze': 'bg-bronze/15 text-bronze',
+  'muted':  'bg-felt text-parchment/70 ring-1 ring-gold/30'
+} %}
+
+<section id="quests" class="py-12 md:py-16">
+  <div class="reveal mb-10 text-center">
+    <h2 class="font-title text-3xl font-bold text-gold md:text-4xl">Quest Log</h2>
+    <p class="mt-2 text-parchment/60">Completed campaigns along the career path.</p>
+  </div>
+
+  <div class="relative mx-auto max-w-3xl">
+    <!-- The path line -->
+    <div class="absolute left-4 top-0 h-full w-0.5 bg-gradient-to-b from-gold via-bronze to-transparent md:left-1/2 md:-translate-x-1/2"></div>
+
+    {% for q in quests %}
+    {# Odd entries go right, even entries go left, on desktop #}
+    {% set on_left = (loop.index is even) %}
+    <div class="quest-node reveal relative mb-10 md:grid md:grid-cols-2 md:gap-8">
+
+      <!-- Node marker -->
+      <div class="absolute left-4 top-2 z-10 grid h-8 w-8 -translate-x-1/2 place-items-center rounded-full md:left-1/2 {{ marker_tones[q.tone] }}">
+        <i data-lucide="{{ q.icon }}" class="h-4 w-4"></i>
+      </div>
+
+      <!-- Card -->
+      <div class="ml-12 md:ml-0 {% if on_left %}md:col-start-1 md:text-right{% else %}md:col-start-2{% endif %}">
+        <div class="rounded-xl border border-gold/20 bg-felt p-5 lift">
+          <div class="mb-1 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold {{ badge_tones[q.tone] }}">
+            <i data-lucide="calendar" class="h-3.5 w-3.5"></i> {{ q.period }}
+          </div>
+          <h3 class="font-title text-xl font-bold text-parchment">{{ q.role }}</h3>
+          <p class="text-sm font-semibold text-bronze">{{ q.org }}</p>
+          <ul class="mt-3 space-y-1.5 text-sm text-parchment/70">
+            {% for point in q.points %}
+            <li class="flex gap-2 {% if on_left %}md:flex-row-reverse md:text-right{% endif %}">
+              <i data-lucide="chevron-right" class="mt-0.5 h-4 w-4 shrink-0 text-gold"></i> {{ point }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>

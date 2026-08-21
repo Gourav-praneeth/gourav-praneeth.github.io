@@ -1,0 +1,5 @@
+# ---- Python dependencies for the portfolio ----
+# Install everything with:  pip install -r requirements.txt
+
+Flask==3.0.3          # Web framework: serves the site while you develop
+Frozen-Flask==1.0.2   # "Freezes" the Flask app into plain static HTML for GitHub Pages

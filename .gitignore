@@ -1,0 +1,21 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# ---- Build output ----
+# The static site is rebuilt automatically by GitHub Actions on every push,
+# so we don't commit it. (If you prefer the manual method described in the
+# README, delete the next line so docs/ gets committed instead.)
+docs/
+
+# ---- OS / editor cruft ----
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# ---- Keep the original single-file prototype out of the repo (optional) ----
+Gourav-3.jpg
