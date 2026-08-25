@@ -19,3 +19,6 @@ docs/
 
 # ---- Keep the original single-file prototype out of the repo (optional) ----
 Gourav-3.jpg
+
+# ---- Personal source documents (contain private contact/profile info) ----
+*.pdf

@@ -78,6 +78,7 @@
         <a href="#gallery" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Card Gallery ]</a>
         <a href="#quests"  class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Quest Log ]</a>
         <a href="#achievements" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Achievements ]</a>
+        <a href="#endorsement" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Endorsement ]</a>
         <a href="#hobbies" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Downtime ]</a>
         <a href="#contact" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">[ Contact ]</a>
       </nav>
@@ -95,6 +96,7 @@
         <a href="#gallery" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Card Gallery</a>
         <a href="#quests"  class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Quest Log</a>
         <a href="#achievements" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Achievements</a>
+        <a href="#endorsement" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Endorsement</a>
         <a href="#hobbies" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Downtime</a>
         <a href="#contact" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">▸ Contact</a>
       </nav>
@@ -114,7 +116,11 @@
         {% for s in socials %}
         <a href="{{ s.url }}" aria-label="{{ s.label }}"
            class="grid h-11 w-11 place-items-center rounded-lg border border-gold/25 bg-felt text-parchment/80 transition hover:-translate-y-1 hover:border-gold hover:text-gold">
+          {% if s.svg_path %}
+          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="{{ s.svg_path }}"></path></svg>
+          {% else %}
           <i data-lucide="{{ s.icon }}" class="h-5 w-5"></i>
+          {% endif %}
         </a>
         {% endfor %}
       </div>
