@@ -79,14 +79,17 @@ CONTENT = {
                 "skills": [
                     {"name": "React.js",         "level": 8, "value": 82},   # EDIT
                     {"name": "Flask",            "level": 8, "value": 84},
+                    {"name": "LangChain",        "level": 8, "value": 80},
+                    {"name": "Streamlit",        "level": 8, "value": 82},
                     {"name": "Firebase",         "level": 7, "value": 76},
-                    {"name": "Gradio",           "level": 6, "value": 70},
                 ],
             },
             {
                 "id": "tools", "label": "Tools & Utilities",
                 "skills": [
                     {"name": "Git / GitHub",         "level": 9, "value": 90},   # EDIT
+                    {"name": "OpenAI API",           "level": 8, "value": 84},
+                    {"name": "Chroma / Vector Search","level": 7, "value": 76},
                     {"name": "Bash Scripting",       "level": 8, "value": 80},
                     {"name": "Vercel",               "level": 7, "value": 74},
                     {"name": "Gradescope Automation","level": 8, "value": 82},
@@ -119,19 +122,38 @@ CONTENT = {
         {
             "title": "Board Game Rules RAG Engine", "category": "ai", "cost": 5,
             "icon": "sparkles", "image": None,
-            "tags": ["Python", "RAG", "Gradio"],
-            "short": "A retrieval engine that answers board-game rules questions with cited sources — no hallucinations allowed.",
+            "tags": ["Python", "LangChain", "Chroma", "OpenAI API"],
+            "short": "A retrieval engine that answers Catan rules questions with cited sources — no hallucinations allowed.",
             "details": (
-                "Architected an end-to-end RAG pipeline enforcing strict source citations and "
-                "an 'insufficient context' fallback to prevent hallucinations. Used structure-aware "
-                "chunking (800-char / 150-char overlap) to preserve context across rules and edge-case "
-                "exceptions, then built a custom evaluation harness that hit 90% retrieval precision. "
-                "Shipped an interactive Gradio chat UI wired directly to the production pipeline."
+                "Architected an end-to-end RAG pipeline (LangChain + Chroma + OpenAI) enforcing strict "
+                "source citations and an 'insufficient context' fallback to prevent hallucinations. Used "
+                "structure-aware chunking (800-char / 150-char overlap) to preserve context across rules "
+                "and edge-case exceptions, then built a custom pytest evaluation harness that hit 9/10 "
+                "accuracy on a hand-written test set. Shipped as a live Streamlit web app."
             ),
-            "features": ["90% retrieval precision", "Citation-enforced answers", "Gradio chat UI"],
+            "features": ["90% eval accuracy", "Citation-enforced answers", "Live Streamlit app"],
             "links": {
-                "play": "https://github.com/Gourav-praneeth/Board-Game-Rule-Assistant",
+                "play": "https://board-game-rule-assistant.streamlit.app",
                 "code": "https://github.com/Gourav-praneeth/Board-Game-Rule-Assistant",
+            },
+        },
+        {
+            "title": "Multi-Agent AutoResearch", "category": "ai", "cost": 5,
+            "icon": "workflow", "image": None,
+            "tags": ["Python", "Multi-Agent", "OpenAI API", "Streamlit"],
+            "short": "A 5-agent pipeline that autonomously researches a question and writes a cited report.",
+            "details": (
+                "Orchestrates five specialized agents — Planner, Retriever, Summarizer, Critic, and "
+                "Writer — to decompose a research question, pull facts from Wikipedia and DuckDuckGo, "
+                "score confidence, identify gaps that need another retrieval pass (capped at 2 loops for "
+                "cost control), and synthesize everything into a structured Markdown report. Runs on "
+                "GPT-4o-mini for roughly $0.01–$0.03 per query. Built with Pydantic-validated schemas "
+                "between agent stages and shipped as a live Streamlit app."
+            ),
+            "features": ["5-agent orchestration", "Confidence-scored findings", "~$0.01–$0.03 per run"],
+            "links": {
+                "play": "https://multi-agent-autoresearch.streamlit.app",
+                "code": "https://github.com/Gourav-praneeth/autoresearch",
             },
         },
         {
