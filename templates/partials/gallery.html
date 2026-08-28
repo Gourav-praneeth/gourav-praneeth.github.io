@@ -53,14 +53,20 @@
 
         <!-- BACK -->
         <div class="flip-face flip-back absolute inset-0 flex flex-col overflow-hidden rounded-2xl gilded bg-slate p-5 text-parchment shadow-card">
-          <h3 class="font-title text-lg font-bold text-gold">{{ p.title }} · Details</h3>
-          <p class="mt-3 text-sm text-parchment/75">{{ p.details }}</p>
-          <ul class="mt-4 space-y-1.5 text-sm text-parchment/70">
-            {% for feat in p.features %}
-            <li class="flex items-center gap-2"><i data-lucide="check" class="h-4 w-4 text-gold"></i> {{ feat }}</li>
-            {% endfor %}
-          </ul>
-          <div class="mt-auto flex gap-2">
+          <h3 class="shrink-0 font-title text-lg font-bold text-gold">{{ p.title }} · Details</h3>
+
+          <!-- Scrolls internally when details+features run long, so the buttons below stay
+               pinned in the same place on every card regardless of content length. -->
+          <div class="card-scroll mt-3 flex-1 overflow-y-auto pr-1 text-sm text-parchment/75">
+            <p>{{ p.details }}</p>
+            <ul class="mt-4 space-y-1.5 text-parchment/70">
+              {% for feat in p.features %}
+              <li class="flex items-start gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-gold"></i> {{ feat }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="mt-4 flex shrink-0 gap-2">
             <a href="{{ p.links.play }}" target="_blank" rel="noopener" class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gold px-3 py-2 text-sm font-bold text-table hover:brightness-110"><i data-lucide="play" class="h-4 w-4"></i> Play</a>
             <a href="{{ p.links.code }}" target="_blank" rel="noopener" class="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gold/40 px-3 py-2 text-sm font-bold text-gold hover:bg-gold/10">
               {# Lucide dropped the "github" brand icon, so we inline the real logo instead. #}
@@ -68,7 +74,7 @@
               Code
             </a>
           </div>
-          <button class="inspect-btn mt-2 text-xs font-semibold text-parchment/50 hover:text-gold">↩ Flip back</button>
+          <button class="inspect-btn mt-2 shrink-0 text-xs font-semibold text-parchment/50 hover:text-gold">↩ Flip back</button>
         </div>
       </div>
     </article>

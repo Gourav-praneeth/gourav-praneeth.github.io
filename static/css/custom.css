@@ -98,6 +98,22 @@ body {
   transform: rotateY(180deg);
 }
 
+/* Thin gold-on-charcoal scrollbar for the scrollable card-back details */
+.card-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.5) transparent;
+}
+.card-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.card-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.card-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(212, 175, 55, 0.5);
+  border-radius: 999px;
+}
+
 /* ---- Reveal-on-scroll ---- */
 .reveal {
   opacity: 0;
