@@ -22,3 +22,4 @@ Gourav-3.jpg
 
 # ---- Personal source documents (contain private contact/profile info) ----
 *.pdf
+!static/files/Gourav_Bhimavarapu_Resume.pdf

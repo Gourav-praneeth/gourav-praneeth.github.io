@@ -21,16 +21,19 @@ Personal_Portfolio/
 │   ├── base.html           ← page skeleton: <head>, nav bar, footer
 │   ├── index.html          ← stacks the sections together
 │   └── partials/
-│       ├── hero.html       ← "Player 1 Select" character card
-│       ├── stats.html      ← "Ability Scores" skill tree
-│       ├── gallery.html    ← "The Card Hand" project cards
+│       ├── hero.html       ← positioning, availability, and proof points
+│       ├── stats.html      ← evidence-based capability cards
+│       ├── gallery.html    ← selected project case-study previews
 │       ├── quests.html     ← "Quest Log" timeline
 │       └── contact.html    ← "Victory Conditions" contact form
 │
 ├── static/                 ← things served as-is
-│   ├── css/custom.css      ← custom styles (textures, flip cards, portrait frame)
-│   ├── js/main.js          ← interactions (tabs, card flips, filters)
-│   └── img/profile.jpg     ← your photo
+│   ├── css/custom.css      ← custom styles, textures, components, and motion
+│   ├── js/main.js          ← navigation, reveals, and form enhancement
+│   ├── files/              ← downloadable résumé and other documents
+│   └── img/
+│       ├── profile.jpg     ← your photo
+│       └── projects/       ← project screenshots (see its README)
 │
 ├── docs/                   ← BUILD OUTPUT (auto-generated — don't edit by hand)
 ├── .github/workflows/      ← auto-deploy to GitHub Pages on push
@@ -126,11 +129,12 @@ The form works without any backend using [Formspree](https://formspree.io) (free
 | Want to change... | Edit... |
 |---|---|
 | Name, bio, skills, projects, jobs, socials | `content/data.py` |
-| Theme colors (gold/charcoal/parchment) | the `colors` block in `templates/base.html` |
+| Theme colors (paper/lavender/coral/green) | the `colors` block in `templates/base.html` |
 | Your photo | replace `static/img/profile.jpg` (keep the name, or update `avatar` in `data.py`) |
-| Project screenshots | drop images in `static/img/`, set `"image": "img/yourfile.png"` on that project |
+| Résumé | replace `static/files/Gourav_Bhimavarapu_Resume.pdf` |
+| Project screenshots | drop images in `static/img/projects/`, then set the project's `image` path in `data.py` |
 | Icons | any name from [lucide.dev/icons](https://lucide.dev/icons) |
-| Animations / flip behaviour | `static/css/custom.css` and `static/js/main.js` |
+| Animations / interactions | `static/css/custom.css` and `static/js/main.js` |
 
 Skill icons and colors are documented inline in `content/data.py`.
 

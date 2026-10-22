@@ -1,142 +1,84 @@
-/* ======================================================================
-   main.js — all the small interactive behaviours.
-   Kept dependency-free (plain vanilla JS) so there's no build step.
-   ====================================================================== */
+/* Small, dependency-free interactions for the portfolio. */
 
-/* Render all Lucide icons that use <i data-lucide="..."> */
-lucide.createIcons();
+if (window.lucide) {
+  window.lucide.createIcons();
+}
 
-/* ---- Current year in the footer ---- */
-document.getElementById("year").textContent = new Date().getFullYear();
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
 
-/* ---- Mobile menu toggle ---- */
+/* Mobile navigation: keep visible state and accessibility state synchronized. */
 const menuBtn = document.getElementById("menuBtn");
 const mobileNav = document.getElementById("mobileNav");
-menuBtn.addEventListener("click", () => mobileNav.classList.toggle("hidden"));
-mobileNav
-  .querySelectorAll("a")
-  .forEach((a) => a.addEventListener("click", () => mobileNav.classList.add("hidden")));
 
-/* ---- Ability Scores: tab switching ---- */
-const statTabs = document.querySelectorAll(".stat-tab");
-const statPanels = document.querySelectorAll(".stat-panel");
+function setMenuOpen(open) {
+  if (!menuBtn || !mobileNav) return;
+  mobileNav.classList.toggle("hidden", !open);
+  menuBtn.setAttribute("aria-expanded", String(open));
+  menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+}
 
-function setActiveTab(activeBtn) {
-  statTabs.forEach((t) => {
-    const on = t === activeBtn;
-    t.classList.toggle("bg-gold", on);
-    t.classList.toggle("text-table", on);
-    t.classList.toggle("bg-felt", !on);
-    t.classList.toggle("text-parchment/80", !on);
+if (menuBtn && mobileNav) {
+  menuBtn.addEventListener("click", () => {
+    setMenuOpen(menuBtn.getAttribute("aria-expanded") !== "true");
+  });
+  mobileNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenuOpen(false);
   });
 }
 
-statTabs.forEach((btn) =>
-  btn.addEventListener("click", () => {
-    setActiveTab(btn);
-    const tab = btn.dataset.tab;
-    statPanels.forEach((p) => p.classList.toggle("hidden", p.dataset.panel !== tab));
-    animateBars(); // fill the bars in the newly-shown panel
-  })
-);
+/* Reveal content progressively. Content remains visible if JavaScript is unavailable. */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const revealItems = document.querySelectorAll(".reveal");
 
-/* ---- Stat bars: animate width for whichever panel is visible ---- */
-function animateBars() {
-  document.querySelectorAll(".stat-panel:not(.hidden) .stat-fill").forEach((bar) => {
-    bar.style.width = bar.dataset.val + "%";
-  });
-}
-
-/* ---- Project cards: flip on "Inspect" / "Flip back" ---- */
-document.querySelectorAll(".project-card").forEach((card) => {
-  card.querySelectorAll(".inspect-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      card.classList.toggle("is-flipped");
-    });
-  });
-});
-
-/* ---- Project cards: filter mechanic ---- */
-const filterBtns = document.querySelectorAll(".filter-btn");
-const projectCards = document.querySelectorAll(".project-card");
-
-filterBtns.forEach((btn) =>
-  btn.addEventListener("click", () => {
-    filterBtns.forEach((b) => {
-      const on = b === btn;
-      b.classList.toggle("bg-gold", on);
-      b.classList.toggle("text-table", on);
-      b.classList.toggle("bg-felt", !on);
-      b.classList.toggle("text-parchment/80", !on);
-    });
-    const filter = btn.dataset.filter;
-    projectCards.forEach((card) => {
-      const show = filter === "all" || card.dataset.category === filter;
-      card.classList.toggle("hidden", !show);
-      card.classList.remove("is-flipped"); // reset flipped state on filter
-    });
-  })
-);
-
-/* ---- Reveal-on-scroll (IntersectionObserver) ---- */
-const io = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
+if (reduceMotion || !("IntersectionObserver" in window)) {
+  revealItems.forEach((item) => item.classList.add("in"));
+} else {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
         entry.target.classList.add("in");
-        if (entry.target.querySelector && entry.target.querySelector(".stat-fill")) {
-          animateBars();
-        }
-        io.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
-document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -40px" }
+  );
+  revealItems.forEach((item) => observer.observe(item));
+}
 
-/* Fill bars on load too, in case the stats section is already in view */
-window.addEventListener("load", animateBars);
-
-/* ---- Contact form ----
-   - If the <form> has an action (Formspree endpoint set in data.py), we let it
-     submit for real but show a "sending" note via fetch for a nicer UX.
-   - If there's no action, we just show a friendly demo message. */
+/* Contact form enhancement. Normal form submission remains the fallback. */
 const contactForm = document.getElementById("contactForm");
 if (contactForm) {
-  contactForm.addEventListener("submit", async (e) => {
-    const msg = document.getElementById("formMsg");
+  contactForm.addEventListener("submit", async (event) => {
+    const message = document.getElementById("formMsg");
     const hasEndpoint = contactForm.hasAttribute("action");
 
     if (!hasEndpoint) {
-      // Demo mode — no backend configured yet.
-      e.preventDefault();
-      msg.textContent =
-        "✦ Turn ended! Set your Formspree endpoint in content/data.py to actually receive messages.";
-      msg.classList.remove("hidden");
-      contactForm.reset();
+      event.preventDefault();
+      message.textContent = "The contact form is not connected yet. Please email me directly.";
+      message.classList.remove("hidden");
       return;
     }
 
-    // Real submission via fetch so the page doesn't navigate away.
-    e.preventDefault();
-    msg.textContent = "Sending your raven…";
-    msg.classList.remove("hidden");
+    event.preventDefault();
+    message.textContent = "Sending…";
+    message.classList.remove("hidden");
+
     try {
-      const res = await fetch(contactForm.action, {
+      const response = await fetch(contactForm.action, {
         method: "POST",
         body: new FormData(contactForm),
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
-        msg.textContent = "✦ Victory! Your message has been sent.";
-        contactForm.reset();
-      } else {
-        msg.textContent = "⚔ The raven got lost. Please try again or email me directly.";
-      }
-    } catch (err) {
-      msg.textContent = "⚔ The raven got lost. Please try again or email me directly.";
+      if (!response.ok) throw new Error("Form submission failed");
+      message.textContent = "Thanks—your message has been sent.";
+      contactForm.reset();
+    } catch (error) {
+      message.textContent = "Something went wrong. Please try again or email me directly.";
     }
   });
 }

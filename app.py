@@ -24,7 +24,7 @@ def index():
     """Render the single-page portfolio.
 
     `**CONTENT` unpacks the content dictionary so each top-level key
-    (profile, abilities, projects, ...) becomes a variable the templates can use.
+    (profile, capabilities, projects, ...) becomes a variable the templates can use.
     """
     return render_template("index.html", **CONTENT)
 

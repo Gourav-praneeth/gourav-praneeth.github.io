@@ -19,109 +19,94 @@ CONTENT = {
     # ------------------------------------------------------------------ #
     "site": {
         "brand": "GOURAV",                                  # EDIT: short logo text
-        "tagline": "The Portfolio Quest",                   # EDIT: small subtitle under logo
+        "tagline": "AI · Software · Community",             # EDIT: small subtitle under logo
         "title": "Gourav Bhimavarapu · Portfolio",          # EDIT: browser tab title
-        "description": "Board-game themed developer portfolio of Gourav Bhimavarapu.",  # EDIT: SEO description
+        "description": "Gourav Bhimavarapu is a software and AI engineer building thoughtful, reliable products.",
         # EDIT: create a free form at https://formspree.io , paste your endpoint URL here.
         # Until you do, the form falls back to a friendly demo message.
-        "formspree_endpoint": "",
+        "formspree_endpoint": "https://formspree.io/f/mqpkkjpb",
     },
 
     # ------------------------------------------------------------------ #
-    #  HERO — "Player 1 Select" character sheet                          #
+    #  HERO — positioning, availability, and proof                       #
     # ------------------------------------------------------------------ #
     "profile": {
         "name": "Gourav Bhimavarapu",                       # EDIT
         "avatar": "img/profile.jpg",                        # file lives in static/img/
-        # Class/title tags. `style` is one of: gold, bronze, muted
-        "classes": [
-            {"label": "Software Engineer",   "style": "gold"},    # EDIT
-            {"label": "RAG & Agentic AI",     "style": "bronze"},  # EDIT
-            {"label": "MS CS Grad · ASU '26", "style": "muted"},   # EDIT
-        ],
-        "level": 22,                                        # EDIT: just for fun (your age)
-        "xp": {"label": "XP", "current": "8,540", "max": "10,000", "percent": 85},  # EDIT
-        "hp": {"label": "HP", "note": "Fully Rested ☕", "percent": 100},           # EDIT
-        "bio": (                                            # EDIT: your backstory blurb
-            "I build things that teach, automate, and scale. Having completed my BS/MS in "
-            "Computer Science at Arizona State University (May 2026), I've spent the "
-            "last 3 years at the intersection of software engineering, AI development, "
-            "and education. I've supported 700+ students across 5 teaching roles, and "
-            "founded the ASU Board Games Club, growing it from 0 to 300+ members. "
-            "Actively seeking full-time Software Engineering / AI Engineer roles."
+        "role": "Software Engineer · AI Builder",
+        "headline": "I build thoughtful AI products that make complex systems feel simple.",
+        "intro": (
+            "I'm Gourav, a software engineer and ASU computer science graduate working at "
+            "the intersection of AI, product engineering, and education. I care about "
+            "reliable systems, clear interfaces, and technology that genuinely helps people."
         ),
-        # Quick-fact tiles under the bio
-        "facts": [
-            {"label": "Home Base",  "value": "Tempe, AZ"},          # EDIT
-            {"label": "Guild",      "value": "Open to Work"},       # EDIT
-            {"label": "Toolkit",    "value": "Python · Java · SQL"},# EDIT
+        "availability": "Open to software engineering and AI roles",
+        "location": "Tempe, Arizona",
+        "email": "gouravprb610@gmail.com",
+        "resume_url": "files/Gourav_Bhimavarapu_Resume.pdf",
+        "metrics": [
+            {"label": "Students supported", "value": "1,000+"},
+            {"label": "Community built", "value": "280+"},
+            {"label": "RAG eval accuracy", "value": "90%"},
         ],
     },
 
     # ------------------------------------------------------------------ #
-    #  ABILITY SCORES — tabbed skill tree                                #
+    #  CAPABILITIES — evidence-based strengths                            #
     # ------------------------------------------------------------------ #
-    # Each category becomes a tab. Add/remove skills freely.
-    "abilities": {
-        "categories": [
-            {
-                "id": "lang", "label": "Languages",
-                "skills": [
-                    {"name": "Python",     "level": 9, "value": 92},   # EDIT
-                    {"name": "Java",       "level": 7, "value": 76},
-                    {"name": "C++",        "level": 7, "value": 75},
-                    {"name": "SQL",        "level": 7, "value": 78},
-                    {"name": "JavaScript", "level": 6, "value": 68},
-                ],
-            },
-            {
-                "id": "frame", "label": "Frameworks",
-                "skills": [
-                    {"name": "React.js",         "level": 8, "value": 82},   # EDIT
-                    {"name": "Flask",            "level": 8, "value": 84},
-                    {"name": "LangChain",        "level": 8, "value": 80},
-                    {"name": "Streamlit",        "level": 8, "value": 82},
-                    {"name": "Firebase",         "level": 7, "value": 76},
-                ],
-            },
-            {
-                "id": "tools", "label": "Tools & Utilities",
-                "skills": [
-                    {"name": "Git / GitHub",         "level": 9, "value": 90},   # EDIT
-                    {"name": "OpenAI API",           "level": 8, "value": 84},
-                    {"name": "Chroma / Vector Search","level": 7, "value": 76},
-                    {"name": "Bash Scripting",       "level": 8, "value": 80},
-                    {"name": "Vercel",               "level": 7, "value": 74},
-                    {"name": "Gradescope Automation","level": 8, "value": 82},
-                ],
-            },
-        ],
-    },
-
-    # Combat-stat badges (ATK / DEF / SPD styled as technical metrics)
-    # `color` is one of: ember, gold, bronze
-    "combat_stats": [
-        {"label": "ATK · Shipping Speed", "value": 98, "icon": "sword",  "color": "ember"},  # EDIT
-        {"label": "DEF · Code Quality",   "value": 94, "icon": "shield", "color": "gold"},   # EDIT
-        {"label": "SPD · Learning Rate",  "value": 96, "icon": "zap",    "color": "bronze"}, # EDIT
+    "capabilities": [
+        {
+            "title": "AI systems",
+            "icon": "brain-circuit",
+            "proof": "Demonstrated in 2 featured projects",
+            "description": (
+                "I design grounded AI workflows with retrieval, evaluation, typed handoffs, "
+                "confidence checks, and fallbacks—not just impressive demos."
+            ),
+            "tools": ["RAG", "Agent orchestration", "OpenAI API", "LangChain", "Chroma", "Pydantic"],
+        },
+        {
+            "title": "Product engineering",
+            "icon": "blocks",
+            "proof": "Shipped web and mobile products",
+            "description": (
+                "I take products from an ambiguous problem to an interface people can use, "
+                "balancing backend behavior, frontend clarity, and practical deployment."
+            ),
+            "tools": ["Python", "Java", "React", "Flask", "React Native", "Firebase", "SQL"],
+        },
+        {
+            "title": "Quality and automation",
+            "icon": "shield-check",
+            "proof": "150+ submissions automated per assignment",
+            "description": (
+                "I build evaluation harnesses, tests, and automation that make outcomes repeatable "
+                "and give teams confidence as systems evolve."
+            ),
+            "tools": ["pytest", "Bash", "GitHub", "Gradescope", "Evaluation design", "CI workflows"],
+        },
+        {
+            "title": "Teaching and leadership",
+            "icon": "users-round",
+            "proof": "1,000+ students · 280+ member community",
+            "description": (
+                "I explain technical ideas clearly, create structure around complex work, and help "
+                "people contribute—whether in a classroom, engineering team, or community."
+            ),
+            "tools": ["Mentorship", "Technical communication", "Team leadership", "Community building"],
+        },
     ],
 
     # ------------------------------------------------------------------ #
-    #  THE CARD HAND — project gallery (flip cards + filters)            #
+    #  SELECTED WORK — project evidence                                  #
     # ------------------------------------------------------------------ #
-    # `category` must match a filter id below: web / ai / mobile (add your own).
-    # `cost` is the little mana number. `icon` shows on the artwork placeholder
-    # (or set "image" to a file in static/img to show a real screenshot instead).
-    "project_filters": [
-        {"id": "all",     "label": "All Cards"},
-        {"id": "ai",      "label": "AI / ML"},
-        {"id": "mobile",  "label": "Mobile"},
-        {"id": "impact",  "label": "Social Impact"},
-    ],
+    # Add screenshots under static/img/ and set `image` to their relative path.
     "projects": [
         {
             "title": "Board Game Rules RAG Engine", "category": "ai", "cost": 5,
-            "icon": "sparkles", "image": None,
+            "icon": "sparkles", "image": None, "tone": "violet",
+            "category_label": "AI / Retrieval", "role": "Architecture · Evaluation · Product",
+            "metric": "90% eval accuracy",
             "tags": ["Python", "LangChain", "Chroma", "OpenAI API"],
             "short": "A retrieval engine that answers Catan rules questions with cited sources — no hallucinations allowed.",
             "details": (
@@ -139,7 +124,9 @@ CONTENT = {
         },
         {
             "title": "Multi-Agent AutoResearch", "category": "ai", "cost": 5,
-            "icon": "workflow", "image": None,
+            "icon": "workflow", "image": None, "tone": "teal",
+            "category_label": "Agentic AI", "role": "System design · Orchestration",
+            "metric": "5-agent pipeline",
             "tags": ["Python", "Multi-Agent", "OpenAI API", "Streamlit"],
             "short": "A 5-agent pipeline that autonomously researches a question and writes a cited report.",
             "details": (
@@ -158,7 +145,9 @@ CONTENT = {
         },
         {
             "title": "Culinary Companion", "category": "mobile", "cost": 3,
-            "icon": "chef-hat", "image": None,
+            "icon": "chef-hat", "image": None, "tone": "ember",
+            "category_label": "Mobile product", "role": "Mobile UI · Data integration",
+            "metric": "Real-time sync",
             "tags": ["React Native", "Firebase", "Spoonacular API"],
             "short": "A recipe app for exploring, saving, and personalizing recipes from a global API.",
             "details": (
@@ -171,7 +160,9 @@ CONTENT = {
         },
         {
             "title": "3D Tactile Campus Map", "category": "impact", "cost": 4,
-            "icon": "map", "image": None,
+            "icon": "map", "image": None, "tone": "gold",
+            "category_label": "Accessibility", "role": "Research · CAD · Co-design",
+            "metric": "Designed with users",
             "tags": ["CAD Modeling", "Accessibility", "EPICS"],
             "short": "A tactile 3D campus map helping visually impaired ASU students navigate independently.",
             "details": (

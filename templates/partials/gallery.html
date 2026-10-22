@@ -1,80 +1,65 @@
-{# ---- THE CARD HAND: project gallery with flip cards + filters ---- #}
-<section id="gallery" class="py-12 md:py-16">
-  <div class="reveal mb-8 text-center">
-    <h2 class="font-title text-3xl font-bold text-gold md:text-4xl">The Card Hand</h2>
-    <p class="mt-2 text-parchment/60">Draw a card. Click any card to inspect its reverse side.</p>
+{# ---- SELECTED WORK: visible evidence, no hidden flip-card content ---- #}
+<section id="work" class="py-14 md:py-20">
+  <div class="reveal mb-10 max-w-2xl">
+    <p class="section-kicker">Selected work</p>
+    <h2 class="mt-2 font-title text-4xl text-parchment md:text-6xl">Useful systems, thoughtfully engineered.</h2>
+    <p class="mt-4 text-parchment/60">A selection of AI, product, and impact-focused work—with the problem, contribution, and outcome kept visible.</p>
   </div>
 
-  <!-- Filter buttons -->
-  <div class="reveal mb-8 flex flex-wrap justify-center gap-2" id="cardFilters">
-    {% for f in project_filters %}
-    <button data-filter="{{ f.id }}"
-            class="filter-btn rounded-lg border border-gold/30 px-4 py-2 text-sm font-bold
-                   {% if loop.first %}bg-gold text-table{% else %}bg-felt text-parchment/80 hover:text-gold{% endif %}">
-      {{ f.label }}
-    </button>
-    {% endfor %}
-  </div>
-
-  <!-- Card grid -->
-  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="cardGrid">
+  <div class="space-y-8">
     {% for p in projects %}
-    <article class="project-card reveal flip h-[440px]" data-category="{{ p.category }}">
-      <div class="flip-inner relative h-full w-full">
-
-        <!-- FRONT -->
-        <div class="flip-face absolute inset-0 flex flex-col overflow-hidden rounded-2xl gilded bg-parchment text-ink shadow-card lift">
-          <div class="flex items-center justify-between bg-ink/90 px-4 py-3 text-parchment">
-            <h3 class="font-title text-lg font-bold">{{ p.title }}</h3>
-            <span class="grid h-8 w-8 place-items-center rounded-full bg-gold text-sm font-black text-table">{{ p.cost }}</span>
-          </div>
-
-          <!-- Artwork: real image if provided, otherwise a themed icon placeholder -->
-          <div class="paper relative flex h-40 items-center justify-center overflow-hidden border-y-4 border-bronze/50 bg-parchment-dk">
-            {% if p.image %}
-            <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }}" class="h-full w-full object-cover" />
-            {% else %}
-            <i data-lucide="{{ p.icon }}" class="h-12 w-12 text-bronze/60"></i>
-            {% endif %}
-          </div>
-
-          <div class="flex flex-1 flex-col p-4">
-            <div class="mb-3 flex flex-wrap gap-1.5">
-              {% for tag in p.tags %}
-              <span class="rounded-full bg-ink/10 px-2.5 py-0.5 text-xs font-semibold text-ink">{{ tag }}</span>
-              {% endfor %}
+    <article class="project-feature reveal overflow-hidden rounded-2xl border border-gold/20 bg-felt shadow-card">
+      <div class="grid lg:grid-cols-[1.08fr_0.92fr] {% if loop.index is even %}lg:[&>*:first-child]:order-2{% endif %}">
+        <div class="project-art project-art-{{ p.tone }} relative flex min-h-[280px] items-center justify-center overflow-hidden border-b border-gold/15 lg:min-h-[390px] lg:border-b-0 {% if loop.index is odd %}lg:border-r{% else %}lg:border-l{% endif %}">
+          {% if p.image %}
+          <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} interface" loading="lazy" class="h-full w-full object-cover" />
+          {% else %}
+          <div class="project-placeholder" aria-hidden="true">
+            <div class="project-window">
+              <div class="project-window-bar"><span></span><span></span><span></span></div>
+              <i data-lucide="{{ p.icon }}" class="h-16 w-16"></i>
+              <div class="mt-5 h-2 w-36 rounded-full bg-current opacity-25"></div>
+              <div class="mt-2 h-2 w-24 rounded-full bg-current opacity-15"></div>
             </div>
-            <p class="text-sm text-ink/80">{{ p.short }}</p>
-            <button class="inspect-btn mt-auto inline-flex items-center justify-center gap-2 rounded-lg bg-ink px-4 py-2 text-sm font-bold text-parchment transition hover:bg-bronze">
-              <i data-lucide="eye" class="h-4 w-4"></i> Inspect Card
-            </button>
           </div>
+          {% endif %}
+          <span class="absolute left-5 top-5 rounded-full border border-ink/10 bg-table/90 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-ink">{{ p.category_label }}</span>
         </div>
 
-        <!-- BACK -->
-        <div class="flip-face flip-back absolute inset-0 flex flex-col overflow-hidden rounded-2xl gilded bg-slate p-5 text-parchment shadow-card">
-          <h3 class="shrink-0 font-title text-lg font-bold text-gold">{{ p.title }} · Details</h3>
-
-          <!-- Scrolls internally when details+features run long, so the buttons below stay
-               pinned in the same place on every card regardless of content length. -->
-          <div class="card-scroll mt-3 flex-1 overflow-y-auto pr-1 text-sm text-parchment/75">
-            <p>{{ p.details }}</p>
-            <ul class="mt-4 space-y-1.5 text-parchment/70">
-              {% for feat in p.features %}
-              <li class="flex items-start gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-gold"></i> {{ feat }}</li>
-              {% endfor %}
-            </ul>
+        <div class="flex flex-col p-6 md:p-8 lg:p-10">
+          <div class="flex flex-col items-start gap-4 sm:flex-row sm:justify-between">
+            <div>
+              <p class="font-mono text-xs font-bold uppercase tracking-[0.12em] text-bronze">{{ p.role }}</p>
+              <h3 class="mt-2 font-title text-3xl text-parchment md:text-4xl">{{ p.title }}</h3>
+            </div>
+            <span class="shrink-0 rounded-full bg-gold/10 px-3 py-1 text-sm font-bold text-gold ring-1 ring-gold/25">{{ p.metric }}</span>
           </div>
 
-          <div class="mt-4 flex shrink-0 gap-2">
-            <a href="{{ p.links.play }}" target="_blank" rel="noopener" class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-gold px-3 py-2 text-sm font-bold text-table hover:brightness-110"><i data-lucide="play" class="h-4 w-4"></i> Play</a>
-            <a href="{{ p.links.code }}" target="_blank" rel="noopener" class="flex flex-1 items-center justify-center gap-2 rounded-lg border border-gold/40 px-3 py-2 text-sm font-bold text-gold hover:bg-gold/10">
-              {# Lucide dropped the "github" brand icon, so we inline the real logo instead. #}
-              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
-              Code
-            </a>
+          <p class="mt-5 leading-relaxed text-parchment/70">{{ p.short }}</p>
+
+          <ul class="mt-6 space-y-2 text-sm text-parchment/65">
+            {% for feat in p.features %}
+            <li class="flex items-start gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-gold"></i><span>{{ feat }}</span></li>
+            {% endfor %}
+          </ul>
+
+          <div class="mt-6 flex flex-wrap gap-2">
+            {% for tag in p.tags %}
+            <span class="rounded-full border border-gold/15 bg-table/60 px-2.5 py-1 text-xs font-semibold text-parchment/65">{{ tag }}</span>
+            {% endfor %}
           </div>
-          <button class="inspect-btn mt-2 shrink-0 text-xs font-semibold text-parchment/50 hover:text-gold">↩ Flip back</button>
+
+          <div class="mt-auto flex flex-wrap gap-3 pt-8">
+            {% if p.links.play and p.links.play != '#' %}
+            <a href="{{ p.links.play }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg bg-gold px-4 py-2.5 text-sm font-bold text-table transition hover:brightness-110"><i data-lucide="external-link" class="h-4 w-4"></i> Live project</a>
+            {% endif %}
+            {% if p.links.code and p.links.code != '#' %}
+            <a href="{{ p.links.code }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg border border-gold/35 px-4 py-2.5 text-sm font-bold text-gold transition hover:bg-gold/10"><i data-lucide="code-2" class="h-4 w-4"></i> Source code</a>
+            {% endif %}
+            {% if (not p.links.play or p.links.play == '#') and (not p.links.code or p.links.code == '#') %}
+            <span class="inline-flex items-center gap-2 rounded-lg border border-parchment/10 px-4 py-2.5 text-sm font-semibold text-parchment/45"><i data-lucide="clock-3" class="h-4 w-4"></i> Case study in progress</span>
+            {% endif %}
+          </div>
         </div>
       </div>
     </article>
