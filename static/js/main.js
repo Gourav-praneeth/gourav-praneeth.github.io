@@ -3,6 +3,65 @@ if (year) year.textContent = new Date().getFullYear();
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+/* The native cursor drives a quiet depth response in the existing hero background. */
+const pointerStage = document.querySelector(".split-stage");
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+if (pointerStage && finePointer.matches && !reduceMotion.matches) {
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let pointerFrame = 0;
+
+  const renderPointerDepth = () => {
+    currentX += (targetX - currentX) * 0.12;
+    currentY += (targetY - currentY) * 0.12;
+
+    pointerStage.style.setProperty("--wordmark-shift-x", `${currentX * 18}px`);
+    pointerStage.style.setProperty("--wordmark-shift-y", `${currentY * 12}px`);
+    pointerStage.style.setProperty("--portrait-shift-x", `${currentX * -6}px`);
+    pointerStage.style.setProperty("--portrait-shift-y", `${currentY * -4}px`);
+
+    if (Math.abs(targetX - currentX) > 0.002 || Math.abs(targetY - currentY) > 0.002) {
+      pointerFrame = requestAnimationFrame(renderPointerDepth);
+      return;
+    }
+
+    currentX = targetX;
+    currentY = targetY;
+    pointerFrame = 0;
+    if (targetX === 0 && targetY === 0) pointerStage.classList.remove("is-pointer-active");
+  };
+
+  const requestPointerFrame = () => {
+    if (!pointerFrame) pointerFrame = requestAnimationFrame(renderPointerDepth);
+  };
+
+  const resetPointerDepth = () => {
+    targetX = 0;
+    targetY = 0;
+    requestPointerFrame();
+  };
+
+  window.addEventListener("pointermove", (event) => {
+    if (window.scrollY > window.innerHeight) {
+      resetPointerDepth();
+    } else {
+      targetX = (event.clientX / window.innerWidth - 0.5) * 2;
+      targetY = (event.clientY / window.innerHeight - 0.5) * 2;
+      pointerStage.classList.add("is-pointer-active");
+      requestPointerFrame();
+    }
+  }, { passive: true });
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > window.innerHeight) resetPointerDepth();
+  }, { passive: true });
+
+  document.documentElement.addEventListener("mouseleave", resetPointerDepth);
+}
+
 /* The work index is the page's live thing: choose a problem and its evidence replaces in place. */
 const projectTabs = [...document.querySelectorAll("[data-project-tab]")];
 const projectPanels = [...document.querySelectorAll("[role='tabpanel']")];

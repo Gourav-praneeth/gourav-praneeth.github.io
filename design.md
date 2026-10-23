@@ -39,6 +39,14 @@ Orange is a signal, not a background decoration. Keep it concentrated on meaning
 - Object photography: `grayscale(1) sepia(0.16) contrast(1.08) brightness(0.78)`.
 - Do not replace, reposition, or resize imagery as part of this restyle.
 
+## Ambient Interaction
+
+- Keep the native system cursor; never replace it with a follower or custom pointer.
+- On fine-pointer devices, the hero's existing background wordmark follows the pointer by at most 18px horizontally and 12px vertically.
+- The portrait moves in the opposite direction by at most 6px and 4px, creating restrained depth without changing layout.
+- Motion eases through `requestAnimationFrame`, returns to rest when the pointer leaves, and stops outside the hero viewport.
+- Touch devices and `prefers-reduced-motion` receive the finished static composition.
+
 ## Accessibility and Validation
 
 All normal text must meet WCAG AA contrast. Focus remains a three-pixel accent outline. Reduced motion must expose all content without travel. Every release must pass the CSS build, frozen export, JavaScript and Python syntax checks, the design linter, and the 1440px, 768px, and 390px browser inspection with zero failures.

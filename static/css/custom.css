@@ -100,6 +100,10 @@ img {
 }
 
 .split-stage {
+  --wordmark-shift-x: 0px;
+  --wordmark-shift-y: 0px;
+  --portrait-shift-x: 0px;
+  --portrait-shift-y: 0px;
   display: grid;
   grid-template-columns: minmax(22rem, 38%) minmax(0, 62%);
   grid-template-rows: auto minmax(0, 1fr);
@@ -337,7 +341,7 @@ p {
   right: var(--margin);
   bottom: -0.18em;
   margin: 0;
-  color: var(--surface);
+  color: var(--field);
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
   font-size: clamp(5.5rem, 10vw, 11rem);
@@ -346,6 +350,21 @@ p {
   white-space: nowrap;
   transform-origin: bottom right;
   pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hero-wordmark {
+    translate: var(--wordmark-shift-x) var(--wordmark-shift-y);
+  }
+
+  .portrait-frame img {
+    translate: var(--portrait-shift-x) var(--portrait-shift-y);
+    transition: scale var(--t-ui) var(--ease-out);
+  }
+
+  .split-stage.is-pointer-active .portrait-frame img {
+    scale: 1.02;
+  }
 }
 
 .section-pad {
