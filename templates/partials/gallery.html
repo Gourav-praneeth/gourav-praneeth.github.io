@@ -12,7 +12,7 @@
       <div class="grid lg:grid-cols-[1.08fr_0.92fr] {% if loop.index is even %}lg:[&>*:first-child]:order-2{% endif %}">
         <div class="project-art project-art-{{ p.tone }} relative flex min-h-[280px] items-center justify-center overflow-hidden border-b border-gold/15 lg:min-h-[390px] lg:border-b-0 {% if loop.index is odd %}lg:border-r{% else %}lg:border-l{% endif %}" data-tilt data-tilt-strength="2.5">
           {% if p.image %}
-          <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} interface" loading="lazy" class="h-full w-full object-cover" />
+          <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} interface" loading="lazy" decoding="async" class="h-full w-full object-cover" />
           {% else %}
           <div class="project-placeholder" aria-hidden="true">
             <div class="project-window">
@@ -51,10 +51,10 @@
 
           <div class="mt-auto flex flex-wrap gap-3 pt-8">
             {% if p.links.play and p.links.play != '#' %}
-            <a href="{{ p.links.play }}" target="_blank" rel="noopener" class="cta-primary inline-flex items-center gap-2 rounded-lg bg-gold px-4 py-2.5 text-sm font-bold text-table transition hover:brightness-110"><i data-lucide="external-link" class="h-4 w-4"></i> Live project</a>
+            <a href="{{ p.links.play }}" target="_blank" rel="noopener noreferrer" class="cta-primary inline-flex min-h-11 items-center gap-2 rounded-lg bg-gold px-4 py-2.5 text-sm font-bold text-table transition hover:brightness-110"><i data-lucide="external-link" class="h-4 w-4"></i> Live project <span class="sr-only">(opens in a new tab)</span></a>
             {% endif %}
             {% if p.links.code and p.links.code != '#' %}
-            <a href="{{ p.links.code }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg border border-gold/35 px-4 py-2.5 text-sm font-bold text-gold transition hover:bg-gold/10"><i data-lucide="code-2" class="h-4 w-4"></i> Source code</a>
+            <a href="{{ p.links.code }}" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-lg border border-gold/35 px-4 py-2.5 text-sm font-bold text-gold transition hover:bg-gold/10"><i data-lucide="code-2" class="h-4 w-4"></i> Source code <span class="sr-only">(opens in a new tab)</span></a>
             {% endif %}
             {% if (not p.links.play or p.links.play == '#') and (not p.links.code or p.links.code == '#') %}
             <span class="inline-flex items-center gap-2 rounded-lg border border-parchment/10 px-4 py-2.5 text-sm font-semibold text-parchment/45"><i data-lucide="clock-3" class="h-4 w-4"></i> Case study in progress</span>

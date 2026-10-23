@@ -22,6 +22,8 @@ CONTENT = {
         "tagline": "AI · Software · Community",             # EDIT: small subtitle under logo
         "title": "Gourav Bhimavarapu · Portfolio",          # EDIT: browser tab title
         "description": "Gourav Bhimavarapu is a software and AI engineer building thoughtful, reliable products.",
+        "url": "https://gourav-praneeth.github.io",
+        "social_image": "img/profile.jpg",
         # EDIT: create a free form at https://formspree.io , paste your endpoint URL here.
         # Until you do, the form falls back to a friendly demo message.
         "formspree_endpoint": "https://formspree.io/f/mqpkkjpb",
@@ -33,6 +35,7 @@ CONTENT = {
     "profile": {
         "name": "Gourav Bhimavarapu",                       # EDIT
         "avatar": "img/profile.jpg",                        # file lives in static/img/
+        "avatar_modern": "img/profile.avif",
         "role": "Software Engineer · AI Builder",
         "headline": "I build thoughtful AI products that make complex systems feel simple.",
         "intro": (

@@ -32,9 +32,9 @@
         {{ cert.issuer }}{% if cert.date %} · {{ cert.date }}{% endif %}
       </p>
       {% if cert.url %}
-      <a href="{{ cert.url }}" target="_blank" rel="noopener"
-         class="mt-4 inline-flex items-center gap-2 self-start rounded-lg border border-gold/40 px-3 py-2 text-sm font-bold text-gold transition hover:bg-gold/10">
-        <i data-lucide="external-link" class="h-4 w-4"></i> View credential
+      <a href="{{ cert.url }}" target="_blank" rel="noopener noreferrer"
+         class="mt-4 inline-flex min-h-11 items-center gap-2 self-start rounded-lg border border-gold/40 px-3 py-2 text-sm font-bold text-gold transition hover:bg-gold/10">
+        <i data-lucide="external-link" class="h-4 w-4"></i> View credential <span class="sr-only">(opens in a new tab)</span>
       </a>
       {% endif %}
     </article>

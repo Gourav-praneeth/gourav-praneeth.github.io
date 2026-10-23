@@ -13,6 +13,8 @@ Personal_Portfolio/
 ├── app.py                  ← the Flask app (runs the site while you develop)
 ├── freeze.py               ← builds the static site into docs/ for hosting
 ├── requirements.txt        ← Python packages to install
+├── package.json            ← pinned Tailwind build dependency
+├── tailwind.config.js      ← palette, typography, and template scanning
 │
 ├── content/
 │   └── data.py             ← 👈 EDIT THIS: all your text, skills, projects, jobs
@@ -29,8 +31,10 @@ Personal_Portfolio/
 │
 ├── static/                 ← things served as-is
 │   ├── css/custom.css      ← custom styles, textures, components, and motion
+│   ├── css/tailwind.css    ← generated, minified utility stylesheet
 │   ├── js/main.js          ← navigation, reveals, and form enhancement
 │   ├── files/              ← downloadable résumé and other documents
+│   ├── fonts/              ← self-hosted WOFF2 fonts and licenses
 │   └── img/
 │       ├── profile.jpg     ← your photo
 │       └── projects/       ← project screenshots (see its README)
@@ -46,7 +50,7 @@ Personal_Portfolio/
 
 ## 🚀 Run it locally
 
-You need **Python 3.10+** installed. From this folder:
+You need **Python 3.10+** and **Node.js 20+** installed. From this folder:
 
 ```bash
 # 1. Create and activate a virtual environment (keeps packages tidy)
@@ -56,7 +60,11 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 # 2. Install the dependencies
 pip install -r requirements.txt
 
-# 3. Start the dev server
+# 3. Install the CSS build dependency and generate the production stylesheet
+npm ci
+npm run build:css
+
+# 4. Start the dev server
 python app.py
 ```
 
@@ -66,9 +74,10 @@ Open **http://127.0.0.1:5000** in your browser. Edit `content/data.py`, save, an
 
 ## 🏗️ Build the static site
 
-When you're happy with it, generate the static version:
+When you're happy with it, rebuild the stylesheet and generate the static version:
 
 ```bash
+npm run build:css
 python freeze.py
 ```
 
@@ -129,7 +138,7 @@ The form works without any backend using [Formspree](https://formspree.io) (free
 | Want to change... | Edit... |
 |---|---|
 | Name, bio, skills, projects, jobs, socials | `content/data.py` |
-| Theme colors (paper/lavender/coral/green) | the `colors` block in `templates/base.html` |
+| Theme colors (paper/lavender/coral/green) | `tailwind.config.js` |
 | Your photo | replace `static/img/profile.jpg` (keep the name, or update `avatar` in `data.py`) |
 | Résumé | replace `static/files/Gourav_Bhimavarapu_Resume.pdf` |
 | Project screenshots | drop images in `static/img/projects/`, then set the project's `image` path in `data.py` |
@@ -145,5 +154,6 @@ Skill icons and colors are documented inline in `content/data.py`.
 
 ## 📝 Notes
 
-- **Tailwind** is loaded via CDN, so there's **no Node/npm build step** — pure Python workflow. You may see a console note that the CDN isn't for production; it's fine for a portfolio. To remove it later, compile Tailwind with the CLI (see the Tailwind docs).
+- **Tailwind** is compiled into `static/css/tailwind.css`; browsers never run the development CDN compiler. After changing template classes or `tailwind.config.js`, run `npm run build:css`.
+- Search metadata, `robots.txt`, `sitemap.xml`, reduced-motion behavior, self-hosted fonts, and responsive AVIF portrait sources are included in the production build.
 - Everything is dependency-light and commented so you can grow it as you learn.

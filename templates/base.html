@@ -11,52 +11,45 @@
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
   <meta name="theme-color" content="#f8f2e8" />
+  <meta name="color-scheme" content="light" />
+  <link rel="canonical" href="{{ site.url }}/" />
   <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml" />
 
-  <!-- Tailwind CSS (CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Social previews and search metadata -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="{{ site.brand }}" />
+  <meta property="og:title" content="{{ site.title }}" />
+  <meta property="og:description" content="{{ site.description }}" />
+  <meta property="og:url" content="{{ site.url }}/" />
+  <meta property="og:image" content="{{ site.url }}/static/{{ site.social_image }}" />
+  <meta property="og:image:alt" content="Portrait of {{ profile.name }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ site.title }}" />
+  <meta name="twitter:description" content="{{ site.description }}" />
+  <meta name="twitter:image" content="{{ site.url }}/static/{{ site.social_image }}" />
+
+  <!-- Minified Tailwind build generated locally; no runtime CSS generation. -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}" />
 
   <!-- Lucide Icons (CDN) -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Fonts: editorial display + highly readable UI + technical labels -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind theme config: change the palette here to re-skin the whole site -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            title: ['Instrument Serif', 'Georgia', 'serif'],
-            body: ['Manrope', 'sans-serif'],
-            mono: ['IBM Plex Mono', 'monospace'],
-          },
-          colors: {
-            table: '#f8f2e8',       // warm paper backdrop
-            slate: '#eee8f7',       // lavender-tinted section surface
-            felt: '#fffdf9',        // elevated card surface
-            parchment: '#252126',   // primary ink
-            'parchment-dk': '#ece2d6',
-            ink: '#252126',
-            gold: '#6f50d9',        // lavender primary accent
-            bronze: '#b54836',      // warm coral accent (AA contrast on paper)
-            ember: '#2f7d63',       // pistachio/green accent
-          },
-          boxShadow: {
-            card: '0 18px 50px -24px rgba(70,55,83,0.32)',
-            glow: '0 0 0 1px rgba(111,80,217,0.2), 0 14px 34px -16px rgba(111,80,217,0.45)',
-          },
-        },
-      },
-    };
-  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 
   <!-- Our own custom styles (texture, components, and motion) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
   <script>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": {{ profile.name|tojson }},
+      "url": {{ (site.url ~ '/')|tojson }},
+      "image": {{ (site.url ~ '/static/' ~ site.social_image)|tojson }},
+      "jobTitle": {{ profile.role|tojson }},
+      "email": {{ ('mailto:' ~ profile.email)|tojson }},
+      "sameAs": [{% for s in socials if s.url.startswith('http') %}{{ s.url|tojson }}{% if not loop.last %}, {% endif %}{% endfor %}]
+    }
+  </script>
 </head>
 
 <body class="font-body text-parchment antialiased">
@@ -73,7 +66,7 @@
         </span>
         <span class="leading-tight">
           <span class="block font-body text-lg font-extrabold tracking-wide text-gold">{{ site.brand }}</span>
-          <span class="block text-[11px] uppercase tracking-[0.25em] text-parchment/60">{{ site.tagline }}</span>
+          <span class="hidden text-[11px] uppercase tracking-[0.25em] text-parchment/60 sm:block">{{ site.tagline }}</span>
         </span>
       </a>
 
@@ -106,7 +99,7 @@
   </header>
 
   {# --------------------------- PAGE CONTENT --------------------------- #}
-  <main id="main-content" class="mx-auto max-w-6xl px-4">
+  <main id="main-content" tabindex="-1" class="mx-auto max-w-6xl px-4">
     {% block content %}{% endblock %}
   </main>
 
@@ -130,6 +123,6 @@
   </footer>
 
   <!-- Our JavaScript (navigation, reveals, and form enhancement) -->
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
