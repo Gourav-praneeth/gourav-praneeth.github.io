@@ -50,3 +50,5 @@ Follow the existing imperative, outcome-focused commit style: `Add polished port
 ## Agent-Specific Instructions
 
 For portfolio design, redesign, or visual review work, use the installed `design-taste-frontend` skill and complete its browser inspection and screenshot critique loop. Do not use the Sites skill or Sites connector to design or implement this repository.
+
+Use Phosphor Icons for interface icons added to the portfolio. Prefer one consistent weight, use the official Phosphor package or SVG source, and do not mix in another icon library. Icons that are purely decorative must be hidden from assistive technology; meaningful icon-only controls require an accessible label. Keep familiar text labels when an icon alone would be ambiguous.
