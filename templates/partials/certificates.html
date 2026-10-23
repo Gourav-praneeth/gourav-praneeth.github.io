@@ -11,7 +11,7 @@
 
     {% if cert.locked %}
     {# "Coming soon" teaser card — dashed border, dimmed #}
-    <div class="reveal flex flex-col items-center justify-center rounded-2xl border border-dashed border-gold/25 bg-felt/40 p-8 text-center">
+    <div class="reveal flex flex-col items-center justify-center rounded-2xl border border-dashed border-gold/25 bg-felt/40 p-8 text-center" style="--reveal-delay: {{ (loop.index0 % 3) * 80 }}ms">
       <span class="grid h-14 w-14 place-items-center rounded-full border border-gold/25 bg-table text-parchment/40">
         <i data-lucide="{{ cert.icon }}" class="h-6 w-6"></i>
       </span>
@@ -20,7 +20,7 @@
 
     {% else %}
     {# Earned achievement — gilded trophy card #}
-    <article class="reveal flex flex-col rounded-2xl gilded bg-felt p-6 shadow-card lift">
+    <article class="reveal flex flex-col rounded-2xl gilded bg-felt p-6 shadow-card lift" style="--reveal-delay: {{ (loop.index0 % 3) * 80 }}ms">
       <div class="mb-4 flex items-center justify-between">
         <span class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-gradient-to-br from-gold to-bronze text-table">
           <i data-lucide="{{ cert.icon }}" class="h-7 w-7"></i>

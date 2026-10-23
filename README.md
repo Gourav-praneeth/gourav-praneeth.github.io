@@ -136,6 +136,9 @@ The form works without any backend using [Formspree](https://formspree.io) (free
 | Icons | any name from [lucide.dev/icons](https://lucide.dev/icons) |
 | Animations / interactions | `static/css/custom.css` and `static/js/main.js` |
 
+The motion system is intentionally dependency-free. It includes section-aware navigation,
+a reading-progress bar, staggered reveals, subtle pointer depth, and reduced-motion fallbacks.
+
 Skill icons and colors are documented inline in `content/data.py`.
 
 ---

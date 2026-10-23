@@ -11,6 +11,7 @@
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
   <meta name="theme-color" content="#f8f2e8" />
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml" />
 
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -62,7 +63,7 @@
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   {# --------------------------- HEADER --------------------------- #}
-  <header class="sticky top-0 z-50 border-b border-gold/20 bg-table/85 backdrop-blur-md">
+  <header id="siteHeader" class="site-header sticky top-0 z-50 border-b border-gold/20 bg-table/85 backdrop-blur-md">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
 
       <!-- Logo / title piece -->
@@ -77,12 +78,12 @@
       </a>
 
       <!-- Desktop nav: concise, recruiter-friendly labels -->
-      <nav class="hidden items-center gap-1 md:flex">
-        <a href="#work" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Work</a>
-        <a href="#capabilities" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Capabilities</a>
-        <a href="#quests" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Experience</a>
-        <a href="#hobbies" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">About</a>
-        <a href="#contact" class="token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Contact</a>
+      <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+        <a href="#work" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Work</a>
+        <a href="#capabilities" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Capabilities</a>
+        <a href="#quests" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Experience</a>
+        <a href="#hobbies" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">About</a>
+        <a href="#contact" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Contact</a>
       </nav>
 
       <!-- Mobile menu button -->
@@ -93,14 +94,15 @@
 
     <!-- Mobile nav drawer -->
     <div id="mobileNav" class="hidden border-t border-gold/15 bg-slate md:hidden">
-      <nav class="mx-auto flex max-w-6xl flex-col px-4 py-2">
-        <a href="#work" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Work</a>
-        <a href="#capabilities" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Capabilities</a>
-        <a href="#quests" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Experience</a>
-        <a href="#hobbies" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">About</a>
-        <a href="#contact" class="rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Contact</a>
+      <nav class="mx-auto flex max-w-6xl flex-col px-4 py-2" aria-label="Mobile navigation">
+        <a href="#work" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Work</a>
+        <a href="#capabilities" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Capabilities</a>
+        <a href="#quests" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Experience</a>
+        <a href="#hobbies" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">About</a>
+        <a href="#contact" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Contact</a>
       </nav>
     </div>
+    <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
   </header>
 
   {# --------------------------- PAGE CONTENT --------------------------- #}

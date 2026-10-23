@@ -8,7 +8,7 @@
 
   <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
     {% for h in hobbies %}
-    <div class="reveal flex flex-col items-center gap-3 rounded-2xl border border-gold/15 bg-felt p-6 text-center lift">
+    <div class="reveal flex flex-col items-center gap-3 rounded-2xl border border-gold/15 bg-felt p-6 text-center lift" style="--reveal-delay: {{ loop.index0 * 70 }}ms">
       <span class="grid h-16 w-16 place-items-center rounded-full bg-table text-gold ring-1 ring-gold/30">
         <i data-lucide="{{ h.icon }}" class="h-8 w-8"></i>
       </span>

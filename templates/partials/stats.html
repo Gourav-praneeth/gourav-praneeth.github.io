@@ -8,7 +8,7 @@
 
   <div class="grid gap-5 md:grid-cols-2">
     {% for capability in capabilities %}
-    <article class="reveal rounded-2xl border border-gold/15 bg-felt p-6 lift md:p-7">
+    <article class="reveal rounded-2xl border border-gold/15 bg-felt p-6 lift md:p-7" style="--reveal-delay: {{ (loop.index0 % 2) * 90 }}ms">
       <div class="flex items-center gap-4">
         <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gold/10 text-gold ring-1 ring-gold/25">
           <i data-lucide="{{ capability.icon }}" class="h-6 w-6"></i>

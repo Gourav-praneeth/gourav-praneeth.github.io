@@ -17,6 +17,30 @@ section[id] {
   scroll-margin-top: 5.5rem;
 }
 
+/* The header becomes slightly more defined once content moves beneath it. */
+.site-header {
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+.site-header.is-scrolled {
+  background-color: rgba(248, 242, 232, 0.94);
+  box-shadow: 0 12px 30px -24px rgba(37, 33, 38, 0.65);
+}
+.scroll-progress {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 2px;
+  overflow: hidden;
+}
+.scroll-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #6f50d9, #b54836, #2f7d63);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
 /* Keep keyboard navigation fast and visible. */
 .skip-link {
   position: fixed;
@@ -61,6 +85,30 @@ section[id] {
   min-height: calc(100vh - 68px);
   display: grid;
   align-items: center;
+}
+
+.hero-card,
+[data-tilt] {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.18s ease-out;
+  will-change: transform;
+}
+.hero-card img {
+  transform: scale(1.015);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-card:hover img {
+  transform: scale(1.04);
+}
+
+.metric-card {
+  transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+.metric-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(111, 80, 217, 0.35);
+  background-color: rgba(255, 253, 249, 0.95);
 }
 
 /* Project artwork fallbacks are intentionally polished until screenshots arrive. */
@@ -113,6 +161,27 @@ section[id] {
 .project-feature:hover .project-placeholder {
   transform: rotate(0deg) translateY(-4px);
 }
+.project-feature {
+  position: relative;
+  isolation: isolate;
+}
+.project-feature::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    rgba(111, 80, 217, 0.09),
+    transparent 66%
+  );
+  transition: opacity 0.25s ease;
+}
+.project-feature:hover::after {
+  opacity: 1;
+}
 .project-window {
   display: flex;
   min-height: 14rem;
@@ -160,6 +229,33 @@ section[id] {
     0 18px 45px -16px rgba(70, 55, 83, 0.28);
 }
 
+/* A restrained light sweep gives primary actions a satisfying response. */
+.cta-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.cta-primary::after {
+  content: "";
+  position: absolute;
+  inset: -80% auto -80% -45%;
+  width: 35%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  transform: rotate(18deg) translateX(-180%);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cta-primary:hover::after {
+  transform: rotate(18deg) translateX(520%);
+}
+.cta-primary:active {
+  transform: translateY(1px) scale(0.985);
+}
+.cta-primary:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 /* ---- Nav "token" underline sweep ---- */
 .token::after {
   content: "";
@@ -176,16 +272,44 @@ section[id] {
 .token:hover::after {
   transform: scaleX(1);
 }
+.token.is-active {
+  color: #6f50d9;
+}
+.token.is-active::after {
+  transform: scaleX(1);
+}
+.nav-link[aria-current="location"] {
+  color: #6f50d9;
+}
+#mobileNav .nav-link[aria-current="location"] {
+  background: rgba(111, 80, 217, 0.09);
+}
 
 /* ---- Reveal-on-scroll: only hide content after JavaScript is confirmed ---- */
 .js .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
 }
 .js .reveal.in {
   opacity: 1;
   transform: none;
+}
+
+/* Hero proof points settle in one-by-one after the main composition appears. */
+.js .reveal:not(.in) .metric-card {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.js .reveal.in .metric-card {
+  animation: metric-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc(180ms + var(--metric-delay, 0ms));
+}
+@keyframes metric-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ---- Parchment paper texture (card artwork area) ---- */
@@ -204,13 +328,33 @@ section[id] {
 
 /* ---- Respect users who prefer less motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .reveal,
-  .lift {
-    transition: none;
+  html {
+    scroll-behavior: auto !important;
   }
+  .reveal,
+  .lift,
+  .hero-card,
+  [data-tilt],
+  .metric-card,
+  .cta-primary::after {
+    transition: none;
+    animation: none !important;
+  }
+  .js .reveal,
   .reveal {
     opacity: 1;
     transform: none;
+  }
+  .js .reveal:not(.in) .metric-card {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-card,
+  [data-tilt] {
+    transform: none !important;
+  }
+  .project-feature::after {
+    display: none;
   }
 }
 
