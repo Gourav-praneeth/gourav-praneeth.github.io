@@ -169,7 +169,7 @@
         <div class="footer-links">{% for social in socials %}<a href="{{ social.url }}"{% if social.url.startswith('http') %} target="_blank" rel="noopener"{% endif %}>{{ social.label }}</a>{% endfor %}<a href="{{ url_for('static', filename=profile.resume_url) }}">Résumé</a></div>
         <p class="footer-wordmark">gourav</p>
         <p>© <span id="year"></span> {{ profile.name }}. Designed and built with care.</p>
-        <p class="photo-credit">Temporary atmosphere: Sonja Langford, Alejandro Escamilla, Florian Klauer, and Zugr via Unsplash / Lorem Picsum.</p>
+        <p class="photo-credit">Temporary atmosphere: <a href="https://unsplash.com/photos/Y2PYfopoz-k">Sonja Langford</a>, <a href="https://unsplash.com/photos/cZhUxIQjILg">Alejandro Escamilla</a>, <a href="https://unsplash.com/photos/mk7D-4UCfmg">Florian Klauer</a>, and <a href="https://unsplash.com/photos/yZf1quatKCA">Zugr</a> via Unsplash / Lorem Picsum.</p>
       </footer>
     </div>
   </div>
