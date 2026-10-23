@@ -253,6 +253,14 @@
   });
   visibilityObserver.observe(root);
 
+  const hero = document.getElementById("hero");
+  if (hero) {
+    const heroObserver = new IntersectionObserver(([entry]) => {
+      root.classList.toggle("is-over-dark", entry.isIntersecting && entry.intersectionRatio > 0.08);
+    }, { threshold: [0, 0.08, 0.5] });
+    heroObserver.observe(hero);
+  }
+
   window.addEventListener("pointermove", updatePointer, { passive: true });
   window.addEventListener("blur", () => { pointerActive = false; });
   document.addEventListener("visibilitychange", () => {

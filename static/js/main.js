@@ -10,18 +10,91 @@ if (year) year.textContent = new Date().getFullYear();
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
-/* Mobile navigation: synchronize visibility, focus, and accessibility state. */
+/* Roll the hero name once while keeping the original text as the no-JS fallback. */
+function initializeTextRoll() {
+  if (reduceMotionQuery.matches) return;
+
+  document.querySelectorAll("[data-text-roll]").forEach((element) => {
+    const label = element.textContent.trim();
+    if (!label) return;
+    element.textContent = "";
+    const accessibleLabel = document.createElement("span");
+    accessibleLabel.className = "sr-only";
+    accessibleLabel.textContent = label;
+    element.append(accessibleLabel);
+    let characterIndex = 0;
+
+    label.split(/\s+/).forEach((word) => {
+      const wordElement = document.createElement("span");
+      wordElement.className = "text-roll-word";
+      wordElement.setAttribute("aria-hidden", "true");
+
+      [...word].forEach((character) => {
+        const letter = document.createElement("span");
+        letter.className = "text-roll-letter";
+        letter.style.setProperty("--roll-delay", `${characterIndex * 32}ms`);
+        letter.innerHTML = `<span class="text-roll-reserve" data-character="${character}"></span><span class="text-roll-face text-roll-outgoing" data-character="${character}"></span><span class="text-roll-face text-roll-incoming" data-character="${character}"></span>`;
+        wordElement.append(letter);
+        characterIndex += 1;
+      });
+
+      element.append(wordElement);
+    });
+  });
+}
+
+/* Split menu labels into two faces so hover travels through each word like a ripple. */
+function initializeKineticNavLabels() {
+  if (reduceMotionQuery.matches) return;
+
+  document.querySelectorAll("[data-kinetic-label]").forEach((element) => {
+    const label = element.textContent.trim();
+    element.setAttribute("aria-label", label);
+    element.textContent = "";
+
+    [...label].forEach((character, index) => {
+      const letter = document.createElement("span");
+      letter.className = "kinetic-char";
+      letter.style.setProperty("--kinetic-index", index);
+      letter.setAttribute("aria-hidden", "true");
+      letter.innerHTML = `<span class="kinetic-char-reserve">${character}</span><span class="kinetic-char-face kinetic-char-current">${character}</span><span class="kinetic-char-face kinetic-char-next">${character}</span>`;
+      element.append(letter);
+    });
+  });
+}
+
+initializeTextRoll();
+initializeKineticNavLabels();
+
+/* Full-screen navigation: synchronize reveal, focus, and page inertness. */
 const menuBtn = document.getElementById("menuBtn");
 const mobileNav = document.getElementById("mobileNav");
+const mainContent = document.getElementById("main-content");
+const siteFooter = document.querySelector("footer");
+let menuCloseTimer = null;
 
 function setMenuOpen(open, { moveFocus = false } = {}) {
   if (!menuBtn || !mobileNav) return;
-  mobileNav.classList.toggle("hidden", !open);
+  window.clearTimeout(menuCloseTimer);
   menuBtn.setAttribute("aria-expanded", String(open));
   menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  menuBtn.querySelector(".kinetic-menu-word").textContent = open ? "Close" : "Menu";
+  mobileNav.setAttribute("aria-hidden", String(!open));
+  document.body.classList.toggle("nav-open", open);
+  if (mainContent) mainContent.inert = open;
+  if (siteFooter) siteFooter.inert = open;
 
-  if (open && moveFocus) {
-    mobileNav.querySelector("a")?.focus();
+  if (open) {
+    mobileNav.hidden = false;
+    window.requestAnimationFrame(() => {
+      mobileNav.classList.add("is-open");
+      if (moveFocus) mobileNav.querySelector("a")?.focus();
+    });
+  } else {
+    mobileNav.classList.remove("is-open");
+    menuCloseTimer = window.setTimeout(() => {
+      mobileNav.hidden = true;
+    }, reduceMotionQuery.matches ? 0 : 720);
   }
 }
 
@@ -35,19 +108,25 @@ if (menuBtn && mobileNav) {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || menuBtn.getAttribute("aria-expanded") !== "true") return;
-    setMenuOpen(false);
-    menuBtn.focus();
-  });
-
-  document.addEventListener("click", (event) => {
     if (menuBtn.getAttribute("aria-expanded") !== "true") return;
-    if (mobileNav.contains(event.target) || menuBtn.contains(event.target)) return;
-    setMenuOpen(false);
-  });
+    if (event.key === "Escape") {
+      setMenuOpen(false);
+      menuBtn.focus();
+      return;
+    }
+    if (event.key !== "Tab") return;
 
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) setMenuOpen(false);
+    const focusable = [...mobileNav.querySelectorAll("a[href]")];
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   });
 }
 

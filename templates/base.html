@@ -54,49 +54,57 @@
 
 <body class="font-body text-parchment antialiased">
   <a href="#main-content" class="skip-link">Skip to content</a>
+  <div class="site-data-rain" aria-hidden="true" data-data-rain>
+    <canvas class="data-rain-bloom"></canvas>
+    <canvas class="data-rain-main"></canvas>
+    <div class="data-rain-vignette"></div>
+    <div class="data-rain-grain"></div>
+  </div>
 
   {# --------------------------- HEADER --------------------------- #}
   <header id="siteHeader" class="site-header sticky top-0 z-50 bg-table">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
 
       <!-- Logo / title piece -->
-      <a href="#hero" class="group flex items-center gap-3">
+      <a href="#hero" class="site-brand group flex items-center gap-3">
         <span class="grid h-11 w-11 place-items-center rounded-lg gilded bg-felt text-gold">
           <i data-lucide="dices" class="h-6 w-6"></i>
         </span>
         <span class="leading-tight">
-          <span class="block font-body text-lg font-extrabold tracking-wide text-gold">{{ site.brand }}</span>
-          <span class="hidden text-sm text-parchment/60 sm:block">{{ site.tagline }}</span>
+          <span class="site-brand-name block font-body text-lg font-extrabold tracking-wide text-gold">{{ site.brand }}</span>
+          <span class="site-brand-tagline hidden text-sm text-parchment/60 sm:block">{{ site.tagline }}</span>
         </span>
       </a>
 
-      <!-- Desktop nav: concise, recruiter-friendly labels -->
-      <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
-        <a href="#work" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Work</a>
-        <a href="#capabilities" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Capabilities</a>
-        <a href="#quests" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Experience</a>
-        <a href="#hobbies" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">About</a>
-        <a href="#contact" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Contact</a>
-      </nav>
-
-      <!-- Mobile menu button -->
-      <button id="menuBtn" class="grid h-11 w-11 place-items-center rounded-md bg-slate text-gold md:hidden" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
-        <i data-lucide="menu" class="h-5 w-5"></i>
+      <button id="menuBtn" class="kinetic-menu-trigger" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
+        <span class="kinetic-menu-word">Menu</span>
+        <span class="kinetic-menu-mark" aria-hidden="true"><span></span><span></span></span>
       </button>
-    </div>
-
-    <!-- Mobile nav drawer -->
-    <div id="mobileNav" class="hidden bg-slate md:hidden">
-      <nav class="mx-auto flex max-w-6xl flex-col px-4 py-2" aria-label="Mobile navigation">
-        <a href="#work" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Work</a>
-        <a href="#capabilities" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Capabilities</a>
-        <a href="#quests" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Experience</a>
-        <a href="#hobbies" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">About</a>
-        <a href="#contact" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Contact</a>
-      </nav>
     </div>
     <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
   </header>
+
+  <div id="mobileNav" class="kinetic-nav" role="dialog" aria-modal="true" aria-label="Site navigation" aria-hidden="true" hidden>
+    <div class="kinetic-nav-inner">
+      <div class="kinetic-nav-context">
+        <p>{{ profile.name }}</p>
+        <p>{{ profile.role }}</p>
+        <p class="kinetic-nav-status"><span class="status-dot" aria-hidden="true"></span>{{ profile.availability }}</p>
+      </div>
+      <nav class="kinetic-nav-links" aria-label="Primary navigation">
+        <a href="#work" class="nav-link kinetic-nav-link"><span data-kinetic-label>Work</span><small>Selected projects</small></a>
+        <a href="#capabilities" class="nav-link kinetic-nav-link"><span data-kinetic-label>Capabilities</span><small>How I build</small></a>
+        <a href="#quests" class="nav-link kinetic-nav-link"><span data-kinetic-label>Experience</span><small>Roles &amp; education</small></a>
+        <a href="#hobbies" class="nav-link kinetic-nav-link"><span data-kinetic-label>About</span><small>Beyond the work</small></a>
+        <a href="#contact" class="nav-link kinetic-nav-link"><span data-kinetic-label>Contact</span><small>Start a conversation</small></a>
+      </nav>
+      <div class="kinetic-nav-footer">
+        {% for s in socials %}
+        <a href="{{ s.url }}">{{ s.label }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 
   {# --------------------------- PAGE CONTENT --------------------------- #}
   <main id="main-content" tabindex="-1" class="mx-auto max-w-6xl px-4">

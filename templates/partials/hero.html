@@ -1,16 +1,10 @@
 {# ---- HERO: one clear promise, one portrait, and proof without card clutter. ---- #}
 <section id="hero" class="hero-section">
-  <div class="hero-data-rain" aria-hidden="true" data-data-rain>
-    <canvas class="data-rain-bloom"></canvas>
-    <canvas class="data-rain-main"></canvas>
-    <div class="data-rain-vignette"></div>
-    <div class="data-rain-grain"></div>
-  </div>
   <div class="hero-shell">
     <div class="hero-copy">
-      <h1>{{ profile.headline }}</h1>
+      <h1 data-text-roll>{{ profile.name }}</h1>
       <p class="hero-lead">{{ profile.intro }}</p>
-      <p class="hero-identity-line">{{ profile.name }} · {{ profile.role }}</p>
+      <p class="hero-identity-line">{{ profile.role }}</p>
 
       <div class="hero-actions">
         <a href="#work" class="cta-primary hero-primary-action">
