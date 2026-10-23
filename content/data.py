@@ -37,11 +37,10 @@ CONTENT = {
         "avatar": "img/profile.jpg",                        # file lives in static/img/
         "avatar_modern": "img/profile.avif",
         "role": "Software Engineer · AI Builder",
-        "headline": "I build thoughtful AI products that make complex systems feel simple.",
+        "headline": "Useful AI, built with care.",
         "intro": (
-            "I'm Gourav, a software engineer and ASU computer science graduate working at "
-            "the intersection of AI, product engineering, and education. I care about "
-            "reliable systems, clear interfaces, and technology that genuinely helps people."
+            "I turn agentic AI, product thinking, and rigorous evaluation into reliable "
+            "tools that people can understand and trust."
         ),
         "availability": "Open to software engineering and AI roles",
         "location": "Tempe, Arizona",

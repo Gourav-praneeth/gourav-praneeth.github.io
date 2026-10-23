@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <meta name="theme-color" content="#f8f2e8" />
+  <meta name="theme-color" content="#e7ece9" />
   <meta name="color-scheme" content="light" />
   <link rel="canonical" href="{{ site.url }}/" />
   <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml" />
@@ -56,7 +56,7 @@
   <a href="#main-content" class="skip-link">Skip to content</a>
 
   {# --------------------------- HEADER --------------------------- #}
-  <header id="siteHeader" class="site-header sticky top-0 z-50 border-b border-gold/20 bg-table/85 backdrop-blur-md">
+  <header id="siteHeader" class="site-header sticky top-0 z-50 bg-table">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
 
       <!-- Logo / title piece -->
@@ -66,7 +66,7 @@
         </span>
         <span class="leading-tight">
           <span class="block font-body text-lg font-extrabold tracking-wide text-gold">{{ site.brand }}</span>
-          <span class="hidden text-[11px] uppercase tracking-[0.25em] text-parchment/60 sm:block">{{ site.tagline }}</span>
+          <span class="hidden text-sm text-parchment/60 sm:block">{{ site.tagline }}</span>
         </span>
       </a>
 
@@ -80,13 +80,13 @@
       </nav>
 
       <!-- Mobile menu button -->
-      <button id="menuBtn" class="grid h-10 w-10 place-items-center rounded-md border border-gold/30 text-gold md:hidden" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
+      <button id="menuBtn" class="grid h-11 w-11 place-items-center rounded-md bg-slate text-gold md:hidden" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
         <i data-lucide="menu" class="h-5 w-5"></i>
       </button>
     </div>
 
     <!-- Mobile nav drawer -->
-    <div id="mobileNav" class="hidden border-t border-gold/15 bg-slate md:hidden">
+    <div id="mobileNav" class="hidden bg-slate md:hidden">
       <nav class="mx-auto flex max-w-6xl flex-col px-4 py-2" aria-label="Mobile navigation">
         <a href="#work" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Work</a>
         <a href="#capabilities" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Capabilities</a>
@@ -104,13 +104,13 @@
   </main>
 
   {# --------------------------- FOOTER --------------------------- #}
-  <footer class="border-t border-gold/20 bg-slate/70">
+  <footer class="bg-slate/70">
     <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
       <p class="text-sm text-parchment/50">© <span id="year"></span> {{ profile.name }} · Built with dice &amp; determination.</p>
       <div class="flex items-center gap-3">
         {% for s in socials %}
         <a href="{{ s.url }}" aria-label="{{ s.label }}"
-           class="grid h-11 w-11 place-items-center rounded-lg border border-gold/25 bg-felt text-parchment/80 transition hover:-translate-y-1 hover:border-gold hover:text-gold">
+           class="grid h-11 w-11 place-items-center rounded-lg bg-felt text-parchment/80 transition hover:-translate-y-1 hover:text-gold">
           {% if s.svg_path %}
           <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="{{ s.svg_path }}"></path></svg>
           {% else %}

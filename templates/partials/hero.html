@@ -1,64 +1,44 @@
-{# ---- HERO: clear positioning first, board-game personality second ---- #}
-<section id="hero" class="hero-section py-14 md:py-24">
-  <div class="grid min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
-    <div>
-      <div class="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-gold sm:text-xs sm:tracking-[0.14em]">
-        <span class="status-dot" aria-hidden="true"></span>
-        {{ profile.availability }}
-      </div>
+{# ---- HERO: one clear promise, one portrait, and proof without card clutter. ---- #}
+<section id="hero" class="hero-section">
+  <div class="hero-shell">
+    <div class="hero-copy">
+      <h1>{{ profile.headline }}</h1>
+      <p class="hero-lead">{{ profile.intro }}</p>
+      <p class="hero-identity-line">{{ profile.name }} · {{ profile.role }}</p>
 
-      <p class="mb-3 font-mono text-sm font-semibold uppercase tracking-[0.16em] text-bronze">
-        {{ profile.role }}
-      </p>
-      <h1 class="max-w-4xl font-title text-5xl leading-[0.98] text-parchment sm:text-6xl lg:text-7xl">
-        {{ profile.headline }}
-      </h1>
-      <p class="mt-6 max-w-2xl text-base leading-relaxed text-parchment/70 md:text-lg">
-        {{ profile.intro }}
-      </p>
-
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#work" class="cta-primary inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-3 font-bold text-table shadow-glow transition hover:-translate-y-0.5 hover:brightness-110">
-          <i data-lucide="arrow-down-right" class="h-4 w-4"></i> Explore selected work
+      <div class="hero-actions">
+        <a href="#work" class="cta-primary hero-primary-action">
+          Explore selected work <i data-lucide="arrow-down-right" aria-hidden="true"></i>
         </a>
         {% if profile.resume_url %}
-        <a href="{{ url_for('static', filename=profile.resume_url) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-gold/40 px-5 py-3 font-bold text-gold transition hover:bg-gold/10">
-          <i data-lucide="file-down" class="h-4 w-4"></i> Download résumé <span class="sr-only">(opens in a new tab)</span>
+        <a href="{{ url_for('static', filename=profile.resume_url) }}" target="_blank" rel="noopener noreferrer" class="hero-secondary-action">
+          Download résumé <i data-lucide="arrow-up-right" aria-hidden="true"></i><span class="sr-only">(opens in a new tab)</span>
         </a>
         {% else %}
-        <a href="mailto:{{ profile.email }}?subject=Résumé request" class="inline-flex items-center gap-2 rounded-lg border border-gold/40 px-5 py-3 font-bold text-gold transition hover:bg-gold/10">
-          <i data-lucide="mail" class="h-4 w-4"></i> Request résumé
+        <a href="mailto:{{ profile.email }}?subject=Résumé request" class="hero-secondary-action">
+          Request résumé <i data-lucide="mail" aria-hidden="true"></i>
         </a>
         {% endif %}
       </div>
+    </div>
 
-      <dl class="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
+    <aside class="hero-portrait" aria-label="Portrait of {{ profile.name }}" data-tilt data-tilt-strength="2.5">
+      <picture>
+        {% if profile.avatar_modern %}<source srcset="{{ url_for('static', filename='img/profile-420.avif') }} 420w, {{ url_for('static', filename=profile.avatar_modern) }} 760w" sizes="(min-width: 1024px) 480px, calc(100vw - 32px)" type="image/avif" />{% endif %}
+        <img src="{{ url_for('static', filename=profile.avatar) }}" alt="Portrait of {{ profile.name }}" width="951" height="1426" fetchpriority="high" decoding="async" />
+      </picture>
+    </aside>
+
+    <div class="hero-proof">
+      <p class="hero-availability"><span class="status-dot" aria-hidden="true"></span>{{ profile.availability }}</p>
+      <dl>
         {% for metric in profile.metrics %}
-        <div class="metric-card rounded-xl border border-gold/15 bg-felt/70 p-4" style="--metric-delay: {{ loop.index0 * 90 }}ms">
-          <dt class="font-mono text-[11px] uppercase tracking-wider text-parchment/50">{{ metric.label }}</dt>
-          <dd class="mt-1 font-title text-3xl text-parchment">{{ metric.value }}</dd>
+        <div class="metric-card" style="--metric-delay: {{ loop.index0 * 90 }}ms">
+          <dd>{{ metric.value }}</dd>
+          <dt>{{ metric.label }}</dt>
         </div>
         {% endfor %}
       </dl>
     </div>
-
-    <aside class="hero-identity relative mx-auto w-full max-w-sm" aria-label="About Gourav">
-      <div class="absolute -right-3 -top-4 h-full w-full rotate-3 rounded-[2rem] border border-bronze/30 bg-bronze/5" aria-hidden="true"></div>
-      <div class="hero-card relative overflow-hidden rounded-[2rem] gilded bg-felt shadow-card" data-tilt data-tilt-strength="4">
-        <div class="relative aspect-[4/4.35] overflow-hidden bg-gradient-to-b from-slate to-table">
-          <picture>
-            {% if profile.avatar_modern %}<source srcset="{{ url_for('static', filename='img/profile-420.avif') }} 420w, {{ url_for('static', filename=profile.avatar_modern) }} 760w" sizes="(min-width: 1024px) 360px, min(384px, calc(100vw - 32px))" type="image/avif" />{% endif %}
-            <img src="{{ url_for('static', filename=profile.avatar) }}" alt="Portrait of {{ profile.name }}" width="951" height="1426" loading="lazy" decoding="async" class="h-full w-full object-cover object-top" />
-          </picture>
-          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-table via-table/70 to-transparent px-6 pb-6 pt-20">
-            <p class="font-title text-3xl text-parchment">{{ profile.name }}</p>
-            <p class="mt-1 text-sm text-parchment/60">{{ profile.location }}</p>
-          </div>
-        </div>
-      </div>
-      <span class="absolute -bottom-3 -left-3 rotate-[-5deg] rounded-lg bg-gold px-3 py-2 text-xs font-black uppercase tracking-wider text-table shadow-card">
-        Builder · Teacher · Organizer
-      </span>
-    </aside>
   </div>
 </section>

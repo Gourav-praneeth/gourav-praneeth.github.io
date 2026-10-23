@@ -1,27 +1,23 @@
 {# ---- CAPABILITIES: evidence-based skills, not arbitrary percentages ---- #}
 <section id="capabilities" class="py-14 md:py-20">
   <div class="reveal mb-10 max-w-2xl">
-    <p class="section-kicker">Capabilities</p>
-    <h2 class="mt-2 font-title text-4xl text-parchment md:text-6xl">How I turn ideas into reliable products.</h2>
+    <h2 class="font-title text-4xl text-parchment md:text-6xl">How I turn ideas into reliable products.</h2>
     <p class="mt-4 text-parchment/60">Tools are useful; applied judgment matters more. These are the areas where I have shipped, evaluated, taught, or led real work.</p>
   </div>
 
   <div class="grid gap-5 md:grid-cols-2">
     {% for capability in capabilities %}
-    <article class="reveal rounded-2xl border border-gold/15 bg-felt p-6 lift md:p-7" style="--reveal-delay: {{ (loop.index0 % 2) * 90 }}ms">
+    <article class="reveal rounded-2xl bg-felt p-6 lift md:p-7" style="--reveal-delay: {{ (loop.index0 % 2) * 90 }}ms">
       <div class="flex items-center gap-4">
-        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gold/10 text-gold ring-1 ring-gold/25">
-          <i data-lucide="{{ capability.icon }}" class="h-6 w-6"></i>
-        </span>
         <div>
-          <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-bronze">{{ capability.proof }}</p>
           <h3 class="font-title text-2xl text-parchment">{{ capability.title }}</h3>
+          <p class="mt-1 text-sm font-semibold text-bronze">{{ capability.proof }}</p>
         </div>
       </div>
-      <p class="mt-4 text-sm leading-relaxed text-parchment/65">{{ capability.description }}</p>
+      <p class="mt-4 text-base leading-relaxed text-parchment/65">{{ capability.description }}</p>
       <div class="mt-5 flex flex-wrap gap-2">
         {% for item in capability.tools %}
-        <span class="rounded-full border border-gold/15 bg-table/60 px-2.5 py-1 text-xs font-semibold text-parchment/65">{{ item }}</span>
+        <span class="rounded-full bg-table/60 px-2.5 py-1 text-sm font-semibold text-parchment/65">{{ item }}</span>
         {% endfor %}
       </div>
     </article>
