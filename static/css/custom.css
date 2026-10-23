@@ -292,6 +292,20 @@ p {
   transform: scale(0.97);
 }
 
+.button .ph {
+  flex: 0 0 auto;
+  font-size: 1.15em;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+.button:hover .ph-arrow-down-right {
+  transform: translate(2px, 2px);
+}
+
+.button:hover :is(.ph-arrow-up-right, .ph-paper-plane-tilt) {
+  transform: translate(2px, -2px);
+}
+
 .button-small {
   min-height: 2.75rem;
   font-size: var(--step-small);
