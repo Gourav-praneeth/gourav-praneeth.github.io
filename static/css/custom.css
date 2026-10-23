@@ -1,13 +1,20 @@
 :root {
-  --bg: #0f1f10;
-  --surface: #162a17;
-  --ink: #ffffff;
-  --muted: #b7c0b7;
-  --accent: #c6f19d;
-  --accent-ink: #0f1f10;
-  --black: #050706;
-  --paper: #f4f7ef;
-  --paper-ink: #0f1f10;
+  --bg: #101827;
+  --surface: #1c2940;
+  --ink: #f7f9f7;
+  --muted: #b8c3d2;
+  --accent: #8de0c2;
+  --accent-hover: #b3f0db;
+  --accent-ink: #0b1d22;
+  --black: #080c14;
+  --paper: #f1f4f6;
+  --paper-ink: #172033;
+  --paper-body: #3f4a5c;
+  --paper-muted: #526071;
+  --paper-accent: #255b55;
+  --field: #dcebe7;
+  --field-ink: #132b2b;
+  --portrait-matte: #2b3444;
   --margin: clamp(1.25rem, 3.8vw, 4.5rem);
   --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
   --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
@@ -115,7 +122,7 @@ img {
   height: 100%;
   overflow: clip;
   border-radius: 12px;
-  background: #26332b;
+  background: var(--portrait-matte);
 }
 
 .portrait-frame img {
@@ -123,7 +130,7 @@ img {
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: saturate(0.82) contrast(1.04) brightness(0.78);
+  filter: saturate(0.94) contrast(1.03) brightness(0.84);
 }
 
 .portrait-note,
@@ -285,7 +292,7 @@ p {
 }
 
 .button:hover {
-  background: #dbffba;
+  background: var(--accent-hover);
 }
 
 .button:active {
@@ -387,7 +394,7 @@ h2 {
 
 .intro-copy p {
   margin: 0 0 1.3rem;
-  color: #3e4c40;
+  color: var(--paper-body);
 }
 
 .intro-copy p:first-child {
@@ -427,7 +434,8 @@ h2 {
 }
 
 .project-row.is-active {
-  background: var(--surface);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .project-name {
@@ -475,7 +483,7 @@ h2 {
   grid-row: 1;
   max-width: 58ch;
   margin: 0;
-  color: #3e4c40;
+  color: var(--paper-body);
 }
 
 .project-panel .project-role {
@@ -487,7 +495,7 @@ h2 {
 .project-role,
 .experience-org,
 .capability-proof {
-  color: #526455;
+  color: var(--paper-muted);
 }
 
 .project-proof {
@@ -506,13 +514,13 @@ h2 {
   display: flex;
   align-items: flex-end;
   padding: 0;
-  color: #28462c;
+  color: var(--paper-accent);
   font-weight: 500;
 }
 
 .project-tools,
 .project-status {
-  color: #526455;
+  color: var(--paper-muted);
 }
 
 .project-panel .project-tools {
@@ -570,8 +578,8 @@ h2 {
 }
 
 .capability-field {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--field);
+  color: var(--field-ink);
 }
 
 .capability-sheet {
@@ -590,7 +598,7 @@ h2 {
   max-width: 29ch;
   margin: 1rem auto 4rem;
   text-align: center;
-  color: #526455;
+  color: var(--paper-muted);
 }
 
 .capability-item {
@@ -611,7 +619,7 @@ h2 {
 .capability-item > p:not(.capability-proof, .project-tools) {
   max-width: 42ch;
   margin: 0.8rem auto;
-  color: #3e4c40;
+  color: var(--paper-body);
 }
 
 .capability-proof {
@@ -625,7 +633,7 @@ h2 {
 }
 
 .experience-section .section-heading > p {
-  color: #526455;
+  color: var(--paper-muted);
 }
 
 .experience-list {
@@ -643,7 +651,7 @@ h2 {
 
 .experience-period {
   margin: 0 0 0.75rem;
-  color: #526455;
+  color: var(--paper-muted);
 }
 
 .experience-org {
@@ -659,7 +667,7 @@ h2 {
 .experience-item ul {
   margin: 0;
   padding: 0;
-  color: #3e4c40;
+  color: var(--paper-body);
 }
 
 .experience-item li {
@@ -669,7 +677,7 @@ h2 {
 .experience-item li::before {
   content: "↳";
   margin-right: 0.65rem;
-  color: #637c65;
+  color: var(--paper-accent);
 }
 
 .credentials-section {
@@ -805,7 +813,7 @@ h2 {
 }
 
 .about-letter p {
-  color: #3e4c40;
+  color: var(--paper-body);
   line-height: 1.6;
 }
 
@@ -816,7 +824,7 @@ h2 {
 }
 
 .about-signoff span {
-  color: #526455;
+  color: var(--paper-muted);
   font-size: var(--step-small);
 }
 
@@ -836,7 +844,7 @@ h2 {
 }
 
 .hobby-list span {
-  color: #526455;
+  color: var(--paper-muted);
   font-size: var(--step-small);
   text-align: right;
 }
