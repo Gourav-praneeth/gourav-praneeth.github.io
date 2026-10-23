@@ -22,12 +22,13 @@ Seafoam marks actions, focus, and active navigation. It should not decorate head
 - The opening is a two-column editorial composition on desktop: concise promise and actions on the left, portrait on the right.
 - The headline stays within two lines. Supporting copy explains what Gourav builds and why it matters.
 - The portrait is a real, dominant image with a restrained cool grade and subtle fine-pointer tilt.
+- A seafoam, blue-grey, and coral data-rain field moves behind the hero. Fine-pointer movement bends the flow without replacing the native cursor or intercepting input.
 - Availability and three proof metrics form one quiet evidence band rather than separate floating cards.
 - Tablet retains the split composition; mobile stacks copy, portrait, then proof.
 
 ## Accessibility and Motion
 
-Maintain visible focus, 44px minimum touch targets, WCAG AA text contrast, semantic headings, and descriptive image text. Motion uses transforms and opacity only. Fine-pointer tilt is disabled for touch and `prefers-reduced-motion`.
+Maintain visible focus, 44px minimum touch targets, WCAG AA text contrast, semantic headings, and descriptive image text. Fine-pointer tilt is disabled for touch and `prefers-reduced-motion`. The canvas pauses outside the viewport and when the tab is hidden, adapts particle density to frame rate, and renders one static frame for reduced motion.
 
 ## Validation
 
