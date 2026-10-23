@@ -1,21 +1,14 @@
-{# ====================================================================== #}
-{#  base.html — the page skeleton shared by every page.                    #}
-{#  Holds the <head>, the header/navigation, and the footer.               #}
-{#  Individual pages fill in the {% block content %} area.                 #}
-{# ====================================================================== #}
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <meta name="theme-color" content="#f8f2e8" />
-  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#0f1f10" />
+  <meta name="color-scheme" content="dark" />
   <link rel="canonical" href="{{ site.url }}/" />
   <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml" />
-
-  <!-- Social previews and search metadata -->
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:site_name" content="{{ site.brand }}" />
@@ -25,17 +18,9 @@
   <meta property="og:image" content="{{ site.url }}/static/{{ site.social_image }}" />
   <meta property="og:image:alt" content="Portrait of {{ profile.name }}" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{ site.title }}" />
-  <meta name="twitter:description" content="{{ site.description }}" />
-  <meta name="twitter:image" content="{{ site.url }}/static/{{ site.social_image }}" />
-
-  <!-- Minified Tailwind build generated locally; no runtime CSS generation. -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}" />
-
-  <!-- Lucide Icons (CDN) -->
-  <script defer src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-
-  <!-- Our own custom styles (texture, components, and motion) -->
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}" />
   <script>document.documentElement.classList.add('js');</script>
   <script type="application/ld+json">
@@ -51,78 +36,9 @@
     }
   </script>
 </head>
-
-<body class="font-body text-parchment antialiased">
+<body>
   <a href="#main-content" class="skip-link">Skip to content</a>
-
-  {# --------------------------- HEADER --------------------------- #}
-  <header id="siteHeader" class="site-header sticky top-0 z-50 border-b border-gold/20 bg-table/85 backdrop-blur-md">
-    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-
-      <!-- Logo / title piece -->
-      <a href="#hero" class="group flex items-center gap-3">
-        <span class="grid h-11 w-11 place-items-center rounded-lg gilded bg-felt text-gold">
-          <i data-lucide="dices" class="h-6 w-6"></i>
-        </span>
-        <span class="leading-tight">
-          <span class="block font-body text-lg font-extrabold tracking-wide text-gold">{{ site.brand }}</span>
-          <span class="hidden text-[11px] uppercase tracking-[0.25em] text-parchment/60 sm:block">{{ site.tagline }}</span>
-        </span>
-      </a>
-
-      <!-- Desktop nav: concise, recruiter-friendly labels -->
-      <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
-        <a href="#work" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Work</a>
-        <a href="#capabilities" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Capabilities</a>
-        <a href="#quests" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Experience</a>
-        <a href="#hobbies" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">About</a>
-        <a href="#contact" class="nav-link token relative rounded-md px-3 py-2 text-sm font-semibold text-parchment/80 hover:text-gold">Contact</a>
-      </nav>
-
-      <!-- Mobile menu button -->
-      <button id="menuBtn" class="grid h-10 w-10 place-items-center rounded-md border border-gold/30 text-gold md:hidden" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
-        <i data-lucide="menu" class="h-5 w-5"></i>
-      </button>
-    </div>
-
-    <!-- Mobile nav drawer -->
-    <div id="mobileNav" class="hidden border-t border-gold/15 bg-slate md:hidden">
-      <nav class="mx-auto flex max-w-6xl flex-col px-4 py-2" aria-label="Mobile navigation">
-        <a href="#work" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Work</a>
-        <a href="#capabilities" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Capabilities</a>
-        <a href="#quests" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Experience</a>
-        <a href="#hobbies" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">About</a>
-        <a href="#contact" class="nav-link rounded-md px-3 py-3 text-sm font-semibold text-parchment/80 hover:bg-felt hover:text-gold">Contact</a>
-      </nav>
-    </div>
-    <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
-  </header>
-
-  {# --------------------------- PAGE CONTENT --------------------------- #}
-  <main id="main-content" tabindex="-1" class="mx-auto max-w-6xl px-4">
-    {% block content %}{% endblock %}
-  </main>
-
-  {# --------------------------- FOOTER --------------------------- #}
-  <footer class="border-t border-gold/20 bg-slate/70">
-    <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row">
-      <p class="text-sm text-parchment/50">© <span id="year"></span> {{ profile.name }} · Built with dice &amp; determination.</p>
-      <div class="flex items-center gap-3">
-        {% for s in socials %}
-        <a href="{{ s.url }}" aria-label="{{ s.label }}"
-           class="grid h-11 w-11 place-items-center rounded-lg border border-gold/25 bg-felt text-parchment/80 transition hover:-translate-y-1 hover:border-gold hover:text-gold">
-          {% if s.svg_path %}
-          <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="{{ s.svg_path }}"></path></svg>
-          {% else %}
-          <i data-lucide="{{ s.icon }}" class="h-5 w-5"></i>
-          {% endif %}
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-  </footer>
-
-  <!-- Our JavaScript (navigation, reveals, and form enhancement) -->
+  {% block content %}{% endblock %}
   <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

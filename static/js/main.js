@@ -1,191 +1,128 @@
-/* Lightweight, dependency-free interaction system for the portfolio. */
-
-if (window.lucide) {
-  window.lucide.createIcons();
-}
-
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
-const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-/* Mobile navigation: synchronize visibility, focus, and accessibility state. */
-const menuBtn = document.getElementById("menuBtn");
-const mobileNav = document.getElementById("mobileNav");
+/* The work index is the page's live thing: choose a problem and its evidence replaces in place. */
+const projectTabs = [...document.querySelectorAll("[data-project-tab]")];
+const projectPanels = [...document.querySelectorAll("[role='tabpanel']")];
 
-function setMenuOpen(open, { moveFocus = false } = {}) {
-  if (!menuBtn || !mobileNav) return;
-  mobileNav.classList.toggle("hidden", !open);
-  menuBtn.setAttribute("aria-expanded", String(open));
-  menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-
-  if (open && moveFocus) {
-    mobileNav.querySelector("a")?.focus();
-  }
-}
-
-if (menuBtn && mobileNav) {
-  menuBtn.addEventListener("click", () => {
-    setMenuOpen(menuBtn.getAttribute("aria-expanded") !== "true", { moveFocus: true });
+function selectProject(tab, { moveFocus = false } = {}) {
+  projectTabs.forEach((item) => {
+    const active = item === tab;
+    item.classList.toggle("is-active", active);
+    item.setAttribute("aria-selected", String(active));
+    item.tabIndex = active ? 0 : -1;
   });
 
-  mobileNav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setMenuOpen(false));
+  projectPanels.forEach((panel) => {
+    const active = panel.id === tab.getAttribute("aria-controls");
+    panel.hidden = !active;
+    panel.classList.toggle("is-active", active);
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || menuBtn.getAttribute("aria-expanded") !== "true") return;
-    setMenuOpen(false);
-    menuBtn.focus();
+  if (moveFocus) tab.focus();
+}
+
+projectTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => selectProject(tab));
+  tab.addEventListener("keydown", (event) => {
+    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    let nextIndex = index;
+    if (["ArrowDown", "ArrowRight"].includes(event.key)) nextIndex = (index + 1) % projectTabs.length;
+    if (["ArrowUp", "ArrowLeft"].includes(event.key)) nextIndex = (index - 1 + projectTabs.length) % projectTabs.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = projectTabs.length - 1;
+    selectProject(projectTabs[nextIndex], { moveFocus: true });
   });
+});
 
-  document.addEventListener("click", (event) => {
-    if (menuBtn.getAttribute("aria-expanded") !== "true") return;
-    if (mobileNav.contains(event.target) || menuBtn.contains(event.target)) return;
-    setMenuOpen(false);
-  });
+if (projectTabs.length) selectProject(projectTabs.find((tab) => tab.classList.contains("is-active")) || projectTabs[0]);
 
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768) setMenuOpen(false);
-  });
-}
+/* Choreographed section entrances fire once and stay readable without JavaScript. */
+const revealItems = [...document.querySelectorAll("[data-reveal]")];
 
-/* Reading progress and a slightly more defined header after the first scroll. */
-const siteHeader = document.getElementById("siteHeader");
-const scrollProgress = document.getElementById("scrollProgress");
-let scrollFrame = null;
-
-function updateScrollChrome() {
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
-
-  if (scrollProgress) scrollProgress.style.transform = `scaleX(${progress})`;
-  if (siteHeader) siteHeader.classList.toggle("is-scrolled", window.scrollY > 12);
-  scrollFrame = null;
-}
-
-function requestScrollChromeUpdate() {
-  if (scrollFrame !== null) return;
-  scrollFrame = window.requestAnimationFrame(updateScrollChrome);
-}
-
-window.addEventListener("scroll", requestScrollChromeUpdate, { passive: true });
-window.addEventListener("resize", requestScrollChromeUpdate);
-updateScrollChrome();
-
-/* Reveal content progressively. Content remains visible when JavaScript is unavailable. */
-const revealItems = document.querySelectorAll(".reveal");
-
-function showAllRevealItems() {
-  revealItems.forEach((item) => item.classList.add("in"));
-}
-
-if (reduceMotionQuery.matches || !("IntersectionObserver" in window)) {
-  showAllRevealItems();
+if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+  revealItems.forEach((item) => item.classList.add("is-in"));
 } else {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("in");
-        revealObserver.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -32px" }
-  );
-
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-in");
+      revealObserver.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -12% 0px", threshold: 0.1 });
   revealItems.forEach((item) => revealObserver.observe(item));
 }
 
-/* Keep both desktop and mobile navigation aware of the section in view. */
-const navLinks = [...document.querySelectorAll(".nav-link")];
-const navSectionIds = [...new Set(navLinks.map((link) => link.hash.slice(1)))];
-const navSections = navSectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+/* A few proof figures roll into place once. Their actual values remain in the document. */
+const rollingFigures = [...document.querySelectorAll("[data-roll]")];
 
-function setActiveSection(id) {
-  navLinks.forEach((link) => {
-    const active = link.hash === `#${id}`;
-    link.classList.toggle("is-active", active);
-    if (active) link.setAttribute("aria-current", "location");
-    else link.removeAttribute("aria-current");
-  });
-}
+rollingFigures.forEach((element) => {
+  const value = element.textContent.trim();
+  const spoken = document.createElement("span");
+  spoken.className = "sr-only";
+  spoken.textContent = value;
+  const shown = document.createElement("span");
+  shown.className = "roll__digits";
+  shown.setAttribute("aria-hidden", "true");
+  let digitIndex = 0;
 
-if ("IntersectionObserver" in window && navSections.length) {
-  const visibleSections = new Map();
-  const sectionObserver = new IntersectionObserver(
-    (entries) => {
+  for (const character of value) {
+    if (!/\d/.test(character)) {
+      shown.append(character);
+      continue;
+    }
+    const column = document.createElement("span");
+    column.className = "roll__col";
+    const strip = document.createElement("span");
+    strip.className = "roll__strip";
+    strip.style.setProperty("--d", character);
+    strip.style.setProperty("--i", digitIndex);
+    digitIndex += 1;
+    for (let number = 0; number < 10; number += 1) {
+      const digit = document.createElement("span");
+      digit.textContent = number;
+      strip.append(digit);
+    }
+    column.append(strip);
+    shown.append(column);
+  }
+
+  element.classList.add("roll");
+  element.replaceChildren(spoken, shown);
+});
+
+if (rollingFigures.length) {
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+    rollingFigures.forEach((element) => element.classList.add("is-in"));
+  } else {
+    const figureObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) visibleSections.set(entry.target.id, entry.boundingClientRect.top);
-        else visibleSections.delete(entry.target.id);
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        figureObserver.unobserve(entry.target);
       });
-
-      if (!visibleSections.size) return;
-      const activeId = [...visibleSections.entries()].sort((a, b) => Math.abs(a[1]) - Math.abs(b[1]))[0][0];
-      setActiveSection(activeId);
-    },
-    { rootMargin: "-24% 0px -62% 0px", threshold: 0 }
-  );
-
-  navSections.forEach((section) => sectionObserver.observe(section));
+    }, { rootMargin: "0px 0px -15% 0px" });
+    rollingFigures.forEach((element) => figureObserver.observe(element));
+  }
 }
 
-/* Subtle pointer depth is enabled only for precise pointing devices. */
-function initializeTilt() {
-  if (!finePointerQuery.matches || reduceMotionQuery.matches) return;
-
-  document.querySelectorAll("[data-tilt]").forEach((element) => {
-    const strength = Number(element.dataset.tiltStrength || 3);
-    let tiltFrame = null;
-
-    element.addEventListener("pointermove", (event) => {
-      if (tiltFrame !== null) window.cancelAnimationFrame(tiltFrame);
-      tiltFrame = window.requestAnimationFrame(() => {
-        const bounds = element.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-        element.style.setProperty("--tilt-x", `${-y * strength}deg`);
-        element.style.setProperty("--tilt-y", `${x * strength}deg`);
-        tiltFrame = null;
-      });
-    });
-
-    element.addEventListener("pointerleave", () => {
-      element.style.setProperty("--tilt-x", "0deg");
-      element.style.setProperty("--tilt-y", "0deg");
-    });
-  });
-
-  document.querySelectorAll("[data-pointer-glow]").forEach((element) => {
-    element.addEventListener("pointermove", (event) => {
-      const bounds = element.getBoundingClientRect();
-      element.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
-      element.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
-    });
-  });
-}
-
-initializeTilt();
-
-/* Contact form enhancement. Normal form submission remains the fallback. */
+/* Submit asynchronously while preserving the normal form action as a fallback. */
 const contactForm = document.getElementById("contactForm");
 if (contactForm) {
   contactForm.addEventListener("submit", async (event) => {
     const message = document.getElementById("formMsg");
-    const submitButton = contactForm.querySelector('button[type="submit"]');
-    const hasEndpoint = contactForm.hasAttribute("action");
-
-    if (!hasEndpoint) {
+    const submitButton = contactForm.querySelector("button[type='submit']");
+    if (!contactForm.hasAttribute("action")) {
       event.preventDefault();
-      message.textContent = "The contact form is not connected yet. Please email me directly.";
-      message.classList.remove("hidden");
+      message.textContent = "The form is not connected yet. Please email me directly.";
       return;
     }
 
     event.preventDefault();
     message.textContent = "Sending…";
-    message.classList.remove("hidden");
     if (submitButton) submitButton.disabled = true;
 
     try {
@@ -195,7 +132,7 @@ if (contactForm) {
         headers: { Accept: "application/json" },
       });
       if (!response.ok) throw new Error("Form submission failed");
-      message.textContent = "Thanks—your message has been sent.";
+      message.textContent = "Thanks. Your message has been sent.";
       contactForm.reset();
     } catch (error) {
       message.textContent = "Something went wrong. Please try again or email me directly.";
