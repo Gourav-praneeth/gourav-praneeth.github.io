@@ -2,13 +2,9 @@
   "name": "gourav-portfolio",
   "private": true,
   "scripts": {
-    "build:icons": "mkdir -p static/vendor/phosphor && cp node_modules/@phosphor-icons/web/src/regular/style.css static/vendor/phosphor/style.css && cp node_modules/@phosphor-icons/web/src/regular/Phosphor.woff2 static/vendor/phosphor/Phosphor.woff2 && cp node_modules/@phosphor-icons/web/LICENSE static/vendor/phosphor/LICENSE",
-    "build:css": "npm run build:icons && tailwindcss -i ./static/css/tailwind-input.css -o ./static/css/tailwind.css --minify"
+    "build:css": "tailwindcss -i ./static/css/tailwind-input.css -o ./static/css/tailwind.css --minify"
   },
   "devDependencies": {
     "tailwindcss": "3.4.17"
-  },
-  "dependencies": {
-    "@phosphor-icons/web": "^2.1.2"
   }
 }

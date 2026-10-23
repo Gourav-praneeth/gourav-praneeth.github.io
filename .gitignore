@@ -5,7 +5,6 @@ __pycache__/
 venv/
 env/
 node_modules/
-.taste-skill/
 
 # ---- Build output ----
 # The static site is rebuilt automatically by GitHub Actions on every push,
