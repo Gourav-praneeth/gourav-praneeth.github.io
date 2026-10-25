@@ -79,7 +79,7 @@ body.nav-open::before {
 main,
 footer {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 section[id] {
@@ -430,6 +430,21 @@ section[id] {
   transition: opacity 0.35s ease;
 }
 
+.living-vine-canvas {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.92;
+  transition: opacity 0.35s ease;
+}
+
+.living-vine-canvas[hidden] {
+  display: none;
+}
+
 .data-rain-vignette {
   background: rgba(231, 236, 233, 0.12);
   transition: background-color 0.35s ease;
@@ -494,54 +509,41 @@ section[id] {
   text-wrap: balance;
 }
 
-.text-roll-word {
+.text-scramble-word {
   display: inline-block;
   white-space: nowrap;
 }
 
-.text-roll-word + .text-roll-word::before {
+.text-scramble-word + .text-scramble-word::before {
   content: " ";
   white-space: pre;
 }
 
-.text-roll-letter {
+.text-scramble-letter {
   position: relative;
   display: inline-grid;
-  perspective: 1000px;
-  transform-style: preserve-3d;
 }
 
-.text-roll-reserve {
+.text-scramble-reserve {
   visibility: hidden;
 }
 
-.text-roll-face {
+.text-scramble-face {
   position: absolute;
   inset: 0;
-  backface-visibility: hidden;
-  transform-origin: 50% 60%;
+  opacity: 0.72;
+  transform: translateY(var(--scramble-shift, 0));
+  transition: opacity 0.14s ease, transform 0.14s var(--ease-out);
 }
 
-.text-roll-reserve::before,
-.text-roll-face::before {
+.text-scramble-reserve::before,
+.text-scramble-face::before {
   content: attr(data-character);
 }
 
-.text-roll-outgoing {
-  animation: text-roll-out 0.52s var(--ease-out) var(--roll-delay) forwards;
-}
-
-.text-roll-incoming {
-  transform: rotateX(90deg);
-  animation: text-roll-in 0.58s var(--ease-out) calc(var(--roll-delay) + 0.12s) forwards;
-}
-
-@keyframes text-roll-out {
-  to { transform: rotateX(-90deg); }
-}
-
-@keyframes text-roll-in {
-  to { transform: rotateX(0); }
+.text-scramble-letter.is-resolved .text-scramble-face {
+  opacity: 1;
+  transform: none;
 }
 
 .hero-lead {
@@ -1017,7 +1019,7 @@ section[id] {
     animation: none;
   }
 
-  .text-roll-face,
+  .text-scramble-face,
   .kinetic-char-face,
   .kinetic-nav,
   .kinetic-menu-mark span {
@@ -1025,9 +1027,6 @@ section[id] {
     animation: none !important;
   }
 
-  .text-roll-outgoing { display: none; }
-
-  .text-roll-incoming,
   .kinetic-char-current {
     transform: none;
   }
@@ -1036,5 +1035,15 @@ section[id] {
 
   .kinetic-nav {
     clip-path: none;
+  }
+
+  .living-vine-canvas {
+    display: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .living-vine-canvas {
+    display: none;
   }
 }

@@ -10,11 +10,11 @@ if (year) year.textContent = new Date().getFullYear();
 const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
 
-/* Roll the hero name once while keeping the original text as the no-JS fallback. */
-function initializeTextRoll() {
+/* Decode the hero name once while keeping the original text as the no-JS fallback. */
+function initializeTextScramble() {
   if (reduceMotionQuery.matches) return;
 
-  document.querySelectorAll("[data-text-roll]").forEach((element) => {
+  document.querySelectorAll("[data-text-scramble]").forEach((element) => {
     const label = element.textContent.trim();
     if (!label) return;
     element.textContent = "";
@@ -22,24 +22,73 @@ function initializeTextRoll() {
     accessibleLabel.className = "sr-only";
     accessibleLabel.textContent = label;
     element.append(accessibleLabel);
-    let characterIndex = 0;
+    const letters = [];
 
     label.split(/\s+/).forEach((word) => {
       const wordElement = document.createElement("span");
-      wordElement.className = "text-roll-word";
+      wordElement.className = "text-scramble-word";
       wordElement.setAttribute("aria-hidden", "true");
 
       [...word].forEach((character) => {
         const letter = document.createElement("span");
-        letter.className = "text-roll-letter";
-        letter.style.setProperty("--roll-delay", `${characterIndex * 32}ms`);
-        letter.innerHTML = `<span class="text-roll-reserve" data-character="${character}"></span><span class="text-roll-face text-roll-outgoing" data-character="${character}"></span><span class="text-roll-face text-roll-incoming" data-character="${character}"></span>`;
+        letter.className = "text-scramble-letter";
+        const reserve = document.createElement("span");
+        reserve.className = "text-scramble-reserve";
+        reserve.dataset.character = character;
+        const face = document.createElement("span");
+        face.className = "text-scramble-face";
+        face.dataset.character = character;
+        letter.append(reserve, face);
         wordElement.append(letter);
-        characterIndex += 1;
+        letters.push({ letter, face, character });
       });
 
       element.append(wordElement);
     });
+
+    const glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let animationToken = 0;
+
+    function scramble() {
+      const token = ++animationToken;
+      const startedAt = performance.now();
+      let lastShuffle = -1;
+
+      letters.forEach(({ letter, face }) => {
+        letter.classList.remove("is-resolved");
+        face.dataset.character = glyphs[Math.floor(Math.random() * glyphs.length)];
+      });
+
+      function animate(now) {
+        if (token !== animationToken) return;
+        const elapsed = now - startedAt;
+        const shuffle = Math.floor(elapsed / 45);
+        let complete = true;
+
+        letters.forEach(({ letter, face, character }, index) => {
+          const localProgress = (elapsed - index * 38) / 320;
+          if (localProgress >= 1) {
+            face.dataset.character = character;
+            letter.classList.add("is-resolved");
+            return;
+          }
+
+          complete = false;
+          if (localProgress >= 0 && shuffle !== lastShuffle) {
+            face.dataset.character = glyphs[Math.floor(Math.random() * glyphs.length)];
+            face.style.setProperty("--scramble-shift", `${((index + shuffle) % 3) - 1}px`);
+          }
+        });
+
+        lastShuffle = shuffle;
+        if (!complete) window.requestAnimationFrame(animate);
+      }
+
+      window.requestAnimationFrame(animate);
+    }
+
+    scramble();
+    if (finePointerQuery.matches) element.addEventListener("pointerenter", scramble);
   });
 }
 
@@ -63,7 +112,7 @@ function initializeKineticNavLabels() {
   });
 }
 
-initializeTextRoll();
+initializeTextScramble();
 initializeKineticNavLabels();
 
 /* Full-screen navigation: synchronize reveal, focus, and page inertness. */

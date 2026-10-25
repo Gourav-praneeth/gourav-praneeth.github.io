@@ -60,6 +60,7 @@
     <div class="data-rain-vignette"></div>
     <div class="data-rain-grain"></div>
   </div>
+  <canvas class="living-vine-canvas" data-living-vine aria-hidden="true"></canvas>
 
   {# --------------------------- HEADER --------------------------- #}
   <header id="siteHeader" class="site-header sticky top-0 z-50 bg-table">
@@ -132,6 +133,7 @@
 
   <!-- Our JavaScript (navigation, reveals, and form enhancement) -->
   <script defer src="{{ url_for('static', filename='js/data-rain.js') }}"></script>
+  <script defer src="{{ url_for('static', filename='js/living-vine.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
