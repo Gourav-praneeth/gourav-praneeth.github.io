@@ -21,7 +21,7 @@ Seafoam marks actions, focus, and active navigation. It should not decorate head
 
 - The opening is a two-column editorial composition on desktop: concise promise and actions on the left, portrait on the right.
 - Gourav's name is the two-line headline and resolves from a concise character scramble. It replays only when a fine pointer returns to the name. Supporting copy explains what he builds and why it matters.
-- The portrait is a real, dominant image with a restrained cool grade and subtle fine-pointer tilt.
+- The portrait is a transparent, dominant cutout that shares the hero field instead of sitting inside a rectangular photo matte. A restrained cool grade, natural alpha edges, and subtle fine-pointer tilt keep the treatment integrated rather than sticker-like.
 - A seafoam, blue-grey, and coral data-rain field persists behind the entire site. It is vivid over dark fields and deliberately faint behind light reading sections. Fine-pointer movement bends the flow without replacing the native cursor or intercepting input.
 - A living vine traces the fine pointer with one fading stem and restrained leaves. It shares the seafoam palette, remains behind content, and never replaces the native cursor.
 - Availability and three proof metrics form one quiet evidence band rather than separate floating cards.

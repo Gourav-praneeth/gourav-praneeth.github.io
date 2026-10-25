@@ -615,7 +615,7 @@ section[id] {
   min-width: 0;
   align-self: center;
   overflow: hidden;
-  background: var(--hero-surface);
+  background: transparent;
   transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   transform-style: preserve-3d;
   transition: transform 0.18s ease-out;
@@ -624,14 +624,16 @@ section[id] {
 .hero-portrait picture {
   display: block;
   min-height: 0;
+  height: 100%;
 }
 
 .hero-portrait img {
+  display: block;
   width: 100%;
   height: clamp(27rem, 55vh, 34rem);
   object-fit: cover;
-  object-position: center 18%;
-  filter: saturate(0.84) contrast(1.06) brightness(0.82);
+  object-position: center bottom;
+  filter: saturate(0.9) contrast(1.03) brightness(0.86);
   transition: scale 0.6s var(--ease-out);
 }
 
@@ -855,7 +857,7 @@ section[id] {
 
   .hero-portrait img {
     height: 31rem;
-    object-position: center 22%;
+    object-position: center bottom;
   }
 }
 
@@ -930,7 +932,7 @@ section[id] {
 
   .hero-portrait img {
     height: clamp(25rem, 72vw, 35rem);
-    object-position: center 22%;
+    object-position: center bottom;
   }
 }
 

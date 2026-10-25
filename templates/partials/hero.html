@@ -24,8 +24,8 @@
 
     <aside class="hero-portrait" aria-label="Portrait of {{ profile.name }}" data-tilt data-tilt-strength="2.5">
       <picture>
-        {% if profile.avatar_modern %}<source srcset="{{ url_for('static', filename='img/profile-420.avif') }} 420w, {{ url_for('static', filename=profile.avatar_modern) }} 760w" sizes="(min-width: 1024px) 480px, calc(100vw - 32px)" type="image/avif" />{% endif %}
-        <img src="{{ url_for('static', filename=profile.avatar) }}" alt="Portrait of {{ profile.name }}" width="951" height="1426" fetchpriority="high" decoding="async" />
+        {% if profile.avatar_modern %}<source srcset="{{ url_for('static', filename='img/profile-cutout-420.png') }} 420w, {{ url_for('static', filename=profile.avatar_modern) }} 1024w" sizes="(min-width: 1024px) 480px, calc(100vw - 32px)" type="image/png" />{% endif %}
+        <img src="{{ url_for('static', filename=profile.avatar) }}" alt="Portrait of {{ profile.name }}" width="1024" height="1535" fetchpriority="high" decoding="async" />
       </picture>
     </aside>
 

@@ -34,8 +34,8 @@ CONTENT = {
     # ------------------------------------------------------------------ #
     "profile": {
         "name": "Gourav Bhimavarapu",                       # EDIT
-        "avatar": "img/profile.jpg",                        # file lives in static/img/
-        "avatar_modern": "img/profile.avif",
+        "avatar": "img/profile-cutout.png",                # transparent hero portrait
+        "avatar_modern": "img/profile-cutout.png",
         "role": "Software Engineer · AI Builder",
         "headline": "Useful AI, built with care.",
         "intro": (
