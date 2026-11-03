@@ -1,66 +1,67 @@
-{# ---- SELECTED WORK: visible evidence, no hidden flip-card content ---- #}
-<section id="work" class="py-14 md:py-20">
-  <div class="reveal mb-10 max-w-2xl">
-    <h2 class="font-title text-4xl text-parchment md:text-6xl">Useful systems, thoughtfully engineered.</h2>
-    <p class="mt-4 text-parchment/60">A selection of AI, product, and impact-focused work—with the problem, contribution, and outcome kept visible.</p>
-  </div>
+{# ---- SELECTED WORK: two evidence-rich case studies, then a quiet project ledger. ---- #}
+<section id="work" class="work-section">
+  <header class="work-intro reveal">
+    <h2>Selected work</h2>
+    <p>Reliable systems leave evidence. These projects show the problem, the engineering decisions, and the result.</p>
+  </header>
 
-  <div class="space-y-8">
-    {% for p in projects %}
-    <article class="project-feature reveal overflow-hidden rounded-2xl bg-felt" style="--reveal-delay: {{ (loop.index0 % 2) * 90 }}ms" data-pointer-glow>
-      <div class="grid lg:grid-cols-[1.08fr_0.92fr] {% if loop.index is even %}lg:[&>*:first-child]:order-2{% endif %}">
-        <div class="project-art project-art-{{ p.tone }} relative flex min-h-[280px] items-center justify-center overflow-hidden lg:min-h-[390px]" data-tilt data-tilt-strength="2.5">
-          {% if p.image %}
-          <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} interface" loading="lazy" decoding="async" class="h-full w-full object-cover" />
-          {% else %}
-          <div class="project-placeholder" aria-hidden="true">
-            <div class="project-window">
-              <div class="project-window-bar"><span></span><span></span><span></span></div>
-              <i data-lucide="{{ p.icon }}" class="h-16 w-16"></i>
-              <div class="mt-5 h-2 w-36 rounded-full bg-current opacity-25"></div>
-              <div class="mt-2 h-2 w-24 rounded-full bg-current opacity-15"></div>
-            </div>
+  <div class="featured-work">
+    {% for p in projects[:2] %}
+    {% set project_id = loop.index %}
+    <article class="case-study reveal" id="project-{{ loop.index }}">
+      <figure class="case-study-media" data-scroll-drift>
+        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} live application interface" loading="lazy" decoding="async" width="1110" height="890" />
+        <figcaption>{{ p.image_caption|default('Live product · captured from the deployed application') }}</figcaption>
+      </figure>
+
+      <div class="case-study-copy">
+        <h3>{{ p.title }}</h3>
+        <p class="case-study-role">{{ p.role }}</p>
+        <p class="case-study-summary">{{ p.short }}</p>
+        <p class="case-study-stack">{{ p.tags|join(' · ') }}</p>
+
+        <div class="evidence-explorer" data-evidence-explorer>
+          <div class="evidence-tabs" role="tablist" aria-label="{{ p.title }} case study stages">
+            {% for stage in p.case_study %}
+            <button type="button" role="tab" id="tab-{{ project_id }}-{{ loop.index }}" aria-selected="{{ 'true' if loop.first else 'false' }}" aria-controls="panel-{{ project_id }}-{{ loop.index }}" tabindex="{{ '0' if loop.first else '-1' }}" data-evidence-tab>{{ stage.label }}</button>
+            {% endfor %}
           </div>
-          {% endif %}
-          <span class="absolute left-5 top-5 rounded-full bg-table/90 px-3 py-1 text-sm font-semibold text-ink">{{ p.category_label }}</span>
+          {% for stage in p.case_study %}
+          <div class="evidence-panel" role="tabpanel" id="panel-{{ project_id }}-{{ loop.index }}" aria-labelledby="tab-{{ project_id }}-{{ loop.index }}" {% if not loop.first %}hidden{% endif %} data-evidence-panel>
+            <strong>{{ stage.title }}</strong>
+            <p>{{ stage.text }}</p>
+          </div>
+          {% endfor %}
         </div>
 
-        <div class="flex flex-col p-6 md:p-8 lg:p-10">
-          <div class="flex flex-col items-start gap-4 sm:flex-row sm:justify-between">
-            <div>
-              <h3 class="font-title text-3xl text-parchment md:text-4xl">{{ p.title }}</h3>
-              <p class="mt-2 text-sm font-semibold text-bronze">{{ p.role }}</p>
-            </div>
-            <span class="shrink-0 rounded-full bg-gold/10 px-3 py-1 text-sm font-bold text-gold">{{ p.metric }}</span>
-          </div>
-
-          <p class="mt-5 leading-relaxed text-parchment/70">{{ p.short }}</p>
-
-          <ul class="mt-6 space-y-2 text-base text-parchment/65">
-            {% for feat in p.features %}
-            <li class="flex items-start gap-2"><i data-lucide="check" class="mt-0.5 h-4 w-4 shrink-0 text-gold"></i><span>{{ feat }}</span></li>
-            {% endfor %}
-          </ul>
-
-          <div class="mt-6 flex flex-wrap gap-2">
-            {% for tag in p.tags %}
-            <span class="rounded-full bg-table/60 px-2.5 py-1 text-sm font-semibold text-parchment/65">{{ tag }}</span>
-            {% endfor %}
-          </div>
-
-          <div class="mt-auto flex flex-wrap gap-3 pt-8">
-            {% if p.links.play and p.links.play != '#' %}
-            <a href="{{ p.links.play }}" target="_blank" rel="noopener noreferrer" class="cta-primary inline-flex min-h-11 items-center gap-2 rounded-lg bg-gold px-4 py-2.5 text-sm font-bold text-table transition hover:brightness-110"><i data-lucide="external-link" class="h-4 w-4"></i> Live project <span class="sr-only">(opens in a new tab)</span></a>
-            {% endif %}
-            {% if p.links.code and p.links.code != '#' %}
-            <a href="{{ p.links.code }}" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 rounded-lg bg-table px-4 py-2.5 text-sm font-bold text-gold transition hover:bg-gold/10"><i data-lucide="code-2" class="h-4 w-4"></i> Source code <span class="sr-only">(opens in a new tab)</span></a>
-            {% endif %}
-            {% if (not p.links.play or p.links.play == '#') and (not p.links.code or p.links.code == '#') %}
-            <span class="inline-flex items-center gap-2 rounded-lg bg-table px-4 py-2.5 text-sm font-semibold text-parchment/60"><i data-lucide="clock-3" class="h-4 w-4"></i> Case study in progress</span>
-            {% endif %}
-          </div>
+        <div class="case-study-actions">
+          <a href="{{ p.links.play }}" target="_blank" rel="noopener noreferrer" class="case-study-primary">Open live project <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a>
+          <a href="{{ p.links.code }}" target="_blank" rel="noopener noreferrer">Read the source <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a>
         </div>
       </div>
+    </article>
+    {% endfor %}
+  </div>
+
+  <div class="work-ledger reveal">
+    <h3>Additional projects</h3>
+    {% for p in projects[2:] %}
+    <article class="work-ledger-item{% if p.image %} has-media{% endif %}">
+      {% if p.image %}
+      <figure class="work-ledger-media">
+        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} application interface" loading="lazy" decoding="async" width="1110" height="890" />
+      </figure>
+      {% endif %}
+      <div>
+        <h4>{{ p.title }}</h4>
+        <p>{{ p.short }}</p>
+      </div>
+      <dl>
+        <div><dt>Contribution</dt><dd>{{ p.role }}</dd></div>
+        <div><dt>Evidence</dt><dd>{{ p.metric }}</dd></div>
+        {% if p.tags %}<div><dt>Built with</dt><dd>{{ p.tags|join(', ') }}</dd></div>{% endif %}
+      </dl>
+      {% if p.links.code and p.links.code != '#' %}<a href="{{ p.links.code }}">View project</a>{% endif %}
     </article>
     {% endfor %}
   </div>

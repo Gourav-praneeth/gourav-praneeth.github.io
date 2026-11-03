@@ -60,7 +60,6 @@
     <div class="data-rain-vignette"></div>
     <div class="data-rain-grain"></div>
   </div>
-  <canvas class="living-vine-canvas" data-living-vine aria-hidden="true"></canvas>
 
   {# --------------------------- HEADER --------------------------- #}
   <header id="siteHeader" class="site-header sticky top-0 z-50 bg-table">
@@ -93,9 +92,9 @@
         <p class="kinetic-nav-status"><span class="status-dot" aria-hidden="true"></span>{{ profile.availability }}</p>
       </div>
       <nav class="kinetic-nav-links" aria-label="Primary navigation">
+        <a href="#quests" class="nav-link kinetic-nav-link"><span data-kinetic-label>Experience</span><small>Roles &amp; education</small></a>
         <a href="#work" class="nav-link kinetic-nav-link"><span data-kinetic-label>Work</span><small>Selected projects</small></a>
         <a href="#capabilities" class="nav-link kinetic-nav-link"><span data-kinetic-label>Capabilities</span><small>How I build</small></a>
-        <a href="#quests" class="nav-link kinetic-nav-link"><span data-kinetic-label>Experience</span><small>Roles &amp; education</small></a>
         <a href="#hobbies" class="nav-link kinetic-nav-link"><span data-kinetic-label>About</span><small>Beyond the work</small></a>
         <a href="#contact" class="nav-link kinetic-nav-link"><span data-kinetic-label>Contact</span><small>Start a conversation</small></a>
       </nav>
@@ -133,7 +132,6 @@
 
   <!-- Our JavaScript (navigation, reveals, and form enhancement) -->
   <script defer src="{{ url_for('static', filename='js/data-rain.js') }}"></script>
-  <script defer src="{{ url_for('static', filename='js/living-vine.js') }}"></script>
   <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

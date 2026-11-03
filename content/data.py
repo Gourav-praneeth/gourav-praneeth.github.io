@@ -36,11 +36,11 @@ CONTENT = {
         "name": "Gourav Bhimavarapu",                       # EDIT
         "avatar": "img/profile-cutout.png",                # transparent hero portrait
         "avatar_modern": "img/profile-cutout.png",
-        "role": "Software Engineer · AI Builder",
+        "role": "Full-stack Software Engineer · Applied AI",
         "headline": "Useful AI, built with care.",
         "intro": (
-            "I turn agentic AI, product thinking, and rigorous evaluation into reliable "
-            "tools that people can understand and trust."
+            "I build complete web and AI products with clear workflows, reliable data, "
+            "and human review where it matters."
         ),
         "availability": "Open to software engineering and AI roles",
         "location": "Tempe, Arizona",
@@ -49,7 +49,7 @@ CONTENT = {
         "metrics": [
             {"label": "Students supported", "value": "1,000+"},
             {"label": "Community built", "value": "280+"},
-            {"label": "RAG eval accuracy", "value": "90%"},
+            {"label": "Current research", "value": "GradeLens"},
         ],
     },
 
@@ -58,34 +58,34 @@ CONTENT = {
     # ------------------------------------------------------------------ #
     "capabilities": [
         {
-            "title": "AI systems",
+            "title": "Applied AI systems",
             "icon": "brain-circuit",
-            "proof": "Demonstrated in 2 featured projects",
+            "proof": "AutoResearch · GradeLens",
             "description": (
-                "I design grounded AI workflows with retrieval, evaluation, typed handoffs, "
-                "confidence checks, and fallbacks—not just impressive demos."
+                "I build reviewable AI workflows with typed handoffs, bounded agent loops, "
+                "provider flexibility, and required human review for consequential outputs."
             ),
-            "tools": ["RAG", "Agent orchestration", "OpenAI API", "LangChain", "Chroma", "Pydantic"],
+            "tools": ["Python", "Pydantic", "OpenAI", "Anthropic", "Groq", "Multi-agent workflows"],
         },
         {
-            "title": "Product engineering",
+            "title": "Full-stack engineering",
             "icon": "blocks",
-            "proof": "Shipped web and mobile products",
+            "proof": "Mise · GradeLens",
             "description": (
-                "I take products from an ambiguous problem to an interface people can use, "
-                "balancing backend behavior, frontend clarity, and practical deployment."
+                "I take products from an ambiguous workflow to a usable interface, connecting "
+                "frontend decisions, backend behavior, authentication, and persistent data."
             ),
-            "tools": ["Python", "Java", "React", "Flask", "React Native", "Firebase", "SQL"],
+            "tools": ["TypeScript", "React", "Next.js", "Vite", "Node.js", "HTML/CSS"],
         },
         {
-            "title": "Quality and automation",
+            "title": "Data, delivery, and quality",
             "icon": "shield-check",
-            "proof": "150+ submissions automated per assignment",
+            "proof": "Production-minded across three shipped systems",
             "description": (
-                "I build evaluation harnesses, tests, and automation that make outcomes repeatable "
-                "and give teams confidence as systems evolve."
+                "I build with persistent data, access controls, repeatable checks, and deployment "
+                "workflows that keep product behavior understandable as systems evolve."
             ),
-            "tools": ["pytest", "Bash", "GitHub", "Gradescope", "Evaluation design", "CI workflows"],
+            "tools": ["PostgreSQL", "Supabase", "Neon", "Prisma", "Docker", "Vitest", "ESLint", "Vercel", "Render"],
         },
         {
             "title": "Teaching and leadership",
@@ -95,7 +95,7 @@ CONTENT = {
                 "I explain technical ideas clearly, create structure around complex work, and help "
                 "people contribute—whether in a classroom, engineering team, or community."
             ),
-            "tools": ["Mentorship", "Technical communication", "Team leadership", "Community building"],
+            "tools": ["Mentorship", "Python unit tests", "Gradescope", "Technical communication", "Team leadership"],
         },
     ],
 
@@ -105,44 +105,102 @@ CONTENT = {
     # Add screenshots under static/img/ and set `image` to their relative path.
     "projects": [
         {
-            "title": "Board Game Rules RAG Engine", "category": "ai", "cost": 5,
-            "icon": "sparkles", "image": None, "tone": "violet",
-            "category_label": "AI / Retrieval", "role": "Architecture · Evaluation · Product",
-            "metric": "90% eval accuracy",
-            "tags": ["Python", "LangChain", "Chroma", "OpenAI API"],
-            "short": "A retrieval engine that answers Catan rules questions with cited sources — no hallucinations allowed.",
+            "title": "Mise", "category": "product", "cost": 5,
+            "icon": "cooking-pot", "image": "img/projects/mise-kitchen.jpg", "tone": "teal",
+            "image_caption": "Live product · captured from the deployed application",
+            "category_label": "Full-stack product", "role": "Product design · Full-stack development",
+            "metric": "Private beta",
+            "tags": ["React", "TypeScript", "Vite", "Supabase", "PostgreSQL"],
+            "short": "A shared kitchen companion for inventory, recipe matching, meal planning, and collaborative grocery shopping.",
             "details": (
-                "Architected an end-to-end RAG pipeline (LangChain + Chroma + OpenAI) enforcing strict "
-                "source citations and an 'insufficient context' fallback to prevent hallucinations. Used "
-                "structure-aware chunking (800-char / 150-char overlap) to preserve context across rules "
-                "and edge-case exceptions, then built a custom pytest evaluation harness that hit 9/10 "
-                "accuracy on a hand-written test set. Shipped as a live Streamlit web app."
+                "Built a household kitchen workflow around low-effort presence tracking instead of exact "
+                "stock counts. Mise connects inventory, recipe readiness, meal planning, and a realtime "
+                "grocery list, with Supabase authentication, household-scoped row-level security, barcode "
+                "lookup, local receipt OCR, and offline recovery."
             ),
-            "features": ["90% eval accuracy", "Citation-enforced answers", "Live Streamlit app"],
+            "features": ["Realtime household sync", "Offline recovery", "Private in-browser receipt OCR"],
+            "case_study": [
+                {
+                    "label": "Problem",
+                    "title": "Kitchen tools fail when tracking becomes another chore.",
+                    "text": "Households need to know what is available, what should be used soon, and what to buy without maintaining exact stock counts all day.",
+                },
+                {
+                    "label": "System",
+                    "title": "One loop connects the kitchen to the grocery aisle.",
+                    "text": "Presence-based inventory feeds recipe readiness and meal planning; missing ingredients flow into a shared, aisle-grouped grocery list.",
+                },
+                {
+                    "label": "Reliability",
+                    "title": "Shared changes must survive weak connections.",
+                    "text": "Realtime Supabase sync, row-level household security, pending-change recovery, conflict protection, and offline reconciliation protect collaborative state.",
+                },
+                {
+                    "label": "Outcome",
+                    "title": "A private-beta product built around everyday use.",
+                    "text": "The deployed app supports kitchen inventory, recipes, weekly planning, household collaboration, barcode lookup, and reviewed receipt imports.",
+                },
+            ],
             "links": {
-                "play": "https://board-game-rule-assistant.streamlit.app",
-                "code": "https://github.com/Gourav-praneeth/Board-Game-Rule-Assistant",
+                "play": "https://misekitchen-ten.vercel.app/",
+                "code": "https://github.com/Gourav-praneeth/misekitchen",
             },
         },
         {
             "title": "Multi-Agent AutoResearch", "category": "ai", "cost": 5,
-            "icon": "workflow", "image": None, "tone": "teal",
+            "icon": "workflow", "image": "img/projects/multi-agent-autoresearch.jpg", "tone": "teal",
             "category_label": "Agentic AI", "role": "System design · Orchestration",
             "metric": "5-agent pipeline",
-            "tags": ["Python", "Multi-Agent", "OpenAI API", "Streamlit"],
+            "tags": ["Python", "Pydantic", "OpenAI API", "Streamlit"],
             "short": "A 5-agent pipeline that autonomously researches a question and writes a cited report.",
             "details": (
                 "Orchestrates five specialized agents — Planner, Retriever, Summarizer, Critic, and "
                 "Writer — to decompose a research question, pull facts from Wikipedia and DuckDuckGo, "
                 "score confidence, identify gaps that need another retrieval pass (capped at 2 loops for "
                 "cost control), and synthesize everything into a structured Markdown report. Runs on "
-                "GPT-4o-mini for roughly $0.01–$0.03 per query. Built with Pydantic-validated schemas "
+                "GPT-4.1-mini for roughly $0.01–$0.03 per query. Built with Pydantic-validated schemas "
                 "between agent stages and shipped as a live Streamlit app."
             ),
             "features": ["5-agent orchestration", "Confidence-scored findings", "~$0.01–$0.03 per run"],
+            "case_study": [
+                {
+                    "label": "Problem",
+                    "title": "One prompt rarely produces dependable research.",
+                    "text": "Complex questions need planning, source gathering, gap analysis, and synthesis rather than a single opaque model response.",
+                },
+                {
+                    "label": "System",
+                    "title": "Five agents, one typed research trace.",
+                    "text": "Planner, Retriever, Summarizer, Critic, and Writer exchange Pydantic-validated handoffs so every stage can be inspected.",
+                },
+                {
+                    "label": "Evaluation",
+                    "title": "The critic decides when evidence is incomplete.",
+                    "text": "Confidence scores and explicit gap detection can trigger another retrieval pass, with a two-loop ceiling to control latency and cost.",
+                },
+                {
+                    "label": "Outcome",
+                    "title": "Source-backed reports for cents, not dollars.",
+                    "text": "A typical run produces a structured report for roughly $0.01–$0.03 while preserving the intermediate findings for review.",
+                },
+            ],
             "links": {
                 "play": "https://multi-agent-autoresearch.streamlit.app",
                 "code": "https://github.com/Gourav-praneeth/autoresearch",
+            },
+        },
+        {
+            "title": "Board Game Rules RAG Engine", "category": "ai", "cost": 5,
+            "icon": "sparkles", "image": "img/projects/board-game-rag.jpg", "tone": "violet",
+            "category_label": "AI / Retrieval", "role": "Architecture · Evaluation · Product",
+            "metric": "90% eval accuracy",
+            "tags": ["Python", "LangChain", "Chroma", "OpenAI API"],
+            "short": "A retrieval engine that answers Catan rules questions with cited sources and an explicit insufficient-context fallback.",
+            "details": "A citation-enforced RAG workflow with structure-aware chunking and a hand-written evaluation harness.",
+            "features": ["90% eval accuracy", "Citation-enforced answers", "Live Streamlit app"],
+            "links": {
+                "play": "https://board-game-rule-assistant.streamlit.app",
+                "code": "https://github.com/Gourav-praneeth/Board-Game-Rule-Assistant",
             },
         },
         {
@@ -175,6 +233,17 @@ CONTENT = {
             "features": ["CAD-modeled braille & raised lettering", "Co-designed with end users", "ASU EPICS program"],
             "links": {"play": "#", "code": "#"},
         },
+        {
+            "title": "Gentle Spend", "category": "product", "cost": 3,
+            "icon": "wallet-cards", "image": None, "tone": "teal",
+            "category_label": "Personal finance", "role": "Product development",
+            "metric": "Private project",
+            "tags": [],
+            "short": "A calm spending companion designed to make everyday purchase patterns easier to understand and reflect on.",
+            "details": "Private project; implementation details remain intentionally undisclosed.",
+            "features": [],
+            "links": {"play": "#", "code": "#"},
+        },
     ],
 
     # ------------------------------------------------------------------ #
@@ -184,22 +253,35 @@ CONTENT = {
     # Ordered newest → oldest (latest milestone on top).
     "quests": [
         {
+            "period": "Aug 2026 — Present", "tone": "gold", "icon": "scan-search",
+            "role": "Research Assistant · GradeLens",
+            "org": "Arizona State University",
+            "points": [
+                "Building an LLM-assisted autograder that generates editable rubrics and criterion-level evidence for required instructor review.",
+                "Implemented Next.js, React, TypeScript, Prisma, PostgreSQL, and S3-compatible storage with role-based access and Canvas workflows.",
+                "Containerized the application for Render and Neon deployment, with Vitest and ESLint checks in the production build gate.",
+            ],
+            "links": {
+                "live": "https://gradelens-j97n.onrender.com/",
+                "code": "https://github.com/Gourav-praneeth/GradeLens",
+            },
+        },
+        {
             "period": "2025 — 2026", "tone": "gold", "icon": "graduation-cap",
-            "role": "M.S. Computer Science · 4.0 GPA",
+            "role": "M.S. Computer Science · 3.95 GPA",
             "org": "Arizona State University",
             "points": [
                 "Coursework: Agentic AI, Data Processing at Scale, Data Mining, Software Verification & Validation.",
-                "Graduated May 2026 — actively seeking full-time SWE / AI Engineer roles.",
+                "Graduated May 2026; focused on agentic AI, data processing, data mining, and software verification.",
             ],
         },
         {
             "period": "Aug 2024 — May 2025", "tone": "gold", "icon": "briefcase",
-            "role": "AI Software Engineer Externship",
+            "role": "Extern Full Stack Developer",
             "org": "Beam Group",
             "points": [
-                "Architected a web-based AI assistant (5-person agile team) helping Canadian seniors navigate government financial aid (CPP) applications.",
-                "Built an accessible React.js conversational UI optimized for senior readability.",
-                "Integrated Firebase & Vercel for real-time auth and scalable deployment.",
+                "Built and deployed a React, Gemini API, Firebase, and Vercel application helping seniors navigate government retirement-benefit forms.",
+                "Led user-centered design on a five-person team and implemented Firebase authentication and realtime storage for persistent sessions.",
             ],
         },
         {
@@ -217,18 +299,17 @@ CONTENT = {
             "role": "Graduate & Undergraduate Teaching Assistant",
             "org": "Arizona State University",
             "points": [
-                "Mentored 1,000+ students across 6+ CS & math courses (Python, C++, Assembly, Algebra, Calculus).",
-                "Engineered Python/Bash grading automation on Gradescope — 100% scoring consistency across 150+ submissions per assignment.",
-                "Led engineering labs and exam reviews to ease first-year students' transition.",
+                "Built 25 Python unittest and Gradescope test suites across 12 C++ lab modules, reducing manual review for 150+ submissions per assignment.",
+                "Mentored 1,000+ students across six mathematics and computer science courses through labs, exam reviews, and transition sessions.",
             ],
         },
         {
             "period": "2021 — 2025", "tone": "muted", "icon": "graduation-cap",
-            "role": "B.S. Computer Science · 4.0 GPA",
+            "role": "B.S. Computer Science, Minor in Business · 4.0 GPA",
             "org": "Arizona State University",
             "points": [
                 "Coursework: DSA, Database Management Systems, Machine Learning, Cybersecurity, Software Engineering.",
-                "President of Board Games Club, member of Pickleball Club & SASE.",
+                "Graduated summa cum laude and received the Moeur Award.",
             ],
         },
     ],

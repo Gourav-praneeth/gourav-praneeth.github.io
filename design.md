@@ -23,7 +23,7 @@ Seafoam marks actions, focus, and active navigation. It should not decorate head
 - Gourav's name is the two-line headline and resolves from a concise character scramble. It replays only when a fine pointer returns to the name. Supporting copy explains what he builds and why it matters.
 - The portrait is a transparent, dominant cutout that shares the hero field instead of sitting inside a rectangular photo matte. A restrained cool grade, natural alpha edges, and subtle fine-pointer tilt keep the treatment integrated rather than sticker-like.
 - A seafoam, blue-grey, and coral data-rain field persists behind the entire site. It is vivid over dark fields and deliberately faint behind light reading sections. Fine-pointer movement bends the flow without replacing the native cursor or intercepting input.
-- A living vine traces the fine pointer with one fading stem and restrained leaves. It shares the seafoam palette, remains behind content, and never replaces the native cursor.
+- Project imagery moves through a restrained scroll-linked drift while the reading-progress bar shows page position. There is no pointer-following cursor trail.
 - Availability and three proof metrics form one quiet evidence band rather than separate floating cards.
 - Tablet retains the split composition; mobile stacks copy, portrait, then proof.
 

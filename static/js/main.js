@@ -182,6 +182,7 @@ if (menuBtn && mobileNav) {
 /* Reading progress and a slightly more defined header after the first scroll. */
 const siteHeader = document.getElementById("siteHeader");
 const scrollProgress = document.getElementById("scrollProgress");
+const scrollDriftItems = [...document.querySelectorAll("[data-scroll-drift]")];
 let scrollFrame = null;
 
 function updateScrollChrome() {
@@ -190,6 +191,16 @@ function updateScrollChrome() {
 
   if (scrollProgress) scrollProgress.style.transform = `scaleX(${progress})`;
   if (siteHeader) siteHeader.classList.toggle("is-scrolled", window.scrollY > 12);
+
+  if (!reduceMotionQuery.matches) {
+    scrollDriftItems.forEach((item) => {
+      const bounds = item.getBoundingClientRect();
+      if (bounds.bottom < 0 || bounds.top > window.innerHeight) return;
+      const centerOffset = (bounds.top + bounds.height / 2 - window.innerHeight / 2) / window.innerHeight;
+      const shift = Math.max(-24, Math.min(24, centerOffset * -32));
+      item.querySelector("img")?.style.setProperty("--scroll-shift", `${shift}px`);
+    });
+  }
   scrollFrame = null;
 }
 
@@ -295,6 +306,36 @@ function initializeTilt() {
 }
 
 initializeTilt();
+
+/* Each featured project exposes one compact, keyboard-operable evidence trail. */
+document.querySelectorAll("[data-evidence-explorer]").forEach((explorer) => {
+  const tabs = [...explorer.querySelectorAll("[data-evidence-tab]")];
+  const panels = [...explorer.querySelectorAll("[data-evidence-panel]")];
+
+  function selectEvidence(index, { focus = false } = {}) {
+    tabs.forEach((tab, tabIndex) => {
+      const selected = tabIndex === index;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      panels[tabIndex].hidden = !selected;
+    });
+    if (focus) tabs[index].focus();
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectEvidence(index));
+    tab.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      let next = index;
+      if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+      if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === "Home") next = 0;
+      if (event.key === "End") next = tabs.length - 1;
+      selectEvidence(next, { focus: true });
+    });
+  });
+});
 
 /* Contact form enhancement. Normal form submission remains the fallback. */
 const contactForm = document.getElementById("contactForm");

@@ -3,12 +3,12 @@
   <div class="hero-shell">
     <div class="hero-copy">
       <h1 data-text-scramble>{{ profile.name }}</h1>
-      <p class="hero-lead">{{ profile.intro }}</p>
       <p class="hero-identity-line">{{ profile.role }}</p>
+      <p class="hero-lead">{{ profile.intro }}</p>
 
       <div class="hero-actions">
-        <a href="#work" class="cta-primary hero-primary-action">
-          Explore selected work <i data-lucide="arrow-down-right" aria-hidden="true"></i>
+        <a href="#quests" class="cta-primary hero-primary-action">
+          See current work <i data-lucide="arrow-down-right" aria-hidden="true"></i>
         </a>
         {% if profile.resume_url %}
         <a href="{{ url_for('static', filename=profile.resume_url) }}" target="_blank" rel="noopener noreferrer" class="hero-secondary-action">

@@ -1,6 +1,6 @@
 # 🎲 Board-Game Portfolio
 
-A personal portfolio website with a tabletop board-game theme — built in **Python (Flask)** and published as a static site on **GitHub Pages**.
+A design-led developer portfolio built in **Python (Flask)** and published as a static site on **GitHub Pages**.
 
 You develop locally with Flask (nice and dynamic), then a build script *freezes* the site into plain HTML/CSS/JS that GitHub Pages hosts for free.
 
@@ -146,7 +146,11 @@ The form works without any backend using [Formspree](https://formspree.io) (free
 | Animations / interactions | `static/css/custom.css` and `static/js/main.js` |
 
 The motion system is intentionally dependency-free. It includes section-aware navigation,
-a reading-progress bar, staggered reveals, subtle pointer depth, and reduced-motion fallbacks.
+a reading-progress bar, staggered reveals, restrained project-image drift, subtle pointer depth,
+and reduced-motion fallbacks. The site does not use a cursor trail.
+
+For the exact project screenshot filenames, crops, capture checklist, and replacement steps,
+see [`static/img/projects/README.md`](static/img/projects/README.md).
 
 Skill icons and colors are documented inline in `content/data.py`.
 
