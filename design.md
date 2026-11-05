@@ -1,38 +1,26 @@
-# Portfolio Design Direction
+# Recruiter Landing Page Direction
 
-## Concept
+## Argument
 
-The portfolio uses a **considered move** system: one clear promise, one purposeful action, and immediate proof. It reflects Gourav's approach to engineering and board games—thoughtful decisions, reliable systems, and outcomes that help people.
+- Gourav builds reliable full-stack and applied AI products; the hero proves the positioning with role targets, availability, résumé access, and a professional portrait.
+- His engineering decisions are visible in shipped work; two flagship case studies and one evaluated RAG project provide screenshots, source, live links, and outcome evidence.
+- His experience has measurable reach; four concise roles show product delivery, research, teaching systems, and community leadership.
+- His capabilities are backed by named work; each capability points to the projects and systems that demonstrate it.
+- Other people trust him to teach, lead, and deliver; a verified recommendation and selected credentials provide supporting trust.
+- The next step is easy; résumé, email, LinkedIn, GitHub, and the working contact form close the page.
 
-## Color System
+## Art Direction
 
-- Ground: `#E7ECE9` — cool stone sampled from the portrait environment.
-- Surface: `#F7F8F4` — clean content field.
-- Raised field: `#D6E1DC` — quiet section contrast.
-- Ink: `#142027` — deep blue-black.
-- Muted ink: `#53636A` — secondary text.
-- Action: `#1F6B5A` — accessible deep seafoam on light fields.
-- Hero: `#0D171C` with surface `#16262C`.
-- Hero action: `#8DE0C2`, hover `#B3F0DB`.
+**Direction:** editorial technical.
 
-Seafoam marks actions, focus, and active navigation. It should not decorate headings or fill unrelated components.
+**Idea:** Gourav's habit of making considered moves becomes the page's claim-and-proof rhythm. Every large claim is immediately answered by a screenshot, link, metric, role, or concrete engineering decision.
 
-## Hero
+**Live element:** each flagship project has one keyboard-operable evidence explorer that moves between problem, system, evaluation or reliability, and outcome.
 
-- The opening is a two-column editorial composition on desktop: concise promise and actions on the left, portrait on the right.
-- Gourav's name is the two-line headline and resolves from a concise character scramble. It replays only when a fine pointer returns to the name. Supporting copy explains what he builds and why it matters.
-- The portrait is a transparent, dominant cutout that shares the hero field instead of sitting inside a rectangular photo matte. A restrained cool grade, natural alpha edges, and subtle fine-pointer tilt keep the treatment integrated rather than sticker-like.
-- A seafoam, blue-grey, and coral data-rain field persists behind the entire site. It is vivid over dark fields and deliberately faint behind light reading sections. Fine-pointer movement bends the flow without replacing the native cursor or intercepting input.
-- Project imagery moves through a restrained scroll-linked drift while the reading-progress bar shows page position. There is no pointer-following cursor trail.
-- Availability and three proof metrics form one quiet evidence band rather than separate floating cards.
-- Tablet retains the split composition; mobile stacks copy, portrait, then proof.
+## Visual System
 
-## Accessibility and Motion
-
-The navigation adapts Sterling Gate's full-screen reveal and rippling type to the existing stack. Its real anchor links remain in the document, opening makes page content inert, focus stays inside the menu, Escape closes it, and focus returns to the trigger.
-
-Maintain visible focus, 44px minimum touch targets, WCAG AA text contrast, semantic headings, and descriptive image text. Fine-pointer tilt and rolling text are disabled for touch or `prefers-reduced-motion`. The canvas pauses when the tab is hidden, adapts particle density to frame rate, and renders one static frame for reduced motion.
-
-## Validation
-
-Build Tailwind, freeze the Flask app, validate JavaScript and Python syntax, run the design linter and inspector at 1440px, 768px, and 390px, and review every final screenshot before release.
+- Cool stone ground, deep petrol fields, and seafoam reserved for actions, focus, and active states.
+- Manrope handles scanning and body copy. Instrument Serif appears only in major display lines.
+- Product interfaces and the portrait provide the imagery; no stock photography, decorative icons, gradients, resting shadows, or card grids.
+- Desktop uses asymmetric editorial splits and full-width evidence bands. Mobile is re-authored as a single-column composition with the résumé action in the first screen.
+- Motion is limited to section entrances, interface-image drift, control feedback, and reading progress, all disabled for reduced motion.

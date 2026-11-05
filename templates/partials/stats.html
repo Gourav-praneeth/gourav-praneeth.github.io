@@ -1,19 +1,19 @@
-{# ---- CAPABILITIES: a typographic evidence list, not a card grid. ---- #}
 <section id="capabilities" class="capabilities-section">
-  <header class="capabilities-intro reveal">
-    <h2>How I build</h2>
-    <p>Tools are useful. Applied judgment matters more. Each capability below is backed by shipped, evaluated, taught, or led work.</p>
-  </header>
+  <div class="site-frame section-heading reveal">
+    <h2>Capabilities, tied to proof</h2>
+    <p>Tools matter when they support a sound product decision. These strengths are backed by the projects and roles above.</p>
+    <p>Applied AI systems, full-stack product engineering, and production-minded delivery.</p>
+  </div>
 
-  <div class="capability-list">
+  <div class="site-frame capability-list">
     {% for capability in capabilities %}
-    <article class="capability-row reveal" style="--reveal-delay: {{ loop.index0 * 70 }}ms">
+    <article class="capability-row reveal">
       <div>
         <h3>{{ capability.title }}</h3>
         <p class="capability-proof">{{ capability.proof }}</p>
       </div>
       <p>{{ capability.description }}</p>
-      <div class="capability-tools">{{ capability.tools|join(' · ') }}</div>
+      <p class="capability-tools">{{ capability.tools|join(' · ') }}</p>
     </article>
     {% endfor %}
   </div>

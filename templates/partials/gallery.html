@@ -1,27 +1,29 @@
-{# ---- SELECTED WORK: two evidence-rich case studies, then a quiet project ledger. ---- #}
 <section id="work" class="work-section">
-  <header class="work-intro reveal">
-    <h2>Selected work</h2>
-    <p>Reliable systems leave evidence. These projects show the problem, the engineering decisions, and the result.</p>
-  </header>
+  <div class="site-frame section-heading reveal">
+    <h2>Selected engineering work</h2>
+    <p>Two complete products and one evaluated retrieval system. Each project pairs the product decision with the engineering evidence behind it.</p>
+    <p>Live demos, source code, product screenshots, and evaluated outcomes.</p>
+  </div>
 
-  <div class="featured-work">
+  <div class="site-frame featured-work">
     {% for p in projects[:2] %}
     {% set project_id = loop.index %}
-    <article class="case-study reveal" id="project-{{ loop.index }}">
-      <figure class="case-study-media" data-scroll-drift>
-        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} live application interface" loading="lazy" decoding="async" width="1110" height="890" />
-        <figcaption>{{ p.image_caption|default('Live product · captured from the deployed application') }}</figcaption>
+    <article class="case-study reveal{% if loop.index is even %} case-study-reverse{% endif %}">
+      <figure class="case-study-media pointer-responsive" data-pointer-shift="4">
+        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} live application interface" loading="lazy" decoding="async" width="1440" height="900" />
       </figure>
 
       <div class="case-study-copy">
-        <h3>{{ p.title }}</h3>
+        <div class="case-study-title">
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.metric }}</p>
+        </div>
         <p class="case-study-role">{{ p.role }}</p>
         <p class="case-study-summary">{{ p.short }}</p>
         <p class="case-study-stack">{{ p.tags|join(' · ') }}</p>
 
         <div class="evidence-explorer" data-evidence-explorer>
-          <div class="evidence-tabs" role="tablist" aria-label="{{ p.title }} case study stages">
+          <div class="evidence-tabs" role="tablist" aria-label="{{ p.title }} evidence">
             {% for stage in p.case_study %}
             <button type="button" role="tab" id="tab-{{ project_id }}-{{ loop.index }}" aria-selected="{{ 'true' if loop.first else 'false' }}" aria-controls="panel-{{ project_id }}-{{ loop.index }}" tabindex="{{ '0' if loop.first else '-1' }}" data-evidence-tab>{{ stage.label }}</button>
             {% endfor %}
@@ -35,34 +37,34 @@
         </div>
 
         <div class="case-study-actions">
-          <a href="{{ p.links.play }}" target="_blank" rel="noopener noreferrer" class="case-study-primary">Open live project <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a>
-          <a href="{{ p.links.code }}" target="_blank" rel="noopener noreferrer">Read the source <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a>
+          <a class="button-primary" href="{{ p.links.play }}" target="_blank" rel="noopener noreferrer">Open live project ↗</a>
+          <a class="text-link" href="{{ p.links.code }}" target="_blank" rel="noopener noreferrer">Read the source ↗</a>
         </div>
       </div>
     </article>
     {% endfor %}
   </div>
 
-  <div class="work-ledger reveal">
-    <h3>Additional projects</h3>
-    {% for p in projects[2:] %}
-    <article class="work-ledger-item{% if p.image %} has-media{% endif %}">
-      {% if p.image %}
-      <figure class="work-ledger-media">
-        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} application interface" loading="lazy" decoding="async" width="1110" height="890" />
+  {% set p = projects[2] %}
+  <article class="supporting-project reveal">
+    <div class="site-frame supporting-project-grid">
+      <figure class="pointer-responsive" data-pointer-shift="3">
+        <img src="{{ url_for('static', filename=p.image) }}" alt="{{ p.title }} application interface" loading="lazy" decoding="async" width="955" height="890" />
       </figure>
-      {% endif %}
       <div>
-        <h4>{{ p.title }}</h4>
+        <h3>{{ p.title }}</h3>
+        <p class="supporting-metric">{{ p.metric }}</p>
         <p>{{ p.short }}</p>
       </div>
       <dl>
         <div><dt>Contribution</dt><dd>{{ p.role }}</dd></div>
-        <div><dt>Evidence</dt><dd>{{ p.metric }}</dd></div>
-        {% if p.tags %}<div><dt>Built with</dt><dd>{{ p.tags|join(', ') }}</dd></div>{% endif %}
+        <div><dt>Engineering proof</dt><dd>{{ p.features|join(' · ') }}</dd></div>
+        <div><dt>Built with</dt><dd>{{ p.tags|join(' · ') }}</dd></div>
       </dl>
-      {% if p.links.code and p.links.code != '#' %}<a href="{{ p.links.code }}">View project</a>{% endif %}
-    </article>
-    {% endfor %}
-  </div>
+      <div class="supporting-actions">
+        <a href="{{ p.links.play }}" target="_blank" rel="noopener noreferrer">Open live project ↗</a>
+        <a href="{{ p.links.code }}" target="_blank" rel="noopener noreferrer">Read the source ↗</a>
+      </div>
+    </div>
+  </article>
 </section>

@@ -19,9 +19,9 @@ CONTENT = {
     # ------------------------------------------------------------------ #
     "site": {
         "brand": "GOURAV",                                  # EDIT: short logo text
-        "tagline": "AI · Software · Community",             # EDIT: small subtitle under logo
-        "title": "Gourav Bhimavarapu · Portfolio",          # EDIT: browser tab title
-        "description": "Gourav Bhimavarapu is a software and AI engineer building thoughtful, reliable products.",
+        "tagline": "Full-stack engineering · Applied AI",   # EDIT: small subtitle under logo
+        "title": "Gourav Bhimavarapu · Full-stack & AI Engineer",
+        "description": "Gourav Bhimavarapu is a full-stack engineer building reliable AI products, data workflows, and human-reviewed systems.",
         "url": "https://gourav-praneeth.github.io",
         "social_image": "img/profile.jpg",
         # EDIT: create a free form at https://formspree.io , paste your endpoint URL here.
@@ -36,14 +36,15 @@ CONTENT = {
         "name": "Gourav Bhimavarapu",                       # EDIT
         "avatar": "img/profile-cutout.png",                # transparent hero portrait
         "avatar_modern": "img/profile-cutout.png",
-        "role": "Full-stack Software Engineer · Applied AI",
-        "headline": "Useful AI, built with care.",
+        "role": "Full-stack engineer · Applied AI",
+        "headline": "Full-stack engineer. Reliable AI products.",
         "intro": (
-            "I build complete web and AI products with clear workflows, reliable data, "
-            "and human review where it matters."
+            "I turn ambiguous workflows into complete products—connecting usable interfaces, "
+            "reliable data, and human review where it matters."
         ),
-        "availability": "Open to software engineering and AI roles",
-        "location": "Tempe, Arizona",
+        "availability": "Open to full-stack software engineering and applied AI roles",
+        "location": "Seattle, Washington",
+        "role_targets": "Full-stack · Applied AI · Product engineering",
         "email": "gouravprb610@gmail.com",
         "resume_url": "files/Gourav_Bhimavarapu_Resume.pdf",
         "metrics": [
@@ -60,42 +61,32 @@ CONTENT = {
         {
             "title": "Applied AI systems",
             "icon": "brain-circuit",
-            "proof": "AutoResearch · GradeLens",
+            "proof": "Proven in AutoResearch and GradeLens",
             "description": (
                 "I build reviewable AI workflows with typed handoffs, bounded agent loops, "
                 "provider flexibility, and required human review for consequential outputs."
             ),
-            "tools": ["Python", "Pydantic", "OpenAI", "Anthropic", "Groq", "Multi-agent workflows"],
+            "tools": ["Python", "Pydantic", "OpenAI API", "Multi-agent workflows"],
         },
         {
             "title": "Full-stack engineering",
             "icon": "blocks",
-            "proof": "Mise · GradeLens",
+            "proof": "Proven in Mise and GradeLens",
             "description": (
                 "I take products from an ambiguous workflow to a usable interface, connecting "
                 "frontend decisions, backend behavior, authentication, and persistent data."
             ),
-            "tools": ["TypeScript", "React", "Next.js", "Vite", "Node.js", "HTML/CSS"],
+            "tools": ["TypeScript", "React", "Next.js", "Vite", "Node.js"],
         },
         {
-            "title": "Data, delivery, and quality",
+            "title": "Delivery and quality",
             "icon": "shield-check",
-            "proof": "Production-minded across three shipped systems",
+            "proof": "Proven across three shipped systems",
             "description": (
                 "I build with persistent data, access controls, repeatable checks, and deployment "
                 "workflows that keep product behavior understandable as systems evolve."
             ),
-            "tools": ["PostgreSQL", "Supabase", "Neon", "Prisma", "Docker", "Vitest", "ESLint", "Vercel", "Render"],
-        },
-        {
-            "title": "Teaching and leadership",
-            "icon": "users-round",
-            "proof": "1,000+ students · 280+ member community",
-            "description": (
-                "I explain technical ideas clearly, create structure around complex work, and help "
-                "people contribute—whether in a classroom, engineering team, or community."
-            ),
-            "tools": ["Mentorship", "Python unit tests", "Gradescope", "Technical communication", "Team leadership"],
+            "tools": ["PostgreSQL", "Supabase", "Neon", "Prisma", "Docker", "Vitest", "Vercel", "Render"],
         },
     ],
 
@@ -190,7 +181,7 @@ CONTENT = {
             },
         },
         {
-            "title": "Board Game Rules RAG Engine", "category": "ai", "cost": 5,
+            "title": "Board Game Rules RAG", "category": "ai", "cost": 5,
             "icon": "sparkles", "image": "img/projects/board-game-rag.jpg", "tone": "violet",
             "category_label": "AI / Retrieval", "role": "Architecture · Evaluation · Product",
             "metric": "90% eval accuracy",
@@ -247,19 +238,18 @@ CONTENT = {
     ],
 
     # ------------------------------------------------------------------ #
-    #  QUEST LOG — career / education timeline                           #
+    #  EXPERIENCE — concise recruiter-facing career evidence             #
     # ------------------------------------------------------------------ #
     # `tone` styles the node marker: gold (current), bronze (past), muted (education)
     # Ordered newest → oldest (latest milestone on top).
     "quests": [
         {
-            "period": "Aug 2026 — Present", "tone": "gold", "icon": "scan-search",
+            "period": "Aug 2026 — Present",
             "role": "Research Assistant · GradeLens",
             "org": "Arizona State University",
             "points": [
                 "Building an LLM-assisted autograder that generates editable rubrics and criterion-level evidence for required instructor review.",
-                "Implemented Next.js, React, TypeScript, Prisma, PostgreSQL, and S3-compatible storage with role-based access and Canvas workflows.",
-                "Containerized the application for Render and Neon deployment, with Vitest and ESLint checks in the production build gate.",
+                "Implemented the product with Next.js, React, TypeScript, Prisma, PostgreSQL, role-based access, Canvas workflows, and S3-compatible storage.",
             ],
             "links": {
                 "live": "https://gradelens-j97n.onrender.com/",
@@ -267,16 +257,7 @@ CONTENT = {
             },
         },
         {
-            "period": "2025 — 2026", "tone": "gold", "icon": "graduation-cap",
-            "role": "M.S. Computer Science · 3.95 GPA",
-            "org": "Arizona State University",
-            "points": [
-                "Coursework: Agentic AI, Data Processing at Scale, Data Mining, Software Verification & Validation.",
-                "Graduated May 2026; focused on agentic AI, data processing, data mining, and software verification.",
-            ],
-        },
-        {
-            "period": "Aug 2024 — May 2025", "tone": "gold", "icon": "briefcase",
+            "period": "Aug 2024 — May 2025",
             "role": "Extern Full Stack Developer",
             "org": "Beam Group",
             "points": [
@@ -285,17 +266,16 @@ CONTENT = {
             ],
         },
         {
-            "period": "Jun 2024 — May 2026", "tone": "bronze", "icon": "flag",
+            "period": "Jun 2024 — May 2026",
             "role": "Club Founder & President",
             "org": "Board Games Club at ASU",
             "points": [
                 "Founded ASU's first dedicated board games community — 0 to 280+ active members in 8 months.",
-                "Secured $1,800 in university funding via formal budget proposals to stakeholders.",
-                "Drove a 30% membership spike in a single week through targeted campus outreach.",
+                "Secured $1,800 in university funding and drove a 30% membership spike in one week through targeted outreach.",
             ],
         },
         {
-            "period": "Aug 2023 — May 2026", "tone": "bronze", "icon": "users",
+            "period": "Aug 2023 — May 2026",
             "role": "Graduate & Undergraduate Teaching Assistant",
             "org": "Arizona State University",
             "points": [
@@ -303,16 +283,16 @@ CONTENT = {
                 "Mentored 1,000+ students across six mathematics and computer science courses through labs, exam reviews, and transition sessions.",
             ],
         },
-        {
-            "period": "2021 — 2025", "tone": "muted", "icon": "graduation-cap",
-            "role": "B.S. Computer Science, Minor in Business · 4.0 GPA",
-            "org": "Arizona State University",
-            "points": [
-                "Coursework: DSA, Database Management Systems, Machine Learning, Cybersecurity, Software Engineering.",
-                "Graduated summa cum laude and received the Moeur Award.",
-            ],
-        },
     ],
+
+    "education": {
+        "school": "Arizona State University",
+        "degrees": [
+            "M.S. Computer Science · 3.95 GPA · 2026",
+            "B.S. Computer Science, Minor in Business · 4.0 GPA · 2025",
+        ],
+        "note": "Summa cum laude · Moeur Award · Focused on agentic AI, data systems, and software verification",
+    },
 
     # ------------------------------------------------------------------ #
     #  ACHIEVEMENTS — certificates & credentials                         #
@@ -424,14 +404,8 @@ CONTENT = {
     # ------------------------------------------------------------------ #
     "testimonial": {
         "quote": (
-            "I am pleased to recommend Gourav as a highly capable and dependable "
-            "engineer with strong technical and leadership skills. He stood out for his "
-            "curiosity, strong problem-solving ability, and willingness to go beyond course "
-            "requirements — later serving as a Teaching Assistant, Section Leader, and "
-            "Instructional Assistant, where he developed automated grading scripts "
-            "demonstrating proficiency in C++, Python, and Bash scripting. Gourav is highly "
-            "motivated, dependable, and a natural teacher and leader. I recommend him "
-            "without hesitation and am confident he will excel in any role he pursues."
+            "Gourav is highly motivated, dependable, and a natural teacher and leader. "
+            "I recommend him without hesitation."
         ),
         "author": "Soumya Indela",
         "role": "Faculty, CSE 230 — Arizona State University",

@@ -1,228 +1,142 @@
-/* Lightweight, dependency-free interaction system for the portfolio. */
-
-if (window.lucide) {
-  window.lucide.createIcons();
-}
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
 
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
-const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+/* A rectangular cursor replaces the native pointer only when the enhancement is active. */
+const cursorAura = document.getElementById("cursorAura");
 
-/* Decode the hero name once while keeping the original text as the no-JS fallback. */
-function initializeTextScramble() {
-  if (reduceMotionQuery.matches) return;
+if (cursorAura && finePointer.matches && !reduceMotion.matches) {
+  document.documentElement.classList.add("custom-cursor-ready");
+  let cursorFrame = null;
+  let cursorX = -32;
+  let cursorY = -32;
 
-  document.querySelectorAll("[data-text-scramble]").forEach((element) => {
-    const label = element.textContent.trim();
-    if (!label) return;
-    element.textContent = "";
-    const accessibleLabel = document.createElement("span");
-    accessibleLabel.className = "sr-only";
-    accessibleLabel.textContent = label;
-    element.append(accessibleLabel);
-    const letters = [];
+  document.addEventListener("pointermove", (event) => {
+    cursorX = event.clientX;
+    cursorY = event.clientY;
+    cursorAura.classList.add("is-visible");
+    cursorAura.classList.toggle("is-interactive", Boolean(event.target.closest("a, button, input, textarea, [role='tab']")));
+    cursorAura.classList.toggle("is-on-dark", Boolean(event.target.closest(".hero-section, .contact-section, .site-footer")));
 
-    label.split(/\s+/).forEach((word) => {
-      const wordElement = document.createElement("span");
-      wordElement.className = "text-scramble-word";
-      wordElement.setAttribute("aria-hidden", "true");
-
-      [...word].forEach((character) => {
-        const letter = document.createElement("span");
-        letter.className = "text-scramble-letter";
-        const reserve = document.createElement("span");
-        reserve.className = "text-scramble-reserve";
-        reserve.dataset.character = character;
-        const face = document.createElement("span");
-        face.className = "text-scramble-face";
-        face.dataset.character = character;
-        letter.append(reserve, face);
-        wordElement.append(letter);
-        letters.push({ letter, face, character });
-      });
-
-      element.append(wordElement);
-    });
-
-    const glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let animationToken = 0;
-
-    function scramble() {
-      const token = ++animationToken;
-      const startedAt = performance.now();
-      let lastShuffle = -1;
-
-      letters.forEach(({ letter, face }) => {
-        letter.classList.remove("is-resolved");
-        face.dataset.character = glyphs[Math.floor(Math.random() * glyphs.length)];
-      });
-
-      function animate(now) {
-        if (token !== animationToken) return;
-        const elapsed = now - startedAt;
-        const shuffle = Math.floor(elapsed / 45);
-        let complete = true;
-
-        letters.forEach(({ letter, face, character }, index) => {
-          const localProgress = (elapsed - index * 38) / 320;
-          if (localProgress >= 1) {
-            face.dataset.character = character;
-            letter.classList.add("is-resolved");
-            return;
-          }
-
-          complete = false;
-          if (localProgress >= 0 && shuffle !== lastShuffle) {
-            face.dataset.character = glyphs[Math.floor(Math.random() * glyphs.length)];
-            face.style.setProperty("--scramble-shift", `${((index + shuffle) % 3) - 1}px`);
-          }
-        });
-
-        lastShuffle = shuffle;
-        if (!complete) window.requestAnimationFrame(animate);
-      }
-
-      window.requestAnimationFrame(animate);
-    }
-
-    scramble();
-    if (finePointerQuery.matches) element.addEventListener("pointerenter", scramble);
-  });
-}
-
-/* Split menu labels into two faces so hover travels through each word like a ripple. */
-function initializeKineticNavLabels() {
-  if (reduceMotionQuery.matches) return;
-
-  document.querySelectorAll("[data-kinetic-label]").forEach((element) => {
-    const label = element.textContent.trim();
-    element.setAttribute("aria-label", label);
-    element.textContent = "";
-
-    [...label].forEach((character, index) => {
-      const letter = document.createElement("span");
-      letter.className = "kinetic-char";
-      letter.style.setProperty("--kinetic-index", index);
-      letter.setAttribute("aria-hidden", "true");
-      letter.innerHTML = `<span class="kinetic-char-reserve">${character}</span><span class="kinetic-char-face kinetic-char-current">${character}</span><span class="kinetic-char-face kinetic-char-next">${character}</span>`;
-      element.append(letter);
+    if (cursorFrame !== null) return;
+    cursorFrame = window.requestAnimationFrame(() => {
+      cursorAura.style.setProperty("--cursor-x", `${cursorX}px`);
+      cursorAura.style.setProperty("--cursor-y", `${cursorY}px`);
+      cursorFrame = null;
     });
   });
+
+  document.addEventListener("pointerdown", () => cursorAura.classList.add("is-pressed"));
+  document.addEventListener("pointerup", () => cursorAura.classList.remove("is-pressed"));
+  document.documentElement.addEventListener("mouseleave", () => cursorAura.classList.remove("is-visible"));
 }
 
-initializeTextScramble();
-initializeKineticNavLabels();
-
-/* Full-screen navigation: synchronize reveal, focus, and page inertness. */
-const menuBtn = document.getElementById("menuBtn");
+/* Compact mobile navigation with predictable focus and Escape behavior. */
+const menuButton = document.getElementById("menuBtn");
 const mobileNav = document.getElementById("mobileNav");
-const mainContent = document.getElementById("main-content");
-const siteFooter = document.querySelector("footer");
-let menuCloseTimer = null;
 
-function setMenuOpen(open, { moveFocus = false } = {}) {
-  if (!menuBtn || !mobileNav) return;
-  window.clearTimeout(menuCloseTimer);
-  menuBtn.setAttribute("aria-expanded", String(open));
-  menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  menuBtn.querySelector(".kinetic-menu-word").textContent = open ? "Close" : "Menu";
-  mobileNav.setAttribute("aria-hidden", String(!open));
-  document.body.classList.toggle("nav-open", open);
-  if (mainContent) mainContent.inert = open;
-  if (siteFooter) siteFooter.inert = open;
+function setMenu(open) {
+  if (!menuButton || !mobileNav) return;
+  menuButton.setAttribute("aria-expanded", String(open));
+  menuButton.textContent = open ? "Close" : "Menu";
+  mobileNav.hidden = !open;
+  document.body.classList.toggle("menu-open", open);
+  if (open) mobileNav.querySelector("a")?.focus();
+}
 
-  if (open) {
-    mobileNav.hidden = false;
-    window.requestAnimationFrame(() => {
-      mobileNav.classList.add("is-open");
-      if (moveFocus) mobileNav.querySelector("a")?.focus();
-    });
-  } else {
-    mobileNav.classList.remove("is-open");
-    menuCloseTimer = window.setTimeout(() => {
-      mobileNav.hidden = true;
-    }, reduceMotionQuery.matches ? 0 : 720);
+menuButton?.addEventListener("click", () => {
+  setMenu(menuButton.getAttribute("aria-expanded") !== "true");
+});
+
+mobileNav?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => setMenu(false));
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+    setMenu(false);
+    menuButton.focus();
   }
-}
+});
 
-if (menuBtn && mobileNav) {
-  menuBtn.addEventListener("click", () => {
-    setMenuOpen(menuBtn.getAttribute("aria-expanded") !== "true", { moveFocus: true });
-  });
+window.addEventListener("resize", () => {
+  if (window.innerWidth >= 1024 && menuButton?.getAttribute("aria-expanded") === "true") setMenu(false);
+});
 
-  mobileNav.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setMenuOpen(false));
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (menuBtn.getAttribute("aria-expanded") !== "true") return;
-    if (event.key === "Escape") {
-      setMenuOpen(false);
-      menuBtn.focus();
-      return;
-    }
-    if (event.key !== "Tab") return;
-
-    const focusable = [...mobileNav.querySelectorAll("a[href]")];
-    if (!focusable.length) return;
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  });
-}
-
-/* Reading progress and a slightly more defined header after the first scroll. */
-const siteHeader = document.getElementById("siteHeader");
+/* Reading progress and active section state. */
 const scrollProgress = document.getElementById("scrollProgress");
-const scrollDriftItems = [...document.querySelectorAll("[data-scroll-drift]")];
 let scrollFrame = null;
 
-function updateScrollChrome() {
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
-
+function updateScrollEffects() {
+  const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = scrollMax > 0 ? Math.min(window.scrollY / scrollMax, 1) : 0;
   if (scrollProgress) scrollProgress.style.transform = `scaleX(${progress})`;
-  if (siteHeader) siteHeader.classList.toggle("is-scrolled", window.scrollY > 12);
 
-  if (!reduceMotionQuery.matches) {
-    scrollDriftItems.forEach((item) => {
-      const bounds = item.getBoundingClientRect();
-      if (bounds.bottom < 0 || bounds.top > window.innerHeight) return;
-      const centerOffset = (bounds.top + bounds.height / 2 - window.innerHeight / 2) / window.innerHeight;
-      const shift = Math.max(-24, Math.min(24, centerOffset * -32));
-      item.querySelector("img")?.style.setProperty("--scroll-shift", `${shift}px`);
-    });
-  }
   scrollFrame = null;
 }
 
-function requestScrollChromeUpdate() {
+function requestScrollUpdate() {
   if (scrollFrame !== null) return;
-  scrollFrame = window.requestAnimationFrame(updateScrollChrome);
+  scrollFrame = window.requestAnimationFrame(updateScrollEffects);
 }
 
-window.addEventListener("scroll", requestScrollChromeUpdate, { passive: true });
-window.addEventListener("resize", requestScrollChromeUpdate);
-updateScrollChrome();
+window.addEventListener("scroll", requestScrollUpdate, { passive: true });
+window.addEventListener("resize", requestScrollUpdate);
+updateScrollEffects();
 
-/* Reveal content progressively. Content remains visible when JavaScript is unavailable. */
-const revealItems = document.querySelectorAll(".reveal");
+/* Fine-pointer parallax gives the real work a quiet, tactile response. */
+if (finePointer.matches && !reduceMotion.matches) {
+  document.querySelectorAll("[data-pointer-shift]").forEach((element) => {
+    const strength = Number(element.dataset.pointerShift || 4);
+    let pointerFrame = null;
 
-function showAllRevealItems() {
-  revealItems.forEach((item) => item.classList.add("in"));
+    element.addEventListener("pointermove", (event) => {
+      if (pointerFrame !== null) window.cancelAnimationFrame(pointerFrame);
+      pointerFrame = window.requestAnimationFrame(() => {
+        const bounds = element.getBoundingClientRect();
+        const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * strength;
+        const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * strength;
+        element.style.setProperty("--pointer-x", `${x}px`);
+        element.style.setProperty("--pointer-y", `${y}px`);
+        pointerFrame = null;
+      });
+    });
+
+    element.addEventListener("pointerleave", () => {
+      element.style.setProperty("--pointer-x", "0px");
+      element.style.setProperty("--pointer-y", "0px");
+    });
+  });
 }
 
-if (reduceMotionQuery.matches || !("IntersectionObserver" in window)) {
-  showAllRevealItems();
-} else {
+const navLinks = [...document.querySelectorAll(".nav-link")];
+const sections = ["work", "experience", "capabilities", "contact"]
+  .map((id) => document.getElementById(id))
+  .filter(Boolean);
+
+if ("IntersectionObserver" in window) {
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => Math.abs(a.boundingClientRect.top) - Math.abs(b.boundingClientRect.top))[0];
+      if (!visible) return;
+      navLinks.forEach((link) => {
+        if (link.hash === `#${visible.target.id}`) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    },
+    { rootMargin: "-22% 0px -66% 0px" }
+  );
+  sections.forEach((section) => sectionObserver.observe(section));
+}
+
+/* Section entrances are enabled only after JavaScript is confirmed available. */
+const revealItems = [...document.querySelectorAll(".reveal")];
+if (!reduceMotion.matches && "IntersectionObserver" in window) {
+  document.documentElement.classList.add("motion-ready");
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -231,145 +145,78 @@ if (reduceMotionQuery.matches || !("IntersectionObserver" in window)) {
         revealObserver.unobserve(entry.target);
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -32px" }
+    { threshold: 0.08, rootMargin: "0px 0px -40px" }
   );
-
   revealItems.forEach((item) => revealObserver.observe(item));
+} else {
+  revealItems.forEach((item) => item.classList.add("in"));
 }
 
-/* Keep both desktop and mobile navigation aware of the section in view. */
-const navLinks = [...document.querySelectorAll(".nav-link")];
-const navSectionIds = [...new Set(navLinks.map((link) => link.hash.slice(1)))];
-const navSections = navSectionIds.map((id) => document.getElementById(id)).filter(Boolean);
-
-function setActiveSection(id) {
-  navLinks.forEach((link) => {
-    const active = link.hash === `#${id}`;
-    link.classList.toggle("is-active", active);
-    if (active) link.setAttribute("aria-current", "location");
-    else link.removeAttribute("aria-current");
-  });
-}
-
-if ("IntersectionObserver" in window && navSections.length) {
-  const visibleSections = new Map();
-  const sectionObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) visibleSections.set(entry.target.id, entry.boundingClientRect.top);
-        else visibleSections.delete(entry.target.id);
-      });
-
-      if (!visibleSections.size) return;
-      const activeId = [...visibleSections.entries()].sort((a, b) => Math.abs(a[1]) - Math.abs(b[1]))[0][0];
-      setActiveSection(activeId);
-    },
-    { rootMargin: "-24% 0px -62% 0px", threshold: 0 }
-  );
-
-  navSections.forEach((section) => sectionObserver.observe(section));
-}
-
-/* Subtle pointer depth is enabled only for precise pointing devices. */
-function initializeTilt() {
-  if (!finePointerQuery.matches || reduceMotionQuery.matches) return;
-
-  document.querySelectorAll("[data-tilt]").forEach((element) => {
-    const strength = Number(element.dataset.tiltStrength || 3);
-    let tiltFrame = null;
-
-    element.addEventListener("pointermove", (event) => {
-      if (tiltFrame !== null) window.cancelAnimationFrame(tiltFrame);
-      tiltFrame = window.requestAnimationFrame(() => {
-        const bounds = element.getBoundingClientRect();
-        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-        element.style.setProperty("--tilt-x", `${-y * strength}deg`);
-        element.style.setProperty("--tilt-y", `${x * strength}deg`);
-        tiltFrame = null;
-      });
-    });
-
-    element.addEventListener("pointerleave", () => {
-      element.style.setProperty("--tilt-x", "0deg");
-      element.style.setProperty("--tilt-y", "0deg");
-    });
-  });
-
-  document.querySelectorAll("[data-pointer-glow]").forEach((element) => {
-    element.addEventListener("pointermove", (event) => {
-      const bounds = element.getBoundingClientRect();
-      element.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
-      element.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
-    });
-  });
-}
-
-initializeTilt();
-
-/* Each featured project exposes one compact, keyboard-operable evidence trail. */
+/* Keyboard-operable project evidence explorers. */
 document.querySelectorAll("[data-evidence-explorer]").forEach((explorer) => {
   const tabs = [...explorer.querySelectorAll("[data-evidence-tab]")];
   const panels = [...explorer.querySelectorAll("[data-evidence-panel]")];
 
-  function selectEvidence(index, { focus = false } = {}) {
+  function selectTab(index, moveFocus = false) {
     tabs.forEach((tab, tabIndex) => {
       const selected = tabIndex === index;
       tab.setAttribute("aria-selected", String(selected));
       tab.tabIndex = selected ? 0 : -1;
       panels[tabIndex].hidden = !selected;
     });
-    if (focus) tabs[index].focus();
+    if (!reduceMotion.matches) {
+      const activePanel = panels[index];
+      activePanel.classList.remove("is-entering");
+      window.requestAnimationFrame(() => activePanel.classList.add("is-entering"));
+      activePanel.addEventListener("animationend", () => activePanel.classList.remove("is-entering"), { once: true });
+    }
+    if (moveFocus) tabs[index].focus();
   }
 
   tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => selectEvidence(index));
+    tab.addEventListener("click", () => selectTab(index));
     tab.addEventListener("keydown", (event) => {
-      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-      event.preventDefault();
       let next = index;
       if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
-      if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
-      if (event.key === "Home") next = 0;
-      if (event.key === "End") next = tabs.length - 1;
-      selectEvidence(next, { focus: true });
+      else if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+      else if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      selectTab(next, true);
     });
   });
 });
 
-/* Contact form enhancement. Normal form submission remains the fallback. */
+/* Formspree enhancement; native form submission remains the fallback. */
 const contactForm = document.getElementById("contactForm");
-if (contactForm) {
-  contactForm.addEventListener("submit", async (event) => {
-    const message = document.getElementById("formMsg");
-    const submitButton = contactForm.querySelector('button[type="submit"]');
-    const hasEndpoint = contactForm.hasAttribute("action");
+const formMessage = document.getElementById("formMsg");
 
-    if (!hasEndpoint) {
-      event.preventDefault();
-      message.textContent = "The contact form is not connected yet. Please email me directly.";
-      message.classList.remove("hidden");
-      return;
+contactForm?.addEventListener("submit", async (event) => {
+  if (!contactForm.action) return;
+  event.preventDefault();
+
+  const submitButton = contactForm.querySelector('button[type="submit"]');
+  const originalLabel = submitButton.textContent;
+  submitButton.disabled = true;
+  submitButton.textContent = "Sending…";
+  if (formMessage) formMessage.textContent = "";
+
+  try {
+    const response = await fetch(contactForm.action, {
+      method: "POST",
+      body: new FormData(contactForm),
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw new Error("Form submission failed");
+    contactForm.reset();
+    if (formMessage) formMessage.textContent = "Thanks—your message is on its way.";
+  } catch {
+    if (formMessage) {
+      formMessage.innerHTML = `Something went wrong. Email <a href="mailto:gouravprb610@gmail.com">gouravprb610@gmail.com</a> instead.`;
     }
-
-    event.preventDefault();
-    message.textContent = "Sending…";
-    message.classList.remove("hidden");
-    if (submitButton) submitButton.disabled = true;
-
-    try {
-      const response = await fetch(contactForm.action, {
-        method: "POST",
-        body: new FormData(contactForm),
-        headers: { Accept: "application/json" },
-      });
-      if (!response.ok) throw new Error("Form submission failed");
-      message.textContent = "Thanks—your message has been sent.";
-      contactForm.reset();
-    } catch (error) {
-      message.textContent = "Something went wrong. Please try again or email me directly.";
-    } finally {
-      if (submitButton) submitButton.disabled = false;
-    }
-  });
-}
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalLabel;
+  }
+});

@@ -1,54 +1,41 @@
-{# ---- EXPERIENCE: career / education timeline (alternates sides on desktop) ---- #}
-{% set badge_tones = {
-  'gold':   'bg-gold/15 text-gold',
-  'bronze': 'bg-bronze/15 text-bronze',
-  'muted':  'bg-felt text-parchment/70'
-} %}
-
-<section id="quests" class="experience-section">
-  <div class="experience-intro reveal">
-    <h2 class="font-title text-3xl text-parchment md:text-5xl">Experience &amp; education</h2>
-    <p class="mt-3 text-parchment/60">The roles, classrooms, and communities that shaped how I build.</p>
+<section id="experience" class="experience-section">
+  <div class="site-frame section-heading section-heading-dark reveal">
+    <h2>Experience with measurable reach</h2>
+    <p>Product research, full-stack delivery, teaching systems, and community leadership—each grounded in work other people used.</p>
+    <p>Four roles, two degrees, and outcomes measured in systems shipped and people supported.</p>
   </div>
 
-  <div class="experience-timeline">
-    <!-- The path line -->
-    <div class="experience-path" aria-hidden="true"></div>
-
+  <div class="site-frame experience-list">
     {% for q in quests %}
-    {# Odd entries go right, even entries go left, on desktop #}
-    {% set on_left = (loop.index is even) %}
-    <div class="quest-node reveal">
-
-      <!-- Node marker -->
-      <div class="quest-marker quest-marker-{{ q.tone }}">
-        <i data-lucide="{{ q.icon }}"></i>
+    <article class="experience-row reveal">
+      <div>
+        <time>{{ q.period }}</time>
       </div>
-
-      <!-- Card -->
-      <div class="quest-card-wrap {% if on_left %}quest-card-left{% else %}quest-card-right{% endif %}">
-        <article class="quest-card">
-          <h3 class="font-title text-2xl text-parchment">{{ q.role }}</h3>
-          <p class="text-sm font-semibold text-bronze">{{ q.org }}</p>
-          <div class="quest-period {{ badge_tones[q.tone] }}">
-            <i data-lucide="calendar"></i> {{ q.period }}
-          </div>
-          <ul>
-            {% for point in q.points %}
-            <li>
-              <i data-lucide="chevron-right"></i><span>{{ point }}</span>
-            </li>
-            {% endfor %}
-          </ul>
-          {% if q.links %}
-          <div class="quest-actions">
-            <a href="{{ q.links.live }}" target="_blank" rel="noopener noreferrer">Open GradeLens <span aria-hidden="true">↗</span></a>
-            <a href="{{ q.links.code }}" target="_blank" rel="noopener noreferrer">View source <span aria-hidden="true">↗</span></a>
-          </div>
-          {% endif %}
-        </article>
+      <div>
+        <h3>{{ q.role }}</h3>
+        <p class="experience-org">{{ q.org }}</p>
+        <ul>
+          {% for point in q.points[:2] %}<li>{{ point }}</li>{% endfor %}
+        </ul>
+        {% if q.links %}
+        <p class="experience-links">
+          <a href="{{ q.links.live }}" target="_blank" rel="noopener noreferrer">Open GradeLens ↗</a>
+          <a href="{{ q.links.code }}" target="_blank" rel="noopener noreferrer">View source ↗</a>
+        </p>
+        {% endif %}
       </div>
-    </div>
+    </article>
     {% endfor %}
+  </div>
+
+  <div class="site-frame education-band reveal">
+    <div>
+      <h3>Education</h3>
+      <p>{{ education.school }}</p>
+    </div>
+    <div>
+      {% for degree in education.degrees %}<p>{{ degree }}</p>{% endfor %}
+    </div>
+    <p>{{ education.note }}</p>
   </div>
 </section>
